@@ -1,15 +1,9 @@
 ﻿/*
- * CGAL +VTK *
+ * CGAL + VTK
  * 表面补洞
- * vtk交互寻找需要补的洞
- * CGAL负责补洞
- *
- * CGALThreadFill 类
- * 补洞
- *
- * CGALThreadFillChoice 类
- * 交互选择
- *
+ * vtk交互寻找需要补的洞（预览功能）
+ * CGAL负责补洞，如果失败则返回VTK处理结果
+ * 未写进线程，界面会出现假死状态
  * */
 
 
@@ -19,37 +13,20 @@
 // 01 frame includes
 #include "app.h"
 
-// 05 CGALThread includes
-#include "cgalthread.h"
-
-// 05 customvtk includes
+// 05customvtk includes
 #include "customvtkrenderer.h"
 
 // VTK includes
 #include <vtkActor.h>
 #include <vtkPolyData.h>
-#include <vtkProperty.h>
+#include <vtkSeedWidget.h>
+#include <vtkEventQtSlotConnect.h>
 
-class CGALThreadFill : public CGALThread {
+class FillSurfaceSelector : public QObject {
     Q_OBJECT
   public:
-    explicit CGALThreadFill(QObject *parent = nullptr);
-    virtual ~CGALThreadFill() override;
-    void doWork();
-    void SetSurface(const vtkSmartPointer<vtkPolyData> value, int num = 0);
-    vtkSmartPointer<vtkPolyData> GetSurface();
-  protected:
-    virtual void run() override;
-  private:
-    bool CGALFunctionFill();
-};
-
-class CGALThreadFillChoice : public QObject {
-    Q_OBJECT
-  public:
-    explicit CGALThreadFillChoice(QObject *parent = nullptr);
-    virtual ~CGALThreadFillChoice() override;
-
+    explicit FillSurfaceSelector(QObject *parent = nullptr);
+    virtual ~FillSurfaceSelector() override;
     void Execute();
     void SelectorOff();
     void SelectorOn();
@@ -57,7 +34,6 @@ class CGALThreadFillChoice : public QObject {
     void SetSurface(const vtkSmartPointer<vtkPolyData> value);
     vtkSmartPointer<vtkPolyData> GetSurface();
     qint32 GetFillCount();
-    bool GetResult();
   signals:
     void SignalFillFinish();
   public slots:
@@ -65,17 +41,21 @@ class CGALThreadFillChoice : public QObject {
   private:
     void Initial();
     void FillerCallback();
+    void STL2OFF(const QString off_filename, const qint32 num = 0);
+    bool OFF2STL(const QString off_filename);
+    vtkSmartPointer<vtkPolyData>CustomReader(std::istream &infile);
+    bool CGALFunctionFill();
   private slots:
     void SlotKeyPressed(const QString &key);
     void SlotMouseClicked(const qint32 x, const qint32 y);
   private:
-    bool result_;
     bool enable_;
     bool first_connect_;
     bool own_renderer_;
     qint32 fill_id_;
-    QPointer<CustomVtkRenderer> renderer_;
+    QPointer<CustomVtkRenderer> vmtk_renderer_;
     vtkSmartPointer<vtkPolyData> surface_;
+    vtkSmartPointer<vtkPolyData> surface_region_;
     QList<vtkSmartPointer<vtkActor>> filled_actor_list_;
     QList<vtkSmartPointer<vtkPolyData>> filled_surface_list_;
     vtkSmartPointer<vtkActor> last_picked_actor_;

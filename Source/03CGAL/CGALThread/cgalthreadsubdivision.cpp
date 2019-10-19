@@ -23,7 +23,7 @@
 
 CGALThreadSubdivision::CGALThreadSubdivision(QObject *parent) :
     CGALThread(parent) {
-    this->polydata_ = nullptr;
+    this->surface_ = nullptr;
 }
 
 CGALThreadSubdivision::~CGALThreadSubdivision() {
@@ -40,29 +40,17 @@ void CGALThreadSubdivision::doWork() {
 }
 
 void CGALThreadSubdivision::SetSurface(const vtkSmartPointer<vtkPolyData> value) {
-    this->polydata_ = value;
+    this->surface_ = value;
 }
 
 vtkSmartPointer<vtkPolyData> CGALThreadSubdivision::GetSurface() {
-    return this->polydata_;
+    return this->surface_;
 }
 
 void CGALThreadSubdivision::run() {
     this->InitialResult();
     this->doWork();
 }
-
-
-#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
-#include <CGAL/Polyhedron_3.h>
-#include <CGAL/Polygon_mesh_processing/refine.h>
-#include <CGAL/Polygon_mesh_processing/fair.h>
-#include <fstream>
-#include <map>
-typedef CGAL::Exact_predicates_inexact_constructions_kernel Kernel;
-typedef CGAL::Polyhedron_3<Kernel>  Polyhedron;
-typedef Polyhedron::Vertex_handle   Vertex_handle;
-
 
 bool CGALThreadSubdivision::CGALFunctionSubdivision() {
     typedef CGAL::Simple_cartesian<double>         Kernel;
@@ -90,6 +78,118 @@ bool CGALThreadSubdivision::CGALFunctionSubdivision() {
     return true;
 }
 
+void CGALThreadSubdivision::STL2OFF(const QString off_filename, const int num) {
+    qDebug();
+    if (num == 0) {
+        if (this->surface_ == nullptr) {
+            return;
+        }
+        if (off_filename.isEmpty()) {
+            return;
+        }
+        double x[3];
+        QFile file(off_filename);
+        file.open(QIODevice::WriteOnly);
+        file.close();
+        if (file.open(QIODevice::ReadWrite | QIODevice::Text)) {
+            QTextStream stream(&file);
+            stream.seek(file.size());
+            stream << "OFF" << "\n";
+            stream << this->surface_->GetNumberOfPoints() << " "
+                   << this->surface_->GetNumberOfCells() << " 0\n";
+            for (int ww = 0; ww < this->surface_->GetNumberOfPoints() ; ww++) {
+                this->surface_->GetPoint(ww, x);
+                stream << x[0] << " " << x[1] << " " << x[2] << "\n";
+            }
+            for (int ww = 0; ww < this->surface_->GetNumberOfCells() ; ww++) {
+                stream << this->surface_->GetCell(ww)->GetNumberOfPoints() << " ";
+                for (int i = 0; i <
+                        this->surface_->GetCell(ww)->GetNumberOfPoints(); i++) {
+                    stream << this->surface_->GetCell(ww)->GetPointId(i) << " ";
+                }
+                stream << "\n";
+            }
+            file.close();
+        }
+    } else if (num == 1) {
+        if (this->surface_region_ == nullptr) {
+            return;
+        }
+        if (off_filename.isEmpty()) {
+            return;
+        }
+        double x[3];
+        QFile file(off_filename);
+        file.open(QIODevice::WriteOnly);
+        file.close();
+        if (file.open(QIODevice::ReadWrite | QIODevice::Text)) {
+            QTextStream stream(&file);
+            stream.seek(file.size());
+            stream << "OFF" << "\n";
+            stream << this->surface_region_->GetNumberOfPoints() << " "
+                   << this->surface_region_->GetNumberOfCells() << " 0\n";
+            for (int ww = 0; ww < this->surface_region_->GetNumberOfPoints() ; ww++) {
+                this->surface_region_->GetPoint(ww, x);
+                stream << x[0] << " " << x[1] << " " << x[2] << "\n";
+            }
+            for (int ww = 0; ww < this->surface_region_->GetNumberOfCells() ; ww++) {
+                stream << this->surface_region_->GetCell(ww)->GetNumberOfPoints() << " ";
+                for (int i = 0; i <
+                        this->surface_region_->GetCell(ww)->GetNumberOfPoints(); i++) {
+                    stream << this->surface_region_->GetCell(ww)->GetPointId(i) << " ";
+                }
+                stream << "\n";
+            }
+            file.close();
+        }
+    }
+}
+
+void CGALThreadSubdivision::OFF2STL(const QString off_filename) {
+    std::string inputFilename = off_filename.toLocal8Bit().data();
+    std::ifstream fin(inputFilename.c_str());
+    if (this->surface_ == nullptr) {
+        return;
+    }
+    this->surface_ = vtkSmartPointer<vtkPolyData>::Take(CustomReader(fin));
+    fin.close();
+}
+
+vtkPolyData *CGALThreadSubdivision::CustomReader(istream &infile) {
+    qDebug();
+    char buf[1000];
+    infile.getline(buf, 1000);
+    if (strcmp(buf, "off") == 0 || strcmp(buf, "OFF") == 0) {
+        vtkIdType number_of_points, number_of_triangles, number_of_lines;
+        infile >> number_of_points >> number_of_triangles >> number_of_lines;
+        vtkSmartPointer<vtkPoints> points
+            = vtkSmartPointer<vtkPoints>::New();
+        points->SetNumberOfPoints(number_of_points);
+        for (vtkIdType i = 0; i < number_of_points; i++) {
+            double x, y, z;
+            infile >> x >> y >> z;
+            points->SetPoint(i, x, y, z);
+        }
+        vtkSmartPointer<vtkCellArray> polys
+            = vtkSmartPointer<vtkCellArray>::New();
+        int n;
+        vtkIdType type;
+        for (vtkIdType i = 0; i < number_of_triangles; i++) {
+            infile >> n;
+            polys->InsertNextCell(n);
+            for (; n > 0; n--) {
+                infile >> type;
+                polys->InsertCellPoint(type);
+            }
+        }
+        vtkPolyData *polydata = vtkPolyData::New();
+        polydata->SetPoints(points);
+        polydata->SetPolys(polys);
+        return polydata;
+    }
+    vtkPolyData *polydata = vtkPolyData::New();
+    return polydata;
+}
 
 
 

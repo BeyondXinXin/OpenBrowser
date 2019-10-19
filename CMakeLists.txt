@@ -121,8 +121,6 @@ set(03VTK
     Source/03VTK/automaticdivision.cpp
     Source/03VTK/smoothsurfaceselector.h
     Source/03VTK/smoothsurfaceselector.cpp
-    Source/03VTK/fillsurfaceselector.h
-    Source/03VTK/fillsurfaceselector.cpp
     Source/03VTK/refinesurface.cpp
     Source/03VTK/refinesurface.h
 

@@ -52,18 +52,14 @@
        <property name="text">
         <string/>
        </property>
-       <property name="icon">
-        <iconset resource="../01Frame/main.qrc">
-         <normaloff>:/Image/btn-4-1.png</normaloff>
-         <disabledon>:/Image/btn-4-2.png</disabledon>
-         <activeoff>:/Image/btn-4-2.png</activeoff>
-         <selectedoff>:/Image/btn-4-2.png</selectedoff>:/Image/btn-4-1.png</iconset>
-       </property>
        <property name="iconSize">
         <size>
          <width>20</width>
          <height>20</height>
         </size>
+       </property>
+       <property name="CustomStyle" stdset="0">
+        <string>formshow4</string>
        </property>
       </widget>
      </item>
@@ -72,15 +68,14 @@
        <property name="text">
         <string/>
        </property>
-       <property name="icon">
-        <iconset resource="../01Frame/main.qrc">
-         <normaloff>:/Image/btn-6-1.png</normaloff>:/Image/btn-6-1.png</iconset>
-       </property>
        <property name="iconSize">
         <size>
          <width>20</width>
          <height>20</height>
         </size>
+       </property>
+       <property name="CustomStyle" stdset="0">
+        <string>formshow6</string>
        </property>
       </widget>
      </item>
@@ -89,15 +84,14 @@
        <property name="text">
         <string/>
        </property>
-       <property name="icon">
-        <iconset resource="../01Frame/main.qrc">
-         <normaloff>:/Image/btn-8-1.png</normaloff>:/Image/btn-8-1.png</iconset>
-       </property>
        <property name="iconSize">
         <size>
          <width>20</width>
          <height>20</height>
         </size>
+       </property>
+       <property name="CustomStyle" stdset="0">
+        <string>formshow8</string>
        </property>
       </widget>
      </item>
@@ -106,15 +100,14 @@
        <property name="text">
         <string/>
        </property>
-       <property name="icon">
-        <iconset resource="../01Frame/main.qrc">
-         <normaloff>:/Image/btn-9-1.png</normaloff>:/Image/btn-9-1.png</iconset>
-       </property>
        <property name="iconSize">
         <size>
          <width>20</width>
          <height>20</height>
         </size>
+       </property>
+       <property name="CustomStyle" stdset="0">
+        <string>formshow9</string>
        </property>
       </widget>
      </item>
@@ -123,15 +116,14 @@
        <property name="text">
         <string/>
        </property>
-       <property name="icon">
-        <iconset resource="../01Frame/main.qrc">
-         <normaloff>:/Image/btn-16-1.png</normaloff>:/Image/btn-16-1.png</iconset>
-       </property>
        <property name="iconSize">
         <size>
          <width>20</width>
          <height>20</height>
         </size>
+       </property>
+       <property name="CustomStyle" stdset="0">
+        <string>formshow16</string>
        </property>
       </widget>
      </item>
@@ -152,8 +144,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../01Frame/main.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

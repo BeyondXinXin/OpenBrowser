@@ -11,6 +11,10 @@
 // 05CGALThread includes
 #include "cgalthread.h"
 
+// VTK includes
+#include <vtkPolyData.h>
+#include <vtkSmartPointer.h>
+
 class CGALThreadSubdivision : public CGALThread {
     Q_OBJECT
   public:
@@ -21,8 +25,13 @@ class CGALThreadSubdivision : public CGALThread {
     vtkSmartPointer<vtkPolyData> GetSurface();
   protected:
     virtual void run() override;
+    void STL2OFF(const QString off_filename, const int num = 0);
+    void OFF2STL(const QString off_filename);
+    vtkPolyData *CustomReader(std::istream &infile);
   private:
     bool CGALFunctionSubdivision();
+    vtkSmartPointer<vtkPolyData> surface_;// polydata 数据
+    vtkSmartPointer<vtkPolyData> surface_region_;// polydata 数据
 };
 
 #endif // CGALSURFACESUBDIVISIONMETHODS_H

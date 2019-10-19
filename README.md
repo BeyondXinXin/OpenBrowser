@@ -19,19 +19,15 @@ https://lorensen.github.io/VTKExamples/site/Cxx/#surface-reconstruction  VTK  �
 https://itk.org/Doxygen/html/index.html  ITK  官方教程  
 https://doc.qt.io/ qt 官方教程  
 
-
-
 ## 图片
-
-![Image text](https://gitee.com/yaoxin001/openBrowser/tree/master/preview/preview01.png)
-![Image text](https://gitee.com/yaoxin001/openBrowser/tree/master/preview/preview02.png)
-![Image text](https://gitee.com/yaoxin001/openBrowser/tree/master/preview/preview03.png)
-![Image text](https://gitee.com/yaoxin001/openBrowser/tree/master/preview/preview04.png)
-![Image text](https://gitee.com/yaoxin001/openBrowser/tree/master/preview/preview05.png)
-![Image text](https://gitee.com/yaoxin001/openBrowser/tree/master/preview/preview06.png)
-![Image text](https://gitee.com/yaoxin001/openBrowser/tree/master/preview/preview07.png)
-![Image text](https://gitee.com/yaoxin001/openBrowser/tree/master/preview/preview08.png)
-
+![输入图片说明](https://images.gitee.com/uploads/images/2019/1019/190723_c934e027_5124578.png "preview01.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/1019/190738_94369e71_5124578.png "preview02.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/1019/190745_792f052a_5124578.png "preview03.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/1019/190752_2b28eaff_5124578.png "preview04.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/1019/190758_e302eb14_5124578.png "preview05.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/1019/190802_308f15aa_5124578.png "preview06.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/1019/190808_7f4fc583_5124578.png "preview07.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/1019/190813_06d256a5_5124578.png "preview08.png")
 
 ## 软件架构
 分层架构  

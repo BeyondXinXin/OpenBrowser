@@ -52,11 +52,8 @@ void FormLeft::initFrom() {
     connect(ui->btn_subdivision, &QPushButton::clicked, this, [ = ] { // v细分
         emit SignalsPolyDataHandle(5);
     });
-    connect(ui->btn_fill, &QPushButton::clicked, this, [ = ] { // v封闭
+    connect(ui->btn_refine, &QPushButton::clicked, this, [ = ] { // v细化
         emit SignalsPolyDataHandle(6);
-    });
-    connect(ui->btn_refine, &QPushButton::clicked, this, [ = ] { // v封闭
-        emit SignalsPolyDataHandle(7);
     });
     connect(ui->btn_cgal_subdivision, &QPushButton::clicked, this,  [ = ] {// C细分
         emit SignalsPolyDataHandle(11);

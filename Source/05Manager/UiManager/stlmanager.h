@@ -1,7 +1,5 @@
 ﻿/*
  * STL 界面管理
- * std::cout << "几何数据(点数)：" << surface_->GetNumberOfPoints() << std::endl;
- * std::cout << "拓扑数据(单元)：" << surface_->GetNumberOfCells() << std::endl;
 */
 
 #ifndef STLMANAGER_H
@@ -16,7 +14,6 @@
 #include "automaticdivision.h"
 #include "customvtkrenderer.h"
 #include "linesurfaceclipper.h"
-#include "fillsurfaceselector.h"
 #include "customsurfaceviewer.h"
 #include "vtkthreadsubdivision.h"
 #include "smoothsurfaceselector.h"
@@ -67,12 +64,10 @@ class STLManager: public QObject {
     QPointer<LineSurfaceClipper> surface_line_clipper_;// 线性剪裁
     QPointer<SmoothSurfaceSelector> surface_smooth_selector_;// 区域平滑和修剪
     QPointer<VtkThreadSubdivision> surface_subdivision_;// vtk细分
-    QPointer<FillSurfaceSelector> surface_fill_selector_;// 封闭
     QPointer<RefineSurface> surface_refine_;// vtk细化
 
+    QPointer<FillSurfaceSelector> fill_surface_selector_;// CGAL细分
     QPointer<CGALThreadSubdivision> surface_cgal_subdivision_; // CGAL表面细分
-    QPointer<CGALThreadFill> surface_cgal_fill_; // CGAL封闭
-    QPointer<CGALThreadFillChoice> surface_cgal_fillchoice_; // CGAL封闭选择器
 
 };
 

@@ -1,7 +1,37 @@
 # QT_openBrowser
 
+
 ## 介绍
 基于QT      一个开源的文件浏览器   
+支持stl、off、mhd、dcm等文件的浏览和前处理  
+程序均来自网络整理，便于自己和他人使用。 
+所有模块均采用manager管理，从程序中分割非常方便。  
+其他功能持续增加维护，比如opencv与QT结合使用、QT+Halcon使用等
+我的使用的版本见下方安装教程，由于能力有限，我仅维护测试ubuntu下程序，windos下需要自己简单修改就可以。  
+
+代码主要复制于以下  
+https://blog.csdn.net/webzhuce  阿兵-AI医疗  VKT中文教程  
+https://blog.csdn.net/u013165921 笔尖bj opencv+qt结合  
+https://me.csdn.net/feiyangqingyun   feiyangqingyun   QT自定义控件教程  
+https://me.csdn.net/u011012932  一去丶二三里   QT常用控件基础  
+https://doc.cgal.org/latest/Manual/index.html  CGAL 官方教程  
+https://lorensen.github.io/VTKExamples/site/Cxx/#surface-reconstruction  VTK  官方教程  
+https://itk.org/Doxygen/html/index.html  ITK  官方教程  
+https://doc.qt.io/ qt 官方教程  
+
+
+
+## 图片
+
+![Image text](https://gitee.com/yaoxin001/openBrowser/tree/master/preview/preview01.png)
+![Image text](https://gitee.com/yaoxin001/openBrowser/tree/master/preview/preview02.png)
+![Image text](https://gitee.com/yaoxin001/openBrowser/tree/master/preview/preview03.png)
+![Image text](https://gitee.com/yaoxin001/openBrowser/tree/master/preview/preview04.png)
+![Image text](https://gitee.com/yaoxin001/openBrowser/tree/master/preview/preview05.png)
+![Image text](https://gitee.com/yaoxin001/openBrowser/tree/master/preview/preview06.png)
+![Image text](https://gitee.com/yaoxin001/openBrowser/tree/master/preview/preview07.png)
+![Image text](https://gitee.com/yaoxin001/openBrowser/tree/master/preview/preview08.png)
+
 
 ## 软件架构
 分层架构  
@@ -39,9 +69,13 @@ VTK-8.1.2
 
 ## 参与贡献
 
-姚欣  779354187  118.25.63.144
+姚欣  118.25.63.144  
 
-分支说明
-branch——01  GitKraken软件新建分支、合并分支测试
-
+分支说明  
+branch——01  GitKraken软件新建分支、合并分支测试  
+branch——02  程序优化  
+1.删除vtk 封闭功能  
+2.合并cgal封闭类和预览类（处理中会产生假死  
+3.UI left按钮布局重新调整  
+4.UI formshow 底部按钮状态调整  
 

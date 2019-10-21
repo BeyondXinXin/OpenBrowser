@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>250</width>
-    <height>882</height>
+    <height>1020</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -251,10 +251,10 @@
         </size>
        </property>
        <property name="cursor">
-        <cursorShape>WaitCursor</cursorShape>
+        <cursorShape>ArrowCursor</cursorShape>
        </property>
        <property name="text">
-        <string>XXXX   </string>
+        <string>图片前处理(OPENCV)   </string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -283,6 +283,18 @@
      <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0">
       <property name="spacing">
        <number>4</number>
+      </property>
+      <property name="leftMargin">
+       <number>9</number>
+      </property>
+      <property name="topMargin">
+       <number>9</number>
+      </property>
+      <property name="rightMargin">
+       <number>9</number>
+      </property>
+      <property name="bottomMargin">
+       <number>9</number>
       </property>
       <item>
        <widget class="QWidget" name="widget_2" native="true">
@@ -356,7 +368,7 @@
         </size>
        </property>
        <property name="text">
-        <string>STL处理   </string>
+        <string>三维模型前处理   </string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -389,7 +401,7 @@
       <item>
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>VTK</string>
+         <string>调用VTK</string>
         </property>
         <property name="border_no" stdset="0">
          <bool>true</bool>
@@ -494,7 +506,7 @@
       <item>
        <widget class="QLabel" name="label_2">
         <property name="text">
-         <string>CGAL</string>
+         <string>调用CGAL</string>
         </property>
         <property name="border_no" stdset="0">
          <bool>true</bool>

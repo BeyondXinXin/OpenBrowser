@@ -35,6 +35,7 @@ include_directories(  ${OpenCV_INCLUDE_DIRS} )
 
 find_package(CGAL REQUIRED)
 include(${CGAL_USE_FILE})
+
 find_package(Eigen3 REQUIRED)
 include( ${EIGEN3_USE_FILE} )
 
@@ -95,7 +96,13 @@ set(02CustomControl
 include_directories(Source/03Opencv)
 set(03Opencv
     Source/03Opencv/qt_opencv.h
-    Source/03Opencv/qt_opencv.cpp)
+    Source/03Opencv/qt_opencv.cpp
+    Source/03Opencv/qopenglwidget.cpp
+    Source/03Opencv/qopenglwidget.h
+    Source/03Opencv/qopenglwidget.ui
+    Source/03Opencv/qoencvscrollarea.cpp
+    Source/03Opencv/qoencvscrollarea.h
+    )
 
 include_directories(Source/03CGAL)
 include_directories(Source/03CGAL/CGALThread)

@@ -98,8 +98,4 @@ class OpencvMorp {
     OpencvImgChange *imgchangeClass;
 };
 
-
-
-
-
 #endif // QT_OPENCV_H

@@ -18,23 +18,27 @@
 using namespace cv;
 using namespace std;
 
-class OpencvImgChange;
 // 图像转换
 class OpencvImgChange {
   public:
+    static OpencvImgChange *Instance();
     OpencvImgChange();
     ~OpencvImgChange();
     QImage cvMat2QImage(const Mat &mat);// Mat 改成 QImage
     Mat QImage2cvMat(QImage image);// QImage 改成 Mat
     QImage splitBGR(QImage src, int color);	// 提取RGB分量
     QImage splitColor(QImage src, String model, int color);// 提取分量
+  private:
+    static QScopedPointer<OpencvImgChange> self;
 };
 
-// 图像改变
-class OpencvEnhance {
+
+class QOpencvProcessing {
   public:
-    OpencvEnhance();
-    ~OpencvEnhance();
+    QOpencvProcessing();
+    ~QOpencvProcessing();
+    static QOpencvProcessing *Instance();
+    // 图像增强
     QImage Normalized(QImage src, int kernel_length);// 简单滤波
     QImage Gaussian(QImage src, int kernel_length);	// 高斯滤波
     QImage Median(QImage src, int kernel_length);// 中值滤波
@@ -44,31 +48,14 @@ class OpencvEnhance {
     QImage HoughLine(
         QImage src, int threshold, double minLineLength, double maxLineGap);// 线检测
     QImage HoughCircle(QImage src, int minRadius, int maxRadius);// 圆检测
-
-  private:
-    OpencvImgChange *imgchangeClass;
-};
-
-// 图像几何变换
-class OpencvGeom {
-  public:
-    OpencvGeom();
-    ~OpencvGeom();
+    // 图像几何变换
     QImage Resize(QImage src, int length, int width);
     QImage Enlarge_Reduce(QImage src, int times);
     QImage Rotate(QImage src, int angle);
     QImage Rotate_fixed(QImage src, int angle);
     QImage Flip(QImage src, int flipcode);
     QImage Lean(QImage src, int x, int y);
-  private:
-    OpencvImgChange *imgchangeClass;
-};
-
-// 图像增强
-class OpencvGray {
-  public:
-    OpencvGray();
-    ~OpencvGray();
+    // 灰度变化
     QImage Bin(QImage src, int threshold);
     QImage Graylevel(QImage src);
     QImage Reverse(QImage src);								// 图像反转
@@ -78,15 +65,7 @@ class OpencvGray {
     QImage Histeq(QImage src);								// 直方图均衡化
     void BinToGraylevel(Mat &image);
     bool IsBin(Mat &image);
-  private:
-    OpencvImgChange *imgchangeClass;
-};
-
-// 图像腐蚀
-class OpencvMorp {
-  public:
-    OpencvMorp();
-    ~OpencvMorp();
+    // 图像腐蚀
     QImage Erode(QImage src, int elem, int kernel, int times, int, int);// 腐蚀
     QImage Dilate(QImage src, int elem, int kernel, int times, int, int);// 膨胀
     QImage Open(QImage src, int elem, int kernel, int times, int, int);// 开运算
@@ -95,7 +74,7 @@ class OpencvMorp {
     QImage Tophat(QImage src, int elem, int kernel, int, int, int);// 顶帽操作
     QImage Blackhat(QImage src, int elem, int kernel, int, int, int);// 黑帽操作
   private:
-    OpencvImgChange *imgchangeClass;
+    static QScopedPointer<QOpencvProcessing> self;
 };
 
 #endif // QT_OPENCV_H

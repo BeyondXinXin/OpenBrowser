@@ -30,7 +30,7 @@
     <widget class="FormLeft" name="left_form" native="true"/>
    </item>
    <item>
-    <widget class="QStackedWidget" name="formmain_stackedWidget">
+    <widget class="QStackedWidget" name="main_stacked_widget">
      <property name="currentIndex">
       <number>0</number>
      </property>
@@ -40,7 +40,31 @@
      <property name="border_no" stdset="0">
       <bool>true</bool>
      </property>
-     <widget class="QWidget" name="page">
+     <widget class="QWidget" name="mainwindow0">
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="0">
+        <widget class="QOencvScrollArea" name="opencv_scrollarea">
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <widget class="QWidget" name="scrollAreaWidgetContents">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>1116</width>
+            <height>713</height>
+           </rect>
+          </property>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QVTKOpenGLWidget" name="mainwindow1">
+      <layout class="QGridLayout" name="modle_layout"/>
+     </widget>
+     <widget class="QWidget" name="mainwindow2">
       <layout class="QGridLayout" name="gridLayout_4">
        <item row="0" column="0">
         <layout class="QGridLayout" name="gridLayout_2">
@@ -116,10 +140,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QVTKOpenGLWidget" name="view5">
-      <layout class="QGridLayout" name="modle_layout"/>
-     </widget>
-     <widget class="QWidget" name="page_4">
+     <widget class="QWidget" name="mainwindow3">
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
         <widget class="FormShow" name="formshow1" native="true"/>
@@ -150,6 +171,12 @@
    <class>FormShow</class>
    <extends>QWidget</extends>
    <header>formshow.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>QOencvScrollArea</class>
+   <extends>QScrollArea</extends>
+   <header>qoencvscrollarea.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

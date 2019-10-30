@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>250</width>
-    <height>1020</height>
+    <height>737</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -19,7 +19,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0,0,0,1,0">
+  <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0,0,0,0,0">
    <property name="spacing">
     <number>2</number>
    </property>
@@ -38,10 +38,13 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="1">
      <property name="leftMargin">
-      <number>0</number>
+      <number>6</number>
      </property>
      <property name="topMargin">
-      <number>0</number>
+      <number>6</number>
+     </property>
+     <property name="rightMargin">
+      <number>6</number>
      </property>
      <property name="bottomMargin">
       <number>20</number>
@@ -51,12 +54,12 @@
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>0</height>
+         <height>100</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>235</width>
+         <width>16777215</width>
          <height>16777215</height>
         </size>
        </property>

@@ -1,13 +1,25 @@
 ﻿#include "qt_opencv.h"
-
 #define png  true
+
+
+
+QScopedPointer<OpencvImgChange> OpencvImgChange::self;
+OpencvImgChange *OpencvImgChange::Instance() {
+    if (self.isNull()) {
+        QMutex mutex;
+        QMutexLocker locker(&mutex);
+        if (self.isNull()) {
+            self.reset(new OpencvImgChange);
+        }
+    }
+    return self.data();
+}
 
 OpencvImgChange::OpencvImgChange() {
 }
 
 OpencvImgChange::~OpencvImgChange() {
 }
-
 
 QImage OpencvImgChange::cvMat2QImage(const Mat &mat) {  // Mat 改成 QImage
     if (mat.type() == CV_8UC1) {				// 单通道
@@ -44,25 +56,25 @@ QImage OpencvImgChange::cvMat2QImage(const Mat &mat) {  // Mat 改成 QImage
 Mat OpencvImgChange::QImage2cvMat(QImage image) {		// QImage改成Mat
     Mat mat;
     switch (image.format()) {
-    case QImage::Format_ARGB32:
-    case QImage::Format_RGB32:
-    case QImage::Format_ARGB32_Premultiplied:
-        mat = Mat(image.height(), image.width(), CV_8UC4,
-                  (void *)image.constBits(), static_cast<unsigned long>(
-                      image.bytesPerLine()));
-        break;
-    case QImage::Format_RGB888:
-        mat = Mat(image.height(), image.width(), CV_8UC3,
-                  (void *)image.constBits(), static_cast<unsigned long>(
-                      image.bytesPerLine()));
-        cv::cvtColor(mat, mat, CV_BGR2RGB);
-        break;
-    case QImage::Format_Indexed8:
-    case QImage::Format_Grayscale8:
-        mat = Mat(image.height(), image.width(), CV_8UC1,
-                  (void *)image.constBits(), static_cast<unsigned long>(
-                      image.bytesPerLine()));
-        break;
+        case QImage::Format_ARGB32:
+        case QImage::Format_RGB32:
+        case QImage::Format_ARGB32_Premultiplied:
+            mat = Mat(image.height(), image.width(), CV_8UC4,
+                      (void *)image.constBits(), static_cast<unsigned long>(
+                          image.bytesPerLine()));
+            break;
+        case QImage::Format_RGB888:
+            mat = Mat(image.height(), image.width(), CV_8UC3,
+                      (void *)image.constBits(), static_cast<unsigned long>(
+                          image.bytesPerLine()));
+            cv::cvtColor(mat, mat, CV_BGR2RGB);
+            break;
+        case QImage::Format_Indexed8:
+        case QImage::Format_Grayscale8:
+            mat = Mat(image.height(), image.width(), CV_8UC1,
+                      (void *)image.constBits(), static_cast<unsigned long>(
+                          image.bytesPerLine()));
+            break;
     }
     return mat;
 }
@@ -139,45 +151,56 @@ QImage OpencvImgChange::splitColor(
     }
 }
 
-OpencvEnhance::OpencvEnhance() {
-    imgchangeClass = new OpencvImgChange;
+QScopedPointer<QOpencvProcessing> QOpencvProcessing::self;
+QOpencvProcessing *QOpencvProcessing::Instance() {
+    if (self.isNull()) {
+        QMutex mutex;
+        QMutexLocker locker(&mutex);
+        if (self.isNull()) {
+            self.reset(new QOpencvProcessing);
+        }
+    }
+    return self.data();
+}
+QOpencvProcessing::QOpencvProcessing() {
+
 }
 
-OpencvEnhance::~OpencvEnhance() {
+QOpencvProcessing::~QOpencvProcessing() {
 }
 
-QImage OpencvEnhance::Normalized(QImage src, int kernel_length) {
+QImage QOpencvProcessing::Normalized(QImage src, int kernel_length) {
     // 简单滤波
     Mat srcImg, dstImg;
-    srcImg = imgchangeClass->QImage2cvMat(src);
+    srcImg = OpencvImgChange::Instance()->QImage2cvMat(src);
     blur(srcImg, dstImg, Size(kernel_length, kernel_length), Point(-1, -1));
-    QImage dst = imgchangeClass->cvMat2QImage(dstImg);
+    QImage dst = OpencvImgChange::Instance()->cvMat2QImage(dstImg);
     return dst;
 }
 
-QImage OpencvEnhance::Gaussian(QImage src, int kernel_length) {
+QImage QOpencvProcessing::Gaussian(QImage src, int kernel_length) {
     // 高斯滤波
     Mat srcImg, dstImg;
-    srcImg = imgchangeClass->QImage2cvMat(src);
+    srcImg = OpencvImgChange::Instance()->QImage2cvMat(src);
     GaussianBlur(srcImg, dstImg, Size(kernel_length, kernel_length), 0, 0);
-    QImage dst = imgchangeClass->cvMat2QImage(dstImg);
+    QImage dst = OpencvImgChange::Instance()->cvMat2QImage(dstImg);
     return dst;
 }
 
-QImage OpencvEnhance::Median(QImage src, int kernel_length) {
+QImage QOpencvProcessing::Median(QImage src, int kernel_length) {
     // 中值滤波
     Mat srcImg, dstImg;
-    srcImg = imgchangeClass->QImage2cvMat(src);
+    srcImg = OpencvImgChange::Instance()->QImage2cvMat(src);
     medianBlur(srcImg, dstImg, kernel_length);
-    QImage dst = imgchangeClass->cvMat2QImage(dstImg);
+    QImage dst = OpencvImgChange::Instance()->cvMat2QImage(dstImg);
     return dst;
 }
 
-QImage OpencvEnhance::HoughLine(
+QImage QOpencvProcessing::HoughLine(
     QImage src, int threshold, double minLineLength, double maxLineGap) {
     // 线检测
     Mat srcImg, dstImg, cdstPImg;
-    srcImg = imgchangeClass->QImage2cvMat(src);
+    srcImg = OpencvImgChange::Instance()->QImage2cvMat(src);
 
     cv::Canny(srcImg, dstImg, 50, 200, 3);                // Canny算子边缘检测
     if (srcImg.channels() != 1) {
@@ -195,16 +218,15 @@ QImage OpencvEnhance::HoughLine(
              Point(l[2], l[3]), Scalar(0, 0, 255), 1, LINE_AA);
     }
 
-    QImage dst = imgchangeClass->cvMat2QImage(cdstPImg);
+    QImage dst = OpencvImgChange::Instance()->cvMat2QImage(cdstPImg);
     return dst;
 
 }
 
-QImage OpencvEnhance::HoughCircle(QImage src, int minRadius, int maxRadius) {
+QImage QOpencvProcessing::HoughCircle(QImage src, int minRadius, int maxRadius) {
     // 圆检测
     Mat srcImg, dstImg;
-    srcImg = imgchangeClass->QImage2cvMat(src);
-
+    srcImg = OpencvImgChange::Instance()->QImage2cvMat(src);
     Mat gray;
     if (srcImg.channels() != 1) {
         cvtColor(srcImg, gray, COLOR_BGR2GRAY);
@@ -228,14 +250,14 @@ QImage OpencvEnhance::HoughCircle(QImage src, int minRadius, int maxRadius) {
         circle(dstImg, center, radius, Scalar(255, 0, 255), 3, LINE_AA);
     }
 
-    QImage dst = imgchangeClass->cvMat2QImage(dstImg);
+    QImage dst = OpencvImgChange::Instance()->cvMat2QImage(dstImg);
     return dst;
 }
 
-QImage OpencvEnhance::Sobel(QImage src, int kernel_length) {
+QImage QOpencvProcessing::Sobel(QImage src, int kernel_length) {
     // sobel
     Mat srcImg, dstImg, src_gray;
-    srcImg = imgchangeClass->QImage2cvMat(src);
+    srcImg = OpencvImgChange::Instance()->QImage2cvMat(src);
 
     GaussianBlur(srcImg, srcImg, Size(3, 3), 0, 0, BORDER_DEFAULT);     // 高斯模糊
     if (srcImg.channels() != 1) {
@@ -254,14 +276,14 @@ QImage OpencvEnhance::Sobel(QImage src, int kernel_length) {
 
     addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, dstImg);
 
-    QImage dst = imgchangeClass->cvMat2QImage(dstImg);
+    QImage dst = OpencvImgChange::Instance()->cvMat2QImage(dstImg);
     return dst;
 }
 
-QImage OpencvEnhance::Laplacian(QImage src, int kernel_length) {
+QImage QOpencvProcessing::Laplacian(QImage src, int kernel_length) {
     // laplacian
     Mat srcImg, dstImg, src_gray;
-    srcImg = imgchangeClass->QImage2cvMat(src);
+    srcImg = OpencvImgChange::Instance()->QImage2cvMat(src);
 
     GaussianBlur(srcImg, srcImg, Size(3, 3), 0, 0, BORDER_DEFAULT);       // 高斯模糊
 
@@ -275,14 +297,14 @@ QImage OpencvEnhance::Laplacian(QImage src, int kernel_length) {
     cv::Laplacian(src_gray, dstImg, CV_16S, kernel_length, 1, 0, BORDER_DEFAULT);
 
     convertScaleAbs(dstImg, dstImg);                                  // 绝对值8位
-    QImage dst = imgchangeClass->cvMat2QImage(dstImg);
+    QImage dst = OpencvImgChange::Instance()->cvMat2QImage(dstImg);
     return dst;
 }
 
-QImage OpencvEnhance::Canny(QImage src, int kernel_length, int lowThreshold) {
+QImage QOpencvProcessing::Canny(QImage src, int kernel_length, int lowThreshold) {
     // canny
     Mat srcImg, dstImg, src_gray, detected_edges;
-    srcImg = imgchangeClass->QImage2cvMat(src);
+    srcImg = OpencvImgChange::Instance()->QImage2cvMat(src);
 
     dstImg.create(srcImg.size(), srcImg.type());
     if (srcImg.channels() != 1) {
@@ -297,51 +319,44 @@ QImage OpencvEnhance::Canny(QImage src, int kernel_length, int lowThreshold) {
     dstImg = Scalar::all(0);
     srcImg.copyTo(dstImg, detected_edges);
 
-    QImage dst = imgchangeClass->cvMat2QImage(dstImg);
+    QImage dst = OpencvImgChange::Instance()->cvMat2QImage(dstImg);
     return dst;
 }
 
-OpencvGeom::OpencvGeom() {
-    imgchangeClass = new OpencvImgChange;
-}
-
-OpencvGeom::~OpencvGeom() {
-}
-
-QImage OpencvGeom::Resize(QImage src, int length, int width) {
+QImage QOpencvProcessing::Resize(QImage src, int length, int width) {
     // 改变大小
     Mat matSrc, matDst;
-    matSrc = imgchangeClass->QImage2cvMat(src);
+    matSrc = OpencvImgChange::Instance()->QImage2cvMat(src);
     resize(matSrc, matDst, Size(length, width), 0, 0, CV_INTER_LINEAR);// 线性插值
-    QImage dst = imgchangeClass->cvMat2QImage(matDst);
+    QImage dst = OpencvImgChange::Instance()->cvMat2QImage(matDst);
     return dst;
 }
 
-QImage OpencvGeom::Enlarge_Reduce(QImage src, int times) {
+QImage QOpencvProcessing::Enlarge_Reduce(QImage src, int times) {
     // 缩放
     Mat matSrc, matDst;
-    matSrc = imgchangeClass->QImage2cvMat(src);
+    matSrc = OpencvImgChange::Instance()->QImage2cvMat(src);
     if (times > 0) {
         resize(matSrc, matDst, Size(matSrc.cols * abs(times + 1),
                                     matSrc.rows * abs(times + 1))
                , 0, 0, INTER_LINEAR);
-        QImage dst = imgchangeClass->cvMat2QImage(matDst);
+        QImage dst = OpencvImgChange::Instance()->cvMat2QImage(matDst);
         return dst;
     } else if (times < 0) {
         resize(matSrc, matDst, Size(matSrc.cols / abs(times - 1),
                                     matSrc.rows / abs(times - 1))
                , 0, 0, INTER_AREA);
-        QImage dst = imgchangeClass->cvMat2QImage(matDst);
+        QImage dst = OpencvImgChange::Instance()->cvMat2QImage(matDst);
         return dst;
     } else {
         return src;
     }
 }
 
-QImage OpencvGeom::Rotate(QImage src, int angle) {
+QImage QOpencvProcessing::Rotate(QImage src, int angle) {
     // 旋转
     Mat matSrc, matDst, M;
-    matSrc = imgchangeClass->QImage2cvMat(src);
+    matSrc = OpencvImgChange::Instance()->QImage2cvMat(src);
     cv::Point2f center(matSrc.cols / 2, matSrc.rows / 2);
     cv::Mat rot = cv::getRotationMatrix2D(center, angle, 1);
     cv::Rect bbox = cv::RotatedRect(center, matSrc.size(), angle).boundingRect();
@@ -350,35 +365,35 @@ QImage OpencvGeom::Rotate(QImage src, int angle) {
     rot.at<double>(1, 2) += bbox.height / 2.0 - static_cast<double>(center.y);
 
     cv::warpAffine(matSrc, matDst, rot, bbox.size());
-    QImage dst = imgchangeClass->cvMat2QImage(matDst);
+    QImage dst = OpencvImgChange::Instance()->cvMat2QImage(matDst);
     return dst;
 }
 
-QImage OpencvGeom::Rotate_fixed(QImage src, int angle) {
+QImage QOpencvProcessing::Rotate_fixed(QImage src, int angle) {
     // 旋转90，180，270
     Mat matSrc, matDst, M;
-    matSrc = imgchangeClass->QImage2cvMat(src);
+    matSrc = OpencvImgChange::Instance()->QImage2cvMat(src);
     M = getRotationMatrix2D(Point2i(matSrc.cols / 2, matSrc.rows / 2), angle, 1);
     warpAffine(matSrc, matDst, M, Size(matSrc.cols, matSrc.rows));
-    QImage dst = imgchangeClass->cvMat2QImage(matDst);
+    QImage dst = OpencvImgChange::Instance()->cvMat2QImage(matDst);
     return dst;
 }
 
-QImage OpencvGeom::Flip(QImage src, int flipcode) {
+QImage QOpencvProcessing::Flip(QImage src, int flipcode) {
     // 镜像
     Mat matSrc, matDst;
-    matSrc = imgchangeClass->QImage2cvMat(src);
+    matSrc = OpencvImgChange::Instance()->QImage2cvMat(src);
     flip(matSrc, matDst, flipcode);
     // flipCode==0 垂直翻转（沿X轴翻转）,flipCode>0 水平翻转（沿Y轴翻转）
     // flipCode<0 水平垂直翻转（先沿X轴翻转，再沿Y轴翻转，等价于旋转180°）
-    QImage dst = imgchangeClass->cvMat2QImage(matDst);
+    QImage dst = OpencvImgChange::Instance()->cvMat2QImage(matDst);
     return dst;
 }
 
-QImage OpencvGeom::Lean(QImage src, int x, int y) {
+QImage QOpencvProcessing::Lean(QImage src, int x, int y) {
     // 倾斜
     Mat matSrc, matTmp, matDst;
-    matSrc = imgchangeClass->QImage2cvMat(src);
+    matSrc = OpencvImgChange::Instance()->QImage2cvMat(src);
     matTmp = Mat::zeros(matSrc.rows, matSrc.cols, matSrc.type());
 
     Mat map_x, map_y;
@@ -413,18 +428,11 @@ QImage OpencvGeom::Lean(QImage src, int x, int y) {
                Size(matTmp.cols, static_cast<int>
                     (matTmp.rows + matTmp.cols * tan(angleY))));
 
-    QImage dst = imgchangeClass->cvMat2QImage(matDst);
+    QImage dst = OpencvImgChange::Instance()->cvMat2QImage(matDst);
     return dst;
 }
 
-OpencvGray::OpencvGray() {
-    imgchangeClass = new OpencvImgChange;
-}
-
-OpencvGray::~OpencvGray() {
-}
-
-bool OpencvGray::IsBin(Mat &image) {
+bool QOpencvProcessing::IsBin(Mat &image) {
     int w = image.cols;
     int h = image.rows;
     for (int row = 0; row < h; row++) {
@@ -440,7 +448,7 @@ bool OpencvGray::IsBin(Mat &image) {
     return true;
 }
 
-void OpencvGray::BinToGraylevel(Mat &image) {
+void QOpencvProcessing::BinToGraylevel(Mat &image) {
     int w = image.cols;
     int h = image.rows;
     for (int row = 0; row < h; row++) {
@@ -457,23 +465,22 @@ void OpencvGray::BinToGraylevel(Mat &image) {
     }
 }
 
-
-QImage OpencvGray::Bin(QImage src, int threshold) {		// 二值化
+QImage QOpencvProcessing::Bin(QImage src, int threshold) {		// 二值化
     Mat srcImg, dstImg, grayImg;
-    srcImg = imgchangeClass->QImage2cvMat(src);
+    srcImg = OpencvImgChange::Instance()->QImage2cvMat(src);
     if (srcImg.channels() != 1) {
         cvtColor(srcImg, grayImg, CV_BGR2GRAY);
     } else {
         dstImg = srcImg.clone();
     }
     cv::threshold(grayImg, dstImg, threshold, 255, THRESH_BINARY);
-    QImage dst = imgchangeClass->cvMat2QImage(dstImg);
+    QImage dst = OpencvImgChange::Instance()->cvMat2QImage(dstImg);
     return dst;
 }
 
-QImage OpencvGray::Graylevel(QImage src) {				// 灰度图像
+QImage QOpencvProcessing::Graylevel(QImage src) {				// 灰度图像
     Mat srcImg, dstImg;
-    srcImg = imgchangeClass->QImage2cvMat(src);
+    srcImg = OpencvImgChange::Instance()->QImage2cvMat(src);
     dstImg.create(srcImg.size(), srcImg.type());
     if (srcImg.channels() != 1) {
         cvtColor(srcImg, dstImg, CV_BGR2GRAY);
@@ -483,38 +490,38 @@ QImage OpencvGray::Graylevel(QImage src) {				// 灰度图像
     if (IsBin(dstImg)) {
         BinToGraylevel(dstImg);
     }
-    QImage dst = imgchangeClass->cvMat2QImage(dstImg);
+    QImage dst = OpencvImgChange::Instance()->cvMat2QImage(dstImg);
     return dst;
 }
 
-QImage OpencvGray::Reverse(QImage src) {
+QImage QOpencvProcessing::Reverse(QImage src) {
     // 图像反转
     Mat srcImg, dstImg;
-    srcImg = imgchangeClass->QImage2cvMat(src);
+    srcImg = OpencvImgChange::Instance()->QImage2cvMat(src);
     bitwise_xor(srcImg, Scalar(255), dstImg);
     // 异或
-    QImage dst = imgchangeClass->cvMat2QImage(dstImg);
+    QImage dst = OpencvImgChange::Instance()->cvMat2QImage(dstImg);
     return dst;
 }
 
-QImage OpencvGray::Linear(QImage src, int alpha, int beta) {
+QImage QOpencvProcessing::Linear(QImage src, int alpha, int beta) {
     // 线性变换
     Mat srcImg, dstImg;
-    srcImg = imgchangeClass->QImage2cvMat(src);
+    srcImg = OpencvImgChange::Instance()->QImage2cvMat(src);
     srcImg.convertTo(dstImg, -1, alpha / 100.0, beta - 100);
     // matDst = alpha * matTmp + beta
-    QImage dst = imgchangeClass->cvMat2QImage(dstImg);
+    QImage dst = OpencvImgChange::Instance()->cvMat2QImage(dstImg);
     return dst;
 }
 
-QImage OpencvGray::Gamma(QImage src, int gamma) {
+QImage QOpencvProcessing::Gamma(QImage src, int gamma) {
     // 伽马变换(指数变换)
     if (gamma < 0) {
         return src;
     }
 
     Mat srcImg, dstImg;
-    srcImg = imgchangeClass->QImage2cvMat(src);
+    srcImg = OpencvImgChange::Instance()->QImage2cvMat(src);
 
     Mat lookUpTable(1, 256, CV_8U);
     // 查找表
@@ -527,14 +534,14 @@ QImage OpencvGray::Gamma(QImage src, int gamma) {
     LUT(srcImg, lookUpTable, dstImg);
     // LUT
 
-    QImage dst = imgchangeClass->cvMat2QImage(dstImg);
+    QImage dst = OpencvImgChange::Instance()->cvMat2QImage(dstImg);
     return dst;
 }
 
-QImage OpencvGray::Log(QImage src, int c) {
+QImage QOpencvProcessing::Log(QImage src, int c) {
     // 对数变换
     Mat srcImg, dstImg;
-    srcImg = imgchangeClass->QImage2cvMat(src);
+    srcImg = OpencvImgChange::Instance()->QImage2cvMat(src);
 
     Mat lookUpTable(1, 256, CV_8U);
     // 查找表
@@ -547,14 +554,14 @@ QImage OpencvGray::Log(QImage src, int c) {
     LUT(srcImg, lookUpTable, dstImg);
     // LUT
 
-    QImage dst = imgchangeClass->cvMat2QImage(dstImg);
+    QImage dst = OpencvImgChange::Instance()->cvMat2QImage(dstImg);
     return dst;
 }
 
-QImage OpencvGray::Histeq(QImage src) {
+QImage QOpencvProcessing::Histeq(QImage src) {
     // 直方图均衡化
     Mat srcImg, dstImg;
-    srcImg = imgchangeClass->QImage2cvMat(src);
+    srcImg = OpencvImgChange::Instance()->QImage2cvMat(src);
 
     if (srcImg.channels() != 1) {
         cvtColor(srcImg, srcImg, CV_BGR2GRAY);
@@ -564,21 +571,14 @@ QImage OpencvGray::Histeq(QImage src) {
     equalizeHist(srcImg, dstImg);
     // 直方图均衡化
 
-    QImage dst = imgchangeClass->cvMat2QImage(dstImg);
+    QImage dst = OpencvImgChange::Instance()->cvMat2QImage(dstImg);
     return dst;
 }
 
-OpencvMorp::OpencvMorp() {
-    imgchangeClass = new OpencvImgChange;
-}
-
-OpencvMorp::~OpencvMorp() {
-}
-
-QImage OpencvMorp::Erode(QImage src, int elem, int kernel, int times, int, int) {
+QImage QOpencvProcessing::Erode(QImage src, int elem, int kernel, int times, int, int) {
     // 腐蚀
     Mat srcImg, dstImg;
-    srcImg = imgchangeClass->QImage2cvMat(src);
+    srcImg = OpencvImgChange::Instance()->QImage2cvMat(src);
     int erosion_type = 0;
 
     if (elem == 0) {
@@ -593,14 +593,14 @@ QImage OpencvMorp::Erode(QImage src, int elem, int kernel, int times, int, int) 
                       erosion_type, Size(2 * kernel + 3, 2 * kernel + 3),
                       Point(kernel + 1, kernel + 1));
     erode(srcImg, dstImg, element, Point(-1, -1), times);
-    QImage dst = imgchangeClass->cvMat2QImage(dstImg);
+    QImage dst = OpencvImgChange::Instance()->cvMat2QImage(dstImg);
     return dst;
 }
 
-QImage OpencvMorp::Dilate(QImage src, int elem, int kernel, int times, int, int) {
+QImage QOpencvProcessing::Dilate(QImage src, int elem, int kernel, int times, int, int) {
     // 膨胀
     Mat srcImg, dstImg;
-    srcImg = imgchangeClass->QImage2cvMat(src);
+    srcImg = OpencvImgChange::Instance()->QImage2cvMat(src);
     int dilation_type = 0;
     if (elem == 0) {
         dilation_type = MORPH_RECT;
@@ -613,36 +613,36 @@ QImage OpencvMorp::Dilate(QImage src, int elem, int kernel, int times, int, int)
                                         Size(2 * kernel + 3, 2 * kernel + 3),
                                         Point(kernel + 1, kernel + 1));
     dilate(srcImg, dstImg, element, Point(-1, -1), times);
-    QImage dst = imgchangeClass->cvMat2QImage(dstImg);
+    QImage dst = OpencvImgChange::Instance()->cvMat2QImage(dstImg);
     return dst;
 }
 
-QImage OpencvMorp::Open(QImage src, int elem, int kernel, int times, int, int) {
+QImage QOpencvProcessing::Open(QImage src, int elem, int kernel, int times, int, int) {
     // 开运算
     Mat srcImg, dstImg;
-    srcImg = imgchangeClass->QImage2cvMat(src);
+    srcImg = OpencvImgChange::Instance()->QImage2cvMat(src);
     Mat element = getStructuringElement(elem, Size(2 * kernel + 3, 2 * kernel + 3),
                                         Point(kernel + 1, kernel + 1));
     morphologyEx(srcImg, dstImg, MORPH_OPEN, element, Point(-1, -1), times);
-    QImage dst = imgchangeClass->cvMat2QImage(dstImg);
+    QImage dst = OpencvImgChange::Instance()->cvMat2QImage(dstImg);
     return dst;
 }
 
-QImage OpencvMorp::Close(QImage src, int elem, int kernel, int times, int, int) {
+QImage QOpencvProcessing::Close(QImage src, int elem, int kernel, int times, int, int) {
     // 闭运算
     Mat srcImg, dstImg;
-    srcImg = imgchangeClass->QImage2cvMat(src);
+    srcImg = OpencvImgChange::Instance()->QImage2cvMat(src);
     Mat element = getStructuringElement(elem, Size(2 * kernel + 3, 2 * kernel + 3),
                                         Point(kernel + 1, kernel + 1));
     morphologyEx(srcImg, dstImg, MORPH_CLOSE, element, Point(-1, -1), times);
-    QImage dst = imgchangeClass->cvMat2QImage(dstImg);
+    QImage dst = OpencvImgChange::Instance()->cvMat2QImage(dstImg);
     return dst;
 }
 
-QImage OpencvMorp::Grad(QImage src, int elem, int kernel, int, int, int) {
+QImage QOpencvProcessing::Grad(QImage src, int elem, int kernel, int, int, int) {
     // 形态学梯度
     Mat srcImg, grayImg, dstImg;
-    srcImg = imgchangeClass->QImage2cvMat(src);
+    srcImg = OpencvImgChange::Instance()->QImage2cvMat(src);
     Mat element = getStructuringElement(elem, Size(2 * kernel + 3, 2 * kernel + 3),
                                         Point(kernel + 1, kernel + 1));
 
@@ -653,14 +653,14 @@ QImage OpencvMorp::Grad(QImage src, int elem, int kernel, int, int, int) {
     }
     morphologyEx(grayImg, dstImg, MORPH_GRADIENT, element);
 
-    QImage dst = imgchangeClass->cvMat2QImage(dstImg);
+    QImage dst = OpencvImgChange::Instance()->cvMat2QImage(dstImg);
     return dst;
 }
 
-QImage OpencvMorp::Tophat(QImage src, int elem, int kernel, int, int, int) {
+QImage QOpencvProcessing::Tophat(QImage src, int elem, int kernel, int, int, int) {
     // 顶帽操作
     Mat srcImg, grayImg, dstImg;
-    srcImg = imgchangeClass->QImage2cvMat(src);
+    srcImg = OpencvImgChange::Instance()->QImage2cvMat(src);
     Mat element = getStructuringElement(elem, Size(2 * kernel + 3, 2 * kernel + 3),
                                         Point(kernel + 1, kernel + 1));
     if (srcImg.channels() != 1) {
@@ -670,14 +670,14 @@ QImage OpencvMorp::Tophat(QImage src, int elem, int kernel, int, int, int) {
     }
 
     morphologyEx(grayImg, dstImg, MORPH_TOPHAT, element);
-    QImage dst = imgchangeClass->cvMat2QImage(dstImg);
+    QImage dst = OpencvImgChange::Instance()->cvMat2QImage(dstImg);
     return dst;
 }
 
-QImage OpencvMorp::Blackhat(QImage src, int elem, int kernel, int, int, int) {
+QImage QOpencvProcessing::Blackhat(QImage src, int elem, int kernel, int, int, int) {
     // 黑帽操作
     Mat srcImg, grayImg, dstImg;
-    srcImg = imgchangeClass->QImage2cvMat(src);
+    srcImg = OpencvImgChange::Instance()->QImage2cvMat(src);
     Mat element = getStructuringElement(elem, Size(2 * kernel + 3, 2 * kernel + 3),
                                         Point(kernel + 1, kernel + 1));
     if (srcImg.channels() != 1) {
@@ -686,7 +686,7 @@ QImage OpencvMorp::Blackhat(QImage src, int elem, int kernel, int, int, int) {
         grayImg = srcImg.clone();
     }
     morphologyEx(grayImg, dstImg, MORPH_BLACKHAT, element);
-    QImage dst = imgchangeClass->cvMat2QImage(dstImg);
+    QImage dst = OpencvImgChange::Instance()->cvMat2QImage(dstImg);
     return dst;
 }
 

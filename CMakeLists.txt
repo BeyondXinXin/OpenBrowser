@@ -97,9 +97,6 @@ include_directories(Source/03Opencv)
 set(03Opencv
     Source/03Opencv/qt_opencv.h
     Source/03Opencv/qt_opencv.cpp
-    Source/03Opencv/qopenglwidget.cpp
-    Source/03Opencv/qopenglwidget.h
-    Source/03Opencv/qopenglwidget.ui
     Source/03Opencv/qoencvscrollarea.cpp
     Source/03Opencv/qoencvscrollarea.h
     )
@@ -170,10 +167,10 @@ set(04Ui
 include_directories(Source/05Manager)
 include_directories(Source/05Manager/UiManager)
 set(05Manager
-    Source/05Manager/UiManager/stlmanager.h
-    Source/05Manager/UiManager/stlmanager.cpp
-    Source/05Manager/UiManager/dcmmanager.h
-    Source/05Manager/UiManager/dcmmanager.cpp
+    Source/05Manager/stlmanager.h
+    Source/05Manager/stlmanager.cpp
+    Source/05Manager/dcmmanager.h
+    Source/05Manager/dcmmanager.cpp
     )
 
 set(Source

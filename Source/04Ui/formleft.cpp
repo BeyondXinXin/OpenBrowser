@@ -10,7 +10,25 @@ FormLeft::FormLeft(QWidget *parent) :
 }
 
 void FormLeft::initFrom() {
-// 菜单栏显示隐藏逻辑
+    // CPU内存显示控件
+    ui->label_cpu->start(1000);
+    // 滑动导航条控件
+    ui->slider_bar->setItems("Image      Brower;"
+                             "Mode        Brower;"
+                             "Dcm          Brower;"
+                             "Images    Brower");
+    connect(ui->slider_bar, &SliderBar::currentItemChanged,
+            this, &FormLeft::SingalSliderBarMovtToOut);
+    connect(this, &FormLeft::SingalSliderBarMovtToIn,
+            ui->slider_bar, &SliderBar::setCurrentIndex);
+
+    // 按钮逻辑
+    QList<QPushButton *> btns = ui->widget_menubar3->findChildren<QPushButton *>();
+    foreach (QPushButton *btn, btns) {
+        connect(btn, &QPushButton::clicked,
+                this, &FormLeft::SlotAllBtnEnabledFalse);
+    }
+    // 菜单栏显示隐藏逻辑
     SlotMenuBarSwitching();
     connect(ui->btn_menubar1, &QPushButton::clicked,
             this, &FormLeft::SlotMenuBarSwitching);
@@ -18,25 +36,8 @@ void FormLeft::initFrom() {
             this, &FormLeft::SlotMenuBarSwitching);
     connect(ui->btn_menubar3, &QPushButton::clicked,
             this, &FormLeft::SlotMenuBarSwitching);
-// CPU内存显示控件
-    ui->label_cpu->start(1000);
-// 滑动导航条控件
-    QString item = "DICM;STL;PNG";
-    ui->slider_bar->setBarColorStart(QColor(24, 189, 155));
-    ui->slider_bar->setBarColorEnd(QColor(26, 188, 156));
-    ui->slider_bar->setSpace(16);
-    ui->slider_bar->setBarStyle(SliderBar::BarStyle_Line_Top);
-    ui->slider_bar->setItems(item);
-    ui->slider_bar->setCurrentIndex(0);
-    connect(ui->slider_bar, SIGNAL(currentItemChanged(int, QString)),
-            this, SIGNAL(SignalsMainOut(int, QString)));
-// 按钮逻辑
-    QList<QPushButton *> btns = ui->widget_menubar3->findChildren<QPushButton *>();
-    foreach (QPushButton *btn, btns) {
-        connect(btn, &QPushButton::clicked,
-                this, &FormLeft::SlotAllBtnEnabledFalse);
-    }
-// stl操作
+
+    // stl操作
     connect(ui->btn_division, &QPushButton::clicked, this, [ = ] { // v自动提取连通域
         emit SignalsPolyDataHandle(1);
     });
@@ -66,7 +67,8 @@ void FormLeft::initFrom() {
     });
     connect(ui->btn_readstl, &QPushButton::clicked, this,  [ = ] { // 载入文件
         emit SignalsPolyDataHandle(21);
-        emit SignalsMainOut(1, "PageNumber");
+        emit SingalSliderBarMovtToIn(1);
+        emit SingalSliderBarMovtToOut(1);
     });
     connect(ui->btn_writestl, &QPushButton::clicked, this,  [ = ] { // 保存
         emit SignalsPolyDataHandle(22);
@@ -129,11 +131,6 @@ void FormLeft::SlotAllBtnEnabledTrue() {
     foreach (QPushButton *btn, btns) {
         btn->setEnabled(true);
     }
-}
-
-//页面切换
-void FormLeft::SlotsSliderBarMovtToIn(int tmp) {
-    ui->slider_bar->setCurrentIndex(tmp);
 }
 
 // 正常提示信息(白色)

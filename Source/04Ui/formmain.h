@@ -43,15 +43,14 @@ class FormMain : public QWidget {
     ~FormMain();
 
   Q_SIGNALS:
-    void SignalMaskWidgetDisappearOut();
+    void SignalMainWindosChangeOut(const int);
 
   private :
     void initFrom();
 
   private Q_SLOTS:
-    //响应打开图像文件的槽函数
-    void SlotOpenFileIn(QString tmp_file = "");
-    void SlotLaftIn(const int int_tmp, const QString qstr_tmp);
+    void SlotOpenFileIn(QString tmp_file = "");// 打开文件
+    void SlotSetMainWindos(const int mainwindow);
 
   private:
     Ui::FormMain *ui;

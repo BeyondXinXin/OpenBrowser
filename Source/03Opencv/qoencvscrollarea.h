@@ -6,36 +6,28 @@
 
 class QOencvScrollArea: public QScrollArea {
     Q_OBJECT
-
-    Q_PROPERTY(int maxValue READ getMaxValue WRITE setMaxValue)
-    qma
-
-
   public:
     explicit QOencvScrollArea(QWidget *parent = nullptr);
     ~QOencvScrollArea();
-    QLabel   *label;
-    bool canMove;//是否可以移动
-    void set_image(QString filename);
-    QImage get_image();
-    bool mMoveStart;//是否移动开始
-    bool mContinuousMove;
 
-
-    int big_label_size;
-    int small_label_size;
-    int min_label_width;
-    int min_label_heigh;
+  public:
+    void SetImage(const QString filename);// 设置显示图片
+    QImage GetImage();// 获取图片
+    void SetCanMove(const bool can_move);
 
   protected:
-
     bool eventFilter(QObject *obj, QEvent *evt);
-    QPoint mMousePoint;
-    QImage *myScrollArea_img;//内部图片
 
-
-
-
+  private:
+    QLabel *label_;// 显示图片
+    QImage *img_;// 显示label
+    bool can_move_;// 是否可以移动
+    bool move_star_;// 是否移动开始
+    bool continuous_move_;// 是否正在连续移动
+    QSize min_label_size_;// 图片最小尺寸
+    QPoint mouse_point_;// 鼠标点击位置
+    qint32 big_label_size_; // 滚轮放大增加尺寸
+    qint32 small_label_size_;// 滚轮缩小增加尺寸
 
 
 };

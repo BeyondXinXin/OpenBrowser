@@ -186,7 +186,7 @@ class SliderBar : public QWidget {
 
   Q_SIGNALS:
     //当前条目改变信号,index为当前条目索引索引 item为当前条目文字
-    void currentItemChanged(int index, const QString &item);
+    void currentItemChanged(int index);
 };
 
 #endif // SLIDERBAR_H

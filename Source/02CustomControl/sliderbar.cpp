@@ -7,28 +7,28 @@ SliderBar::SliderBar(QWidget *parent) :	QWidget(parent) {
     bgColorEnd = QColor(78, 78, 78);
     old_bgColorEnd = bgColorEnd;
 
-    barColorStart = QColor(46, 132, 243);
-    barColorEnd = QColor(39, 110, 203);
+    barColorStart = QColor(24, 189, 155);
+    barColorEnd = QColor(26, 188, 156);
     old_barColorEnd = barColorEnd;
 
     textNormalColor = QColor(230, 230, 230);
     textSelectColor = QColor(255, 255, 255);
 
     items = "";
-    currentIndex = -1;
+    currentIndex = 1;
     currentItem = "";
 
-    bgRadius = 0;
+    bgRadius = 10;
     barRadius = 0;
-    space = 25;
+    space = 2;
 
     lineWidth = 3;
     lineColor = QColor(255, 107, 107);
 
-    barStyle = BarStyle_Rect;
+    barStyle = BarStyle_Line_Left;
 
     keyMove = false;
-    horizontal = true;
+    horizontal = false;
     flat = false;
 
     initLen = 10;
@@ -38,7 +38,7 @@ SliderBar::SliderBar(QWidget *parent) :	QWidget(parent) {
     isVirgin = true;
 
     timer = new QTimer(this);
-    timer->setInterval(10);
+    timer->setInterval(20);
     connect(timer, SIGNAL(timeout()), this, SLOT(slide()));
 }
 
@@ -554,7 +554,7 @@ void SliderBar::moveTo(const QPointF &point) {
         if (listItem.at(i).second.contains(point)) {
             currentIndex = i;
             currentItem = listItem.at(i).first;
-            emit currentItemChanged(currentIndex, "PageNumber");
+            emit currentItemChanged(currentIndex);
             targetRect = listItem.at(i).second;
             if (horizontal) {
                 targetLen = targetRect.topLeft().x();

@@ -1,4 +1,8 @@
-﻿// 01frame includes
+﻿/*
+ * Mode 界面管理
+*/
+
+// 01frame includes
 #include "stlmanager.h"
 
 // 04ui includes

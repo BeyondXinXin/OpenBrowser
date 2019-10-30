@@ -16,14 +16,14 @@ class FormLeft : public QWidget {
     ~FormLeft();
 
   public slots:
-    void SlotsSliderBarMovtToIn(int);
     void SlotPromptInformation(const QString &text);
     void SlotAllBtnEnabledFalse();
     void SlotAllBtnEnabledTrue();
 
   Q_SIGNALS:
-    void SignalsMainOut(int, QString);// 算法处理信号
     void SignalsPolyDataHandle(const int &operation);// Handle 信号处理
+    void SingalSliderBarMovtToIn(int);// 界面切换信号
+    void SingalSliderBarMovtToOut(int);// 界面切换信号
 
   private slots:
     void SlotMenuBarSwitching();

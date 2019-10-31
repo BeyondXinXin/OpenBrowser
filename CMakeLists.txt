@@ -99,6 +99,9 @@ set(03Opencv
     Source/03Opencv/qt_opencv.cpp
     Source/03Opencv/qoencvscrollarea.cpp
     Source/03Opencv/qoencvscrollarea.h
+    Source/03Opencv/qoencvwidget.h
+    Source/03Opencv/qoencvwidget.cpp
+    Source/03Opencv/qoencvwidget.ui
     )
 
 include_directories(Source/03CGAL)

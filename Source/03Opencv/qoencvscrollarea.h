@@ -3,33 +3,47 @@
 
 // 01frame includes
 #include "app.h"
-
-class QOencvScrollArea: public QScrollArea {
+class QOpencvScrollArea: public QScrollArea {
     Q_OBJECT
   public:
-    explicit QOencvScrollArea(QWidget *parent = nullptr);
-    ~QOencvScrollArea();
+    explicit QOpencvScrollArea(QWidget *parent = nullptr);
+    ~QOpencvScrollArea() ;
 
   public:
-    void SetImage(const QString filename);// 设置显示图片
-    QImage GetImage();// 获取图片
     void SetCanMove(const bool can_move);
-
+  Q_SIGNALS:
+    void SignalBigOut();
+    void SignalSmallOut();
   protected:
-    bool eventFilter(QObject *obj, QEvent *evt);
-
+    bool eventFilter(QObject *obj, QEvent *evt) ;
   private:
-    QLabel *label_;// 显示图片
-    QImage *img_;// 显示label
     bool can_move_;// 是否可以移动
     bool move_star_;// 是否移动开始
     bool continuous_move_;// 是否正在连续移动
-    QSize min_label_size_;// 图片最小尺寸
     QPoint mouse_point_;// 鼠标点击位置
-    qint32 big_label_size_; // 滚轮放大增加尺寸
-    qint32 small_label_size_;// 滚轮缩小增加尺寸
-
 
 };
+
+
+class QOpencvLbel : public QLabel {
+    Q_OBJECT        //信号槽相关
+  public:
+    explicit QOpencvLbel(QWidget *parent = nullptr);
+    void SetImage(QImage img);
+    QImage GetImage();
+  Q_SIGNALS:
+    void  SignalImgPointOut(const QPoint, const QString);
+    void  SignalLeaveOut();
+  protected:
+    void mouseMoveEvent(QMouseEvent *event);
+    void leaveEvent(QEvent *);
+  private:
+    QImage image_;
+};
+
+
+
+
+
 
 #endif // QOENCVSCROLLAREA_H

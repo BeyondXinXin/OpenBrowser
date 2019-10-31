@@ -1185,7 +1185,6 @@ border-radius:3px;
 padding:2px;
 }
 
-
 QPushButton[CustomStyle="formshow4"]{
 image:url(:/Image/btn-4-1.png);
 }

@@ -59,7 +59,7 @@ void FormLeft::initFrom() {
     connect(ui->btn_cgal_subdivision, &QPushButton::clicked, this,  [ = ] {// C细分
         emit SignalsPolyDataHandle(11);
     });
-    connect(ui->btn_cgal_smoothing, &QPushButton::clicked, this,  [ = ] { // C平滑
+    connect(ui->btn_cgal_intersection, &QPushButton::clicked, this,  [ = ] { // 相交
         emit SignalsPolyDataHandle(12);
     });
     connect(ui->btn_cgal_fill, &QPushButton::clicked, this,  [ = ] { // C封闭

@@ -532,9 +532,9 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="btn_cgal_smoothing">
+         <widget class="QPushButton" name="btn_cgal_intersection">
           <property name="text">
-           <string>平滑</string>
+           <string>自相交检测</string>
           </property>
          </widget>
         </item>

@@ -196,7 +196,7 @@ void STLManager::SlotPolyDataHandle(const int &operation) {// polydata 处理
                 surface_cgal_subdivision_->start();
                 break;
             }
-        case 12: {// CGAL平滑
+        case 12: {// CGAL自相交检测
                 emit SingnalFinished();
                 break;
             }

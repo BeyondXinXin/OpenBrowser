@@ -2,8 +2,7 @@
 #include "formmain.h"
 #include "ui_formmain.h"
 #include "myMenu.h"
-
-// 04ui includes
+#include "qoencvscrollarea.h"
 #include "formmaskwidget.h"
 
 // VTK includes
@@ -86,12 +85,13 @@ void FormMain::initFrom() {
     connect(this, &FormMain::SignalMainWindosChangeOut,
             this, &FormMain::SlotSetMainWindos);
     SignalMainWindosChangeOut(0);
+
 }
 
 
 void FormMain::SlotOpenFileIn(QString tmp_file) {
     if (tmp_file.isEmpty()) {
-        tmp_file = QUIHelper::getFileName("*.dcm *.stl");
+        tmp_file = QUIHelper::getFileName("*.dcm *.stl *.png");
     }
     QFileInfo file_info(tmp_file);
     QString extension = file_info.suffix();
@@ -101,19 +101,14 @@ void FormMain::SlotOpenFileIn(QString tmp_file) {
     } else if (extension == "stl") {
         stl_manager_->OpenStlFile(tmp_file);
         SignalMainWindosChangeOut(1);
+    } else if (extension == "png") {
+        SignalMainWindosChangeOut(0);
     }
 }
 
 void FormMain::SlotSetMainWindos(const int mainwindow) {
     ui->main_stacked_widget->setCurrentIndex(mainwindow);
 }
-
-
-
-
-
-
-
 
 
 

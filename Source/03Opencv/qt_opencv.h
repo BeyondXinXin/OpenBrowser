@@ -1,10 +1,5 @@
 /**
  * opencv 常用函数qt插件
- * 1:OpencvImgChange  图片转换类
- * 2:OpencvEnhance    图像改变类
- * 3:OpencvGeom       图像几何变换类
- * 4:OpencvGray       图像增强类
- * 5:OpencvMorp       图像腐蚀类
  */
 
 #ifndef QT_OPENCV_H

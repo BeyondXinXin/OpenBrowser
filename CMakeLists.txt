@@ -99,7 +99,6 @@ set(03Opencv
     Source/03Opencv/qopencvprocessing.h
     Source/03Opencv/qopencvwidget.h
     Source/03Opencv/qopencvwidget.cpp
-    Source/03Opencv/qopencvwidget.ui
     )
 
 include_directories(Source/03CGAL)
@@ -172,6 +171,8 @@ set(05Manager
     Source/05Manager/stlmanager.cpp
     Source/05Manager/dcmmanager.h
     Source/05Manager/dcmmanager.cpp
+    Source/05Manager/imagebrowsermanager.h
+    Source/05Manager/imagebrowsermanager.cpp
     )
 
 set(Source

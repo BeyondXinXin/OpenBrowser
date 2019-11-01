@@ -8,6 +8,7 @@
 // 04 uimanager includes
 #include "stlmanager.h"
 #include "dcmmanager.h"
+#include "imagebrowsermanager.h"
 
 // 05vtkthread includes
 #include "vtkthreadpolydataread.h"
@@ -55,10 +56,13 @@ class FormMain : public QWidget {
   private:
     Ui::FormMain *ui;
     myMenu *I_menubar;
-    // imagedata manager
-    QPointer<DcmManager> dcm_manager_;// dcm show
-    // polydata manager
-    QPointer<STLManager> stl_manager_;// stl show
+    // image manager
+    QPointer<ImageBrowserManager> image_manager_;
+    // mode manager
+    QPointer<STLManager> mode_manager_;
+    // dcm manager
+    QPointer<DcmManager> dcm_manager_;
+
 };
 
 #endif // FORMMAIN_H

@@ -10,9 +10,31 @@
 
 #include <app.h>
 
-namespace Ui {
-    class QOpencvWidget;
-}
+class QOpencvPixmapItem;
+class QOpencvScene;
+class QOpencvView;
+
+
+class QOpencvWidget : public QWidget {
+    Q_OBJECT
+
+  public:
+    explicit QOpencvWidget(QWidget *parent = nullptr);
+    ~QOpencvWidget();
+    void SetSurface(const QImage value);
+    QImage GetSurface();
+
+  private:
+    void Initial();
+  private:
+    QGridLayout *gridLayout;
+    QOpencvView *graphicsView;
+    QOpencvPixmapItem  *opencv_pixmap_;
+    QOpencvScene *opencv_scene_;
+    QImage img_;
+
+};
+
 
 class QOpencvPixmapItem : public QGraphicsPixmapItem {
   public:
@@ -44,20 +66,6 @@ class QOpencvView : public QGraphicsView {
   protected:
     void wheelEvent(QWheelEvent *event);
 //    void mouseMoveEvent(QMouseEvent *event);
-};
-
-class QOpencvWidget : public QWidget {
-    Q_OBJECT
-
-  public:
-    explicit QOpencvWidget(QWidget *parent = nullptr);
-    ~QOpencvWidget();
-  private:
-    void Initial();
-  private:
-    Ui::QOpencvWidget *ui;
-    QOpencvPixmapItem  *opencv_pixmap_;
-    QOpencvScene *opencv_scene_;
 };
 
 #endif // QOPENCVWIDGET_H

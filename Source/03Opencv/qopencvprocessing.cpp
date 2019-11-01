@@ -18,6 +18,8 @@ QOpencvProcessing::QOpencvProcessing() {
 QOpencvProcessing::~QOpencvProcessing() {
 }
 
+// 图像转换
+
 QImage QOpencvProcessing::cvMat2QImage(const Mat &mat) {  // Mat 改成 QImage
     if (mat.type() == CV_8UC1) {				// 单通道
         QImage image(mat.cols, mat.rows, QImage::Format_Indexed8);
@@ -147,6 +149,120 @@ QImage QOpencvProcessing::splitColor(
         return dst;
     }
 }
+
+
+// 图像几何变换
+
+void QOpencvProcessing::Resize(QImage &src, int length, int width) {
+    // 改变大小
+    Mat matSrc, matDst;
+    matSrc = QImage2cvMat(src);
+    resize(matSrc, matDst, Size(length, width), 0, 0, CV_INTER_LINEAR);// 线性插值
+    src = cvMat2QImage(matDst);
+}
+
+void QOpencvProcessing::Enlarge_Reduce(QImage &src, int times) {
+    // 缩放
+    Mat matSrc, matDst;
+    matSrc = QImage2cvMat(src);
+    if (times > 0) {
+        resize(matSrc, matDst, Size(matSrc.cols * abs(times + 1),
+                                    matSrc.rows * abs(times + 1))
+               , 0, 0, INTER_LINEAR);
+        src = cvMat2QImage(matDst);
+        return ;
+    } else if (times < 0) {
+        resize(matSrc, matDst, Size(matSrc.cols / abs(times - 1),
+                                    matSrc.rows / abs(times - 1))
+               , 0, 0, INTER_AREA);
+        src = cvMat2QImage(matDst);
+        return ;
+    } else {
+        return ;
+    }
+}
+
+void QOpencvProcessing::Rotate(QImage &src, int angle) {
+    // 旋转
+    Mat matSrc, matDst, M;
+    matSrc = QImage2cvMat(src);
+    cv::Point2f center(matSrc.cols / 2, matSrc.rows / 2);
+    cv::Mat rot = cv::getRotationMatrix2D(center, angle, 1);
+    cv::Rect bbox = cv::RotatedRect(center, matSrc.size(), angle).boundingRect();
+    ;
+    rot.at<double>(0, 2) += bbox.width / 2.0 - static_cast<double>(center.x);
+    rot.at<double>(1, 2) += bbox.height / 2.0 - static_cast<double>(center.y);
+
+    cv::warpAffine(matSrc, matDst, rot, bbox.size());
+    src = cvMat2QImage(matDst);
+    return ;
+}
+
+void QOpencvProcessing::Rotate_fixed(QImage &src, int angle) {
+    // 旋转90，180，270
+    Mat matSrc, matDst, M;
+    matSrc = QImage2cvMat(src);
+    M = getRotationMatrix2D(Point2i(matSrc.cols / 2, matSrc.rows / 2), angle, 1);
+    warpAffine(matSrc, matDst, M, Size(matSrc.cols, matSrc.rows));
+    src = cvMat2QImage(matDst);
+    return ;
+}
+
+void QOpencvProcessing::Flip(QImage &src, int flipcode) {
+    // 镜像
+    Mat matSrc, matDst;
+    matSrc = QImage2cvMat(src);
+    flip(matSrc, matDst, flipcode);
+    // flipCode==0 垂直翻转（沿X轴翻转）,flipCode>0 水平翻转（沿Y轴翻转）
+    // flipCode<0 水平垂直翻转（先沿X轴翻转，再沿Y轴翻转，等价于旋转180°）
+    src = cvMat2QImage(matDst);
+    return ;
+}
+
+void QOpencvProcessing::Lean(QImage &src, int x, int y) {
+    // 倾斜
+    Mat matSrc, matTmp, matDst;
+    matSrc = QImage2cvMat(src);
+    matTmp = Mat::zeros(matSrc.rows, matSrc.cols, matSrc.type());
+
+    Mat map_x, map_y;
+    Point2f src_point[3], tmp_point[3], x_point[3], y_point[3];
+    double angleX = x / 180.0 * CV_PI ;
+    double angleY = y / 180.0 * CV_PI;
+
+    src_point[0] = Point2f(0, 0);
+    src_point[1] = Point2f(matSrc.cols, 0);
+    src_point[2] = Point2f(0, matSrc.rows);
+
+    x_point[0] = Point2f(static_cast<float>(matSrc.rows) *
+                         static_cast<float>(tan(angleX)), 0);
+    x_point[1] = Point2f(static_cast<int>(matSrc.cols + matSrc.rows * tan(angleX)), 0);
+    x_point[2] = Point2f(0, matSrc.rows);
+
+    map_x = getAffineTransform(src_point, x_point);
+    warpAffine(matSrc, matTmp, map_x,
+               Size(static_cast<int>(matSrc.cols + matSrc.rows * tan(angleX)),
+                    matSrc.rows));
+
+    tmp_point[0] = Point2f(0, 0);
+    tmp_point[1] = Point2f(matTmp.cols, 0);
+    tmp_point[2] = Point2f(0, matTmp.rows);
+
+    y_point[0] = Point2f(0, 0);
+    y_point[1] = Point2f(matTmp.cols, static_cast<float>(matTmp.cols * tan(angleY)));
+    y_point[2] = Point2f(0, matTmp.rows);
+
+    map_y = getAffineTransform(tmp_point, y_point);
+    warpAffine(matTmp, matDst, map_y,
+               Size(matTmp.cols, static_cast<int>
+                    (matTmp.rows + matTmp.cols * tan(angleY))));
+
+    src = cvMat2QImage(matDst);
+    return ;
+}
+
+
+// 图像增强
 
 QImage QOpencvProcessing::Normalized(QImage src, int kernel_length) {
     // 简单滤波
@@ -302,115 +418,6 @@ QImage QOpencvProcessing::Canny(QImage src, int kernel_length, int lowThreshold)
     return dst;
 }
 
-QImage QOpencvProcessing::Resize(QImage src, int length, int width) {
-    // 改变大小
-    Mat matSrc, matDst;
-    matSrc = QImage2cvMat(src);
-    resize(matSrc, matDst, Size(length, width), 0, 0, CV_INTER_LINEAR);// 线性插值
-    QImage dst = cvMat2QImage(matDst);
-    return dst;
-}
-
-QImage QOpencvProcessing::Enlarge_Reduce(QImage src, int times) {
-    // 缩放
-    Mat matSrc, matDst;
-    matSrc = QImage2cvMat(src);
-    if (times > 0) {
-        resize(matSrc, matDst, Size(matSrc.cols * abs(times + 1),
-                                    matSrc.rows * abs(times + 1))
-               , 0, 0, INTER_LINEAR);
-        QImage dst = cvMat2QImage(matDst);
-        return dst;
-    } else if (times < 0) {
-        resize(matSrc, matDst, Size(matSrc.cols / abs(times - 1),
-                                    matSrc.rows / abs(times - 1))
-               , 0, 0, INTER_AREA);
-        QImage dst = cvMat2QImage(matDst);
-        return dst;
-    } else {
-        return src;
-    }
-}
-
-QImage QOpencvProcessing::Rotate(QImage src, int angle) {
-    // 旋转
-    Mat matSrc, matDst, M;
-    matSrc = QImage2cvMat(src);
-    cv::Point2f center(matSrc.cols / 2, matSrc.rows / 2);
-    cv::Mat rot = cv::getRotationMatrix2D(center, angle, 1);
-    cv::Rect bbox = cv::RotatedRect(center, matSrc.size(), angle).boundingRect();
-    ;
-    rot.at<double>(0, 2) += bbox.width / 2.0 - static_cast<double>(center.x);
-    rot.at<double>(1, 2) += bbox.height / 2.0 - static_cast<double>(center.y);
-
-    cv::warpAffine(matSrc, matDst, rot, bbox.size());
-    QImage dst = cvMat2QImage(matDst);
-    return dst;
-}
-
-QImage QOpencvProcessing::Rotate_fixed(QImage src, int angle) {
-    // 旋转90，180，270
-    Mat matSrc, matDst, M;
-    matSrc = QImage2cvMat(src);
-    M = getRotationMatrix2D(Point2i(matSrc.cols / 2, matSrc.rows / 2), angle, 1);
-    warpAffine(matSrc, matDst, M, Size(matSrc.cols, matSrc.rows));
-    QImage dst = cvMat2QImage(matDst);
-    return dst;
-}
-
-QImage QOpencvProcessing::Flip(QImage src, int flipcode) {
-    // 镜像
-    Mat matSrc, matDst;
-    matSrc = QImage2cvMat(src);
-    flip(matSrc, matDst, flipcode);
-    // flipCode==0 垂直翻转（沿X轴翻转）,flipCode>0 水平翻转（沿Y轴翻转）
-    // flipCode<0 水平垂直翻转（先沿X轴翻转，再沿Y轴翻转，等价于旋转180°）
-    QImage dst = cvMat2QImage(matDst);
-    return dst;
-}
-
-QImage QOpencvProcessing::Lean(QImage src, int x, int y) {
-    // 倾斜
-    Mat matSrc, matTmp, matDst;
-    matSrc = QImage2cvMat(src);
-    matTmp = Mat::zeros(matSrc.rows, matSrc.cols, matSrc.type());
-
-    Mat map_x, map_y;
-    Point2f src_point[3], tmp_point[3], x_point[3], y_point[3];
-    double angleX = x / 180.0 * CV_PI ;
-    double angleY = y / 180.0 * CV_PI;
-
-    src_point[0] = Point2f(0, 0);
-    src_point[1] = Point2f(matSrc.cols, 0);
-    src_point[2] = Point2f(0, matSrc.rows);
-
-    x_point[0] = Point2f(static_cast<float>(matSrc.rows) *
-                         static_cast<float>(tan(angleX)), 0);
-    x_point[1] = Point2f(static_cast<int>(matSrc.cols + matSrc.rows * tan(angleX)), 0);
-    x_point[2] = Point2f(0, matSrc.rows);
-
-    map_x = getAffineTransform(src_point, x_point);
-    warpAffine(matSrc, matTmp, map_x,
-               Size(static_cast<int>(matSrc.cols + matSrc.rows * tan(angleX)),
-                    matSrc.rows));
-
-    tmp_point[0] = Point2f(0, 0);
-    tmp_point[1] = Point2f(matTmp.cols, 0);
-    tmp_point[2] = Point2f(0, matTmp.rows);
-
-    y_point[0] = Point2f(0, 0);
-    y_point[1] = Point2f(matTmp.cols, static_cast<float>(matTmp.cols * tan(angleY)));
-    y_point[2] = Point2f(0, matTmp.rows);
-
-    map_y = getAffineTransform(tmp_point, y_point);
-    warpAffine(matTmp, matDst, map_y,
-               Size(matTmp.cols, static_cast<int>
-                    (matTmp.rows + matTmp.cols * tan(angleY))));
-
-    QImage dst = cvMat2QImage(matDst);
-    return dst;
-}
-
 bool QOpencvProcessing::IsBin(Mat &image) {
     int w = image.cols;
     int h = image.rows;
@@ -443,6 +450,8 @@ void QOpencvProcessing::BinToGraylevel(Mat &image) {
         }
     }
 }
+
+// 灰度变化
 
 QImage QOpencvProcessing::Bin(QImage src, int threshold) {		// 二值化
     Mat srcImg, dstImg, grayImg;
@@ -553,6 +562,8 @@ QImage QOpencvProcessing::Histeq(QImage src) {
     QImage dst = cvMat2QImage(dstImg);
     return dst;
 }
+
+// 图像腐蚀
 
 QImage QOpencvProcessing::Erode(QImage src, int elem, int kernel, int times) {
     // 腐蚀

@@ -4,6 +4,7 @@
 #include "myMenu.h"
 #include "formmaskwidget.h"
 
+
 // VTK includes
 #include <vtkPlane.h>
 #include <vtkCamera.h>
@@ -55,6 +56,16 @@ FormMain::~FormMain() {
 }
 
 void FormMain::initFrom() {
+    SlotSetMainWindos(4);
+    image_manager_ = new ImageBrowserManager(*ui->image_window, this);
+    // modle 初始化
+    mode_manager_ = new STLManager(*ui->mainwindow1, this);
+    connect(ui->left_form, &FormLeft::SignalsModeBrowserOut, // PolyData Handle操作
+            this->mode_manager_, &STLManager::SlotPolyDataHandle);
+    connect(this->mode_manager_, &STLManager::SignalPromptInformationOut,// 信息
+            ui->left_form, &FormLeft::SlotPromptInformation);
+    connect(this->mode_manager_, &STLManager::SingnalFinished,// Handle操作完成
+            ui->left_form, &FormLeft::SlotModeBrowserBtnEnabledTrue);
     // dcm 初始化
     dcm_manager_ = new DcmManager(ui->view1, ui->view2, ui->view3, ui->view4, this);
     QList<QPushButton *> btns =
@@ -66,42 +77,42 @@ void FormMain::initFrom() {
         connect(btn, &QPushButton::toggled,
                 dcm_manager_, &DcmManager::SlotViewMaximization);
     }
-    // modle 初始化
-    stl_manager_ = new STLManager(*ui->mainwindow1, this);
-    connect(ui->left_form, &FormLeft::SignalsPolyDataHandle, // PolyData Handle操作
-            this->stl_manager_, &STLManager::SlotPolyDataHandle);
-    connect(this->stl_manager_, &STLManager::SignalPromptInformationOut,// 信息
-            ui->left_form, &FormLeft::SlotPromptInformation);
-    connect(this->stl_manager_, &STLManager::SingnalFinished,// Handle操作完成
-            ui->left_form, &FormLeft::SlotAllBtnEnabledTrue);
-
     // ui界面初始化
-    ui->main_stacked_widget->setCurrentIndex(0);
     connect(ui->left_form, &FormLeft::SingalSliderBarMovtToOut,
             this, &FormMain::SlotSetMainWindos);
     connect(this, &FormMain::SignalMainWindosChangeOut,
-            ui->left_form, &FormLeft::SingalSliderBarMovtToIn);
-    connect(this, &FormMain::SignalMainWindosChangeOut,
             this, &FormMain::SlotSetMainWindos);
-    SignalMainWindosChangeOut(4);
+    connect(this, &FormMain::SignalMainWindosChangeOut,
+            ui->left_form, &FormLeft::SingalSliderBarMovtToIn);
 
 }
 
 
 void FormMain::SlotOpenFileIn(QString tmp_file) {
     if (tmp_file.isEmpty()) {
-        tmp_file = QUIHelper::getFileName("*.dcm *.stl *.png");
+        tmp_file =
+            QUIHelper::getFileName("*.dcm "
+                                   "*.stl "
+                                   "*.bmp *.jpg *.pbm *.pgm *.png *.ppm *.xbm *.xpm ");
     }
     QFileInfo file_info(tmp_file);
     QString extension = file_info.suffix();
     if (extension == "dcm") {
         dcm_manager_->OpenStlFile(tmp_file);
-        SignalMainWindosChangeOut(2);
+        SlotSetMainWindos(2);
     } else if (extension == "stl") {
-        stl_manager_->OpenStlFile(tmp_file);
-        SignalMainWindosChangeOut(1);
-    } else if (extension == "png") {
-        SignalMainWindosChangeOut(0);
+        mode_manager_->OpenStlFile(tmp_file);
+        SlotSetMainWindos(1);
+    } else if (extension == "bmp" ||
+               extension == "jpg" ||
+               extension == "pbm" ||
+               extension == "pgm" ||
+               extension == "png" ||
+               extension == "ppm" ||
+               extension == "xbm" ||
+               extension == "xpm") {
+        image_manager_->OpenStlFile(tmp_file);
+        SlotSetMainWindos(0);
     }
 }
 

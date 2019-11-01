@@ -24,6 +24,13 @@ class QOpencvProcessing {
     Mat QImage2cvMat(QImage image);// QImage 改成 Mat
     QImage splitBGR(QImage src, int color);	// 提取RGB分量
     QImage splitColor(QImage src, String model, int color);// 提取分量
+    // 图像几何变换
+    void Resize(QImage &src, int length, int width);// 改变大小
+    void Enlarge_Reduce(QImage &src, int times);// 缩放
+    void Rotate(QImage &src, int angle);// 旋转
+    void Rotate_fixed(QImage &src, int angle);// 旋转90，180，270
+    void Flip(QImage &src, int flipcode);// 镜像
+    void Lean(QImage &src, int x, int y);// 倾斜
     // 图像增强
     QImage Normalized(QImage src, int kernel_length);// 简单滤波
     QImage Gaussian(QImage src, int kernel_length);	// 高斯滤波
@@ -34,13 +41,6 @@ class QOpencvProcessing {
     QImage HoughLine(
         QImage src, int threshold, double minLineLength, double maxLineGap);// 线检测
     QImage HoughCircle(QImage src, int minRadius, int maxRadius);// 圆检测
-    // 图像几何变换
-    QImage Resize(QImage src, int length, int width);
-    QImage Enlarge_Reduce(QImage src, int times);
-    QImage Rotate(QImage src, int angle);
-    QImage Rotate_fixed(QImage src, int angle);
-    QImage Flip(QImage src, int flipcode);
-    QImage Lean(QImage src, int x, int y);
     // 灰度变化
     QImage Bin(QImage src, int threshold);
     QImage Graylevel(QImage src);

@@ -167,7 +167,6 @@ class SliderBar : public QWidget {
     //设置边框圆角
     void setBgRadius(int bgRadius);
     void setBarRadius(int barRadius);
-
     void setSpace(int space); //设置条目间距
     void setLineWidth(int lineWidth); //设置线条宽度
     void setLineColor(const QColor &lineColor);//设置线条颜色
@@ -175,7 +174,6 @@ class SliderBar : public QWidget {
     void setKeyMove(bool keyMove); //设置键盘按键是否能够移动条目
     void setHorizontal(bool horizontal); //设置横向显示,如果为假则纵向显示
     void setFlat(bool flat);  //设置扁平,默认不扁平
-
     void moveFirst();//移动到第一个条目
     void moveLast();//移动到最后一个条目
     void movePrevious();//往前移动条目

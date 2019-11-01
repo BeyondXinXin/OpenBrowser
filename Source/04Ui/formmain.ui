@@ -32,7 +32,7 @@
    <item>
     <widget class="QStackedWidget" name="main_stacked_widget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <property name="background_color" stdset="0">
       <string>2</string>
@@ -55,7 +55,7 @@
         <number>0</number>
        </property>
        <item row="0" column="0">
-        <widget class="QOpencvWidget" name="widget" native="true"/>
+        <widget class="QOpencvWidget" name="image_window" native="true"/>
        </item>
       </layout>
      </widget>

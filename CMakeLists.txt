@@ -95,13 +95,11 @@ set(02CustomControl
 
 include_directories(Source/03Opencv)
 set(03Opencv
-    Source/03Opencv/qt_opencv.h
-    Source/03Opencv/qt_opencv.cpp
-    Source/03Opencv/qoencvscrollarea.cpp
-    Source/03Opencv/qoencvscrollarea.h
-    Source/03Opencv/qoencvwidget.h
-    Source/03Opencv/qoencvwidget.cpp
-    Source/03Opencv/qoencvwidget.ui
+    Source/03Opencv/qopencvprocessing.cpp
+    Source/03Opencv/qopencvprocessing.h
+    Source/03Opencv/qopencvwidget.h
+    Source/03Opencv/qopencvwidget.cpp
+    Source/03Opencv/qopencvwidget.ui
     )
 
 include_directories(Source/03CGAL)

@@ -1084,6 +1084,20 @@ gridline-color:#67696B;
 }
 
 /*---------------------------------------------------------------------------*/
+/*  QStackedWidget  切换窗口  */
+QStackedWidget{
+
+}
+
+/*---------------------------------------------------------------------------*/
+/*  QGraphicsView  切换窗口  */
+QGraphicsView{
+background: transparent;border:0px
+}
+
+
+
+/*---------------------------------------------------------------------------*/
 /* 重定义 （根据objectname）*/
 
 /* 重定义  ui_aboutinfo */
@@ -1214,4 +1228,8 @@ image:url(:/Image/btn-16-1.png);
 }
 QPushButton[CustomStyle="formshow16"]:hover{
 image:url(:/Image/btn-16-2.png);
+}
+
+QWidget[CustomStyle="home"]{
+image:url(:/Image/openBrowser.png);
 }

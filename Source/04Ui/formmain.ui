@@ -40,20 +40,23 @@
      <property name="border_no" stdset="0">
       <bool>true</bool>
      </property>
-     <widget class="QOpencvWidget" name="mainwindow0">
+     <widget class="QWidget" name="mainwindow0">
       <layout class="QGridLayout" name="gridLayout">
        <property name="leftMargin">
-        <number>6</number>
+        <number>0</number>
        </property>
        <property name="topMargin">
-        <number>6</number>
+        <number>0</number>
        </property>
        <property name="rightMargin">
-        <number>6</number>
+        <number>0</number>
        </property>
        <property name="bottomMargin">
-        <number>6</number>
+        <number>0</number>
        </property>
+       <item row="0" column="0">
+        <widget class="QOpencvWidget" name="widget" native="true"/>
+       </item>
       </layout>
      </widget>
      <widget class="QVTKOpenGLWidget" name="mainwindow1">
@@ -145,17 +148,16 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="home">
+      <property name="CustomStyle" stdset="0">
+       <string>home</string>
+      </property>
+     </widget>
     </widget>
    </item>
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>QVTKOpenGLWidget</class>
-   <extends>QWidget</extends>
-   <header>QVTKOpenGLWidget.h</header>
-   <container>1</container>
-  </customwidget>
   <customwidget>
    <class>FormLeft</class>
    <extends>QWidget</extends>
@@ -171,7 +173,13 @@
   <customwidget>
    <class>QOpencvWidget</class>
    <extends>QWidget</extends>
-   <header>qoencvwidget.h</header>
+   <header>qopencvwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>QVTKOpenGLWidget</class>
+   <extends>QWidget</extends>
+   <header>QVTKOpenGLWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

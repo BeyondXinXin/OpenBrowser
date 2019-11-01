@@ -2,7 +2,6 @@
 #include "formmain.h"
 #include "ui_formmain.h"
 #include "myMenu.h"
-#include "qoencvscrollarea.h"
 #include "formmaskwidget.h"
 
 // VTK includes
@@ -84,7 +83,7 @@ void FormMain::initFrom() {
             ui->left_form, &FormLeft::SingalSliderBarMovtToIn);
     connect(this, &FormMain::SignalMainWindosChangeOut,
             this, &FormMain::SlotSetMainWindos);
-    SignalMainWindosChangeOut(0);
+    SignalMainWindosChangeOut(4);
 
 }
 

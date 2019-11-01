@@ -28,5 +28,6 @@
         <file>Image/msg_info.png</file>
         <file>Image/msg_question.png</file>
         <file>Image/qt_zh_CN.qm</file>
+        <file>Image/openBrowser.png</file>
     </qresource>
 </RCC>

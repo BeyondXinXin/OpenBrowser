@@ -1,18 +1,18 @@
 # QT_openBrowser
 
-
 ## 介绍
 基于QT      一个开源的文件浏览器  
-目前支持
-*.dcm *.mha *.mhd    
-*.stl *.off *.vtk  *.vtu    
-*.bmp *.jpg *.pbm *.pgm *.png *.ppm *.xbm *.xpm  
-等文件的浏览和前处理(off mha mhd vtk vtu格式文件目前需要自己更改下源码,下一个版本直接增加打开选项)      
+目前支持  
+.dcm .mha .mhd 
+.stl .off .vtk  .vtu  
+.bmp .jpg .pbm .pgm .png .ppm .xbm .xpm  
+等文件的浏览和前处理  
+(off mha mhd vtk vtu格式文件目前需要自己更改下源码,下一个版本直接增加打开选项)
+
 程序主要来自网络整理，便于自己和他人使用。 
 所有模块均采用manager管理，从程序中分割非常方便。  
 其他功能持续增加维护，比如opencv与QT结合使用、QT+Halcon使用、QT下文本编辑器等  
-我的使用的版本见下方安装教程，由于能力有限，我仅维护测试ubuntu下程序，windos下需要自己简单修改就可以。  
-
+我的使用的版本见下方安装教程，由于能力有限，仅维护测试ubuntu下程序，windos下需要自己简单修改就可以。  
 每一个模块采用manager进行管理(事件驱动),非常容易分离,便于拆去单独使用!!  
 
 
@@ -26,8 +26,20 @@ https://lorensen.github.io/VTKExamples/site/Cxx/#surface-reconstruction  VTK  �
 https://itk.org/Doxygen/html/index.html  ITK  官方教程  
 https://doc.qt.io/ qt 官方教程  
 
-## 图片
-
+## 展示
+![](https://gitee.com/yaoxin001/openBrowser/raw/master/preview/001.png)
+![](https://gitee.com/yaoxin001/openBrowser/raw/master/preview/002.png)
+![](https://gitee.com/yaoxin001/openBrowser/raw/master/preview/003.png)
+![](https://gitee.com/yaoxin001/openBrowser/raw/master/preview/004.png)
+![](https://gitee.com/yaoxin001/openBrowser/raw/master/preview/005.png)
+![](https://gitee.com/yaoxin001/openBrowser/raw/master/preview/006.png)
+![](https://gitee.com/yaoxin001/openBrowser/raw/master/preview/007.png)
+![](https://gitee.com/yaoxin001/openBrowser/raw/master/preview/008.png)
+![](https://gitee.com/yaoxin001/openBrowser/raw/master/preview/009.png)
+![](https://gitee.com/yaoxin001/openBrowser/raw/master/preview/010.png)
+![](https://gitee.com/yaoxin001/openBrowser/raw/master/preview/011.png)
+![](https://gitee.com/yaoxin001/openBrowser/raw/master/preview/012.png)
+![](https://gitee.com/yaoxin001/openBrowser/raw/master/preview/013.png)
 
 ## 代码风格
 Artistic Style

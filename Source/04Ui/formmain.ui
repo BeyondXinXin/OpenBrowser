@@ -32,7 +32,7 @@
    <item>
     <widget class="QStackedWidget" name="main_stacked_widget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>3</number>
      </property>
      <property name="background_color" stdset="0">
       <string>2</string>

@@ -1108,8 +1108,7 @@ QWidget#widget_title>QLabel#logo_label{
 
 /* 重定义  ui_formleft */
 QWidget#widget_mode>QPushButton,
-QWidget#widget_image>QPushButton,
-QWidget#widget_image_gray>>QPushButton{
+QWidget#widget_image>QPushButton{
 font-size:12px;
 text-align: center;
 background-color:rgb(60, 60, 60);
@@ -1117,8 +1116,7 @@ border:none;
 }
 
 QWidget#widget_mode>QPushButton:hover,
-QWidget#widget_image>QPushButton:hover,
-QWidget#widget_image_gray>QPushButton:hover{
+QWidget#widget_image>QPushButton:hover{
 background:qlineargradient(
 spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #262829,stop:1 #262829);
 }
@@ -1134,6 +1132,7 @@ QLabel#label_ai{
 border-radius:3px;
 background-color:rgb(115, 114, 120);
 }
+
 
 
 /* 重定义  all */

@@ -12,6 +12,7 @@
 
 // 01frame includes
 #include <app.h>
+#include "formimagehandle.h"
 
 namespace Ui {
     class FormLeft;
@@ -30,19 +31,21 @@ class FormLeft : public QWidget {
     void SlotModeBrowserBtnEnabledTrue();
 
   Q_SIGNALS:
-    void SignalsModeBrowserOut(const int &operation);// Handle 信号处理
-    void SingalSliderBarMovtToIn(int);// 界面切换信号
-    void SingalSliderBarMovtToOut(int);// 界面切换信号
+    void SignalsModeBrowserOut(const int &operation);// Mode 信号处理
+    void SingalImageBrowserOut(const int &operation);// Image 信号处理
+    void SingalSliderBarMovtToIn(const int);// 界面切换信号
+    void SingalSliderBarMovtToOut(const int);// 界面切换信号
+
 
   private slots:
     void SlotLeftShowChangeIn();
-
   private:
     void initFrom();
     void LeftFormShow(const int browser);
 
   private:
     Ui::FormLeft *ui;
+    FormImageHandle *image_handle;
 
 };
 

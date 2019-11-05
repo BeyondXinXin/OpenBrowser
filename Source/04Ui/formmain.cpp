@@ -57,15 +57,23 @@ FormMain::~FormMain() {
 
 void FormMain::initFrom() {
     SlotSetMainWindos(4);
-    image_manager_ = new ImageBrowserManager(*ui->image_window, this);
+
     // modle 初始化
     mode_manager_ = new STLManager(*ui->mainwindow1, this);
-    connect(ui->left_form, &FormLeft::SignalsModeBrowserOut, // PolyData Handle操作
+    connect(ui->left_form, &FormLeft::SignalsModeBrowserOut, // Mode Handle操作
             this->mode_manager_, &STLManager::SlotPolyDataHandle);
     connect(this->mode_manager_, &STLManager::SignalPromptInformationOut,// 信息
             ui->left_form, &FormLeft::SlotPromptInformation);
     connect(this->mode_manager_, &STLManager::SingnalFinished,// Handle操作完成
             ui->left_form, &FormLeft::SlotModeBrowserBtnEnabledTrue);
+    // Image 初始化
+    image_manager_ = new ImageBrowserManager(*ui->image_window, this);
+    connect(ui->left_form, &FormLeft::SingalImageBrowserOut, // Image Handle操作
+            this->image_manager_, &ImageBrowserManager::SlotImgProcess);
+
+    connect(this->image_manager_, &ImageBrowserManager::SignalPromptInformationOut,
+            ui->left_form, &FormLeft::SlotPromptInformation); // 信息
+
     // dcm 初始化
     dcm_manager_ = new DcmManager(ui->view1, ui->view2, ui->view3, ui->view4, this);
     QList<QPushButton *> btns =

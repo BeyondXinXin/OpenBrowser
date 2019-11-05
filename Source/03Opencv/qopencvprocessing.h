@@ -11,8 +11,8 @@
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/opencv.hpp"
 #include <opencv2/core/core.hpp>
-using namespace cv;
-using namespace std;
+
+
 
 class QOpencvProcessing {
   public:
@@ -20,10 +20,10 @@ class QOpencvProcessing {
     ~QOpencvProcessing();
     static QOpencvProcessing *Instance();
     // 图像转换
-    QImage cvMat2QImage(const Mat &mat);// Mat 改成 QImage
-    Mat QImage2cvMat(QImage image);// QImage 改成 Mat
+    QImage cvMat2QImage(const cv::Mat &mat);// Mat 改成 QImage
+    cv::Mat QImage2cvMat(QImage image);// QImage 改成 Mat
     QImage splitBGR(QImage src, int color);	// 提取RGB分量
-    QImage splitColor(QImage src, String model, int color);// 提取分量
+    QImage splitColor(QImage src, cv::String model, int color);// 提取分量
     // 图像几何变换
     void Resize(QImage &src, int length, int width);// 改变大小
     void Enlarge_Reduce(QImage &src, int times);// 缩放
@@ -49,8 +49,8 @@ class QOpencvProcessing {
     QImage Gamma(QImage src, int gamma);					// 伽马变换(指数变换)
     QImage Log(QImage src, int c);							// 对数变换
     QImage Histeq(QImage src);								// 直方图均衡化
-    void BinToGraylevel(Mat &image);
-    bool IsBin(Mat &image);
+    void BinToGraylevel(cv::Mat &image);
+    bool IsBin(cv::Mat &image);
     // 图像腐蚀
     QImage Erode(QImage src, int elem, int kernel, int times);// 腐蚀
     QImage Dilate(QImage src, int elem, int kernel, int times);// 膨胀

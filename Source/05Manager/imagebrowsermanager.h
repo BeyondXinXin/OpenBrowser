@@ -17,10 +17,10 @@ class ImageBrowserManager: public QObject {
                                  QObject *parent = nullptr);
     virtual ~ImageBrowserManager() override;
     void OpenStlFile(const QString &file_path);
-
   public Q_SLOTS:
-    void SlotImgProcess(const int);
-
+    void SlotImgProcess(const int &operation);
+  Q_SIGNALS:
+    void SignalPromptInformationOut(const QString &text);
   private:
     void Initial();
     void UnDo();

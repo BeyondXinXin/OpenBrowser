@@ -20,14 +20,7 @@ https://itk.org/Doxygen/html/index.html  ITK  官方教程
 https://doc.qt.io/ qt 官方教程  
 
 ## 图片
-![输入图片说明](https://images.gitee.com/uploads/images/2019/1019/190723_c934e027_5124578.png "preview01.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2019/1019/190738_94369e71_5124578.png "preview02.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2019/1019/190745_792f052a_5124578.png "preview03.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2019/1019/190752_2b28eaff_5124578.png "preview04.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2019/1019/190758_e302eb14_5124578.png "preview05.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2019/1019/190802_308f15aa_5124578.png "preview06.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2019/1019/190808_7f4fc583_5124578.png "preview07.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2019/1019/190813_06d256a5_5124578.png "preview08.png")
+
 
 ## 软件架构
 分层架构  
@@ -69,9 +62,33 @@ VTK-8.1.2
 
 分支说明  
 branch——01  GitKraken软件新建分支、合并分支测试  
+
 branch——02  程序优化  
 1.删除vtk 封闭功能  
 2.合并cgal封闭类和预览类（处理中会产生假死  
 3.UI left按钮布局重新调整  
 4.UI formshow 底部按钮状态调整  
+
+branch——03  增加Opencv模块
+1.界面框架重新调整
+2.增加image模块(利用opencv处理)
+3.增加两个测试控件  中心线提取  和 线拖动(仿ps)
+4.优化若干bug
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

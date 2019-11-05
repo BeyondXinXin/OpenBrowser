@@ -45,14 +45,11 @@ class FormMain : public QWidget {
 
   Q_SIGNALS:
     void SignalMainWindosChangeOut(const int);
-
   private :
     void initFrom();
-
   private Q_SLOTS:
     void SlotOpenFileIn(QString tmp_file = "");// 打开文件
     void SlotSetMainWindos(const int mainwindow);
-
   private:
     Ui::FormMain *ui;
     myMenu *I_menubar;

@@ -168,26 +168,26 @@
         </size>
        </property>
        <property name="background_color" stdset="0">
-        <string>2</string>
+        <string>3</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0">
         <property name="spacing">
-         <number>0</number>
+         <number>10</number>
         </property>
         <property name="leftMargin">
-         <number>0</number>
+         <number>10</number>
         </property>
         <property name="topMargin">
-         <number>0</number>
+         <number>6</number>
         </property>
         <property name="rightMargin">
-         <number>0</number>
+         <number>10</number>
         </property>
         <property name="bottomMargin">
-         <number>0</number>
+         <number>6</number>
         </property>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_23">
+         <layout class="QHBoxLayout" name="layout_image">
           <property name="spacing">
            <number>10</number>
           </property>
@@ -195,13 +195,13 @@
            <number>6</number>
           </property>
           <property name="topMargin">
-           <number>6</number>
+           <number>0</number>
           </property>
           <property name="rightMargin">
            <number>10</number>
           </property>
           <property name="bottomMargin">
-           <number>10</number>
+           <number>0</number>
           </property>
           <item>
            <spacer name="horizontalSpacer_3">
@@ -217,21 +217,21 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="btn_mode21_2">
+           <widget class="QPushButton" name="btn_image1">
             <property name="text">
              <string>载入</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="btn_mode22_2">
+           <widget class="QPushButton" name="btn_image2">
             <property name="text">
              <string>导出</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="btn_mode23_2">
+           <widget class="QPushButton" name="btn_image3">
             <property name="enabled">
              <bool>true</bool>
             </property>
@@ -240,280 +240,91 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QPushButton" name="btn_image4">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>重做</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_6">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
          </layout>
         </item>
         <item>
-         <widget class="QTabWidget" name="tabWidget">
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>16777215</height>
-           </size>
+         <layout class="QGridLayout" name="layout_imageshow">
+          <property name="leftMargin">
+           <number>0</number>
           </property>
-          <property name="currentIndex">
-           <number>2</number>
+          <property name="topMargin">
+           <number>0</number>
           </property>
-          <widget class="QWidget" name="tab_3">
-           <attribute name="title">
-            <string>几何变换</string>
-           </attribute>
-          </widget>
-          <widget class="QWidget" name="widget_image_gray">
-           <attribute name="title">
-            <string>灰度变换</string>
-           </attribute>
-           <layout class="QVBoxLayout" name="verticalLayout">
-            <property name="leftMargin">
-             <number>0</number>
+          <item row="0" column="2">
+           <widget class="QPushButton" name="btn_imagehandle2">
+            <property name="text">
+             <string>图像增强</string>
             </property>
-            <property name="topMargin">
-             <number>0</number>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QPushButton" name="btn_imagehandle1">
+            <property name="text">
+             <string>灰度变换</string>
             </property>
-            <property name="rightMargin">
-             <number>0</number>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QPushButton" name="btn_imagehandle0">
+            <property name="text">
+             <string>几何变换</string>
             </property>
-            <property name="bottomMargin">
-             <number>0</number>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QPushButton" name="btn_imagehandle5">
+            <property name="enabled">
+             <bool>true</bool>
             </property>
-            <item>
-             <widget class="QScrollArea" name="scrollArea">
-              <property name="horizontalScrollBarPolicy">
-               <enum>Qt::ScrollBarAlwaysOff</enum>
-              </property>
-              <property name="widgetResizable">
-               <bool>true</bool>
-              </property>
-              <widget class="QWidget" name="scrollAreaWidgetContents">
-               <property name="geometry">
-                <rect>
-                 <x>0</x>
-                 <y>0</y>
-                 <width>284</width>
-                 <height>237</height>
-                </rect>
-               </property>
-               <layout class="QVBoxLayout" name="verticalLayout_5">
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_14">
-                  <item>
-                   <spacer name="horizontalSpacer_28">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="btn_mode21_45">
-                    <property name="text">
-                     <string>R分量图</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="btn_mode21_46">
-                    <property name="text">
-                     <string>G分量图</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="btn_mode21_47">
-                    <property name="text">
-                     <string>B分量图</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <spacer name="horizontalSpacer_29">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_13">
-                  <item>
-                   <spacer name="horizontalSpacer_26">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="btn_mode21_42">
-                    <property name="text">
-                     <string>R分量图</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="btn_mode21_43">
-                    <property name="text">
-                     <string>G分量图</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="btn_mode21_44">
-                    <property name="text">
-                     <string>B分量图</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <spacer name="horizontalSpacer_27">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_11">
-                  <item>
-                   <spacer name="horizontalSpacer_22">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="btn_mode21_36">
-                    <property name="text">
-                     <string>R分量图</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="btn_mode21_37">
-                    <property name="text">
-                     <string>G分量图</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="btn_mode21_38">
-                    <property name="text">
-                     <string>B分量图</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <spacer name="horizontalSpacer_23">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_12">
-                  <item>
-                   <spacer name="horizontalSpacer_24">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="btn_mode21_39">
-                    <property name="text">
-                     <string>R分量图</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="btn_mode21_40">
-                    <property name="text">
-                     <string>G分量图</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="btn_mode21_41">
-                    <property name="text">
-                     <string>B分量图</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <spacer name="horizontalSpacer_25">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                 </layout>
-                </item>
-               </layout>
-              </widget>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="tab_6">
-           <attribute name="title">
-            <string>形态学</string>
-           </attribute>
-          </widget>
-          <widget class="QWidget" name="tab_5">
-           <attribute name="title">
-            <string>图像增强</string>
-           </attribute>
-          </widget>
-         </widget>
+            <property name="text">
+             <string>开发测试</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QPushButton" name="btn_imagehandle4">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>形态学处理</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QPushButton" name="btn_imagehandle3">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>颜色模型</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>
@@ -608,7 +419,7 @@
        <property name="background_color" stdset="0">
         <string>3</string>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_6" stretch="0,0,0,0,0,0,0,0,0">
+       <layout class="QVBoxLayout" name="verticalLayout_6" stretch="0,0,0,0,0,0,0,0">
         <property name="spacing">
          <number>4</number>
         </property>
@@ -652,39 +463,9 @@
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_5">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_22">
-          <property name="leftMargin">
-           <number>0</number>
-          </property>
-          <property name="topMargin">
-           <number>0</number>
-          </property>
-          <item>
            <widget class="QPushButton" name="btn_mode4">
             <property name="text">
              <string>平滑</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="btn_mode5">
-            <property name="text">
-             <string>细分</string>
             </property>
            </widget>
           </item>
@@ -696,7 +477,14 @@
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_7">
+           <widget class="QPushButton" name="btn_mode5">
+            <property name="text">
+             <string>细分</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_5">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>

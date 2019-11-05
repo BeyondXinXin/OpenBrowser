@@ -50,6 +50,21 @@ void FormLeft::initFrom() {
             emit SingalSliderBarMovtToIn(1);
         });
     }
+    // Image
+    image_handle = new FormImageHandle;
+    connect(image_handle, &FormImageHandle::SingalImageMenuOut,
+            this, &FormLeft::SingalImageBrowserOut);
+    image_handle->hide();
+    QList<QPushButton *> imgbtns = ui->widget_image->findChildren<QPushButton *>();
+    foreach (QPushButton *btn, imgbtns) {
+        if (btn->objectName().contains("btn_imagehandle")) {
+            qint32 tmp = btn->objectName().remove(0, 15).toInt();
+            connect(btn, &QPushButton::clicked, this, [ = ] { // v自动提取连通域
+                image_handle->ShowImageHandel(tmp);
+            });
+        }
+
+    }
 }
 
 // 显示切换
@@ -137,8 +152,5 @@ void FormLeft::SlotModeBrowserBtnEnabledTrue() {
         btn->setEnabled(true);
     }
 }
-
-
-
 
 

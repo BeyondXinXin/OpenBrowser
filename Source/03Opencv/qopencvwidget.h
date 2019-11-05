@@ -40,23 +40,13 @@ class QOpencvPixmapItem : public QGraphicsPixmapItem {
   public:
     explicit QOpencvPixmapItem(QGraphicsPixmapItem *parent = nullptr);
     ~QOpencvPixmapItem();
-//  protected:
-//    void mousePressEvent(QGraphicsSceneMouseEvent *event);
 };
-
 
 class QOpencvScene : public QGraphicsScene {
     Q_OBJECT
   public:
     explicit QOpencvScene(QGraphicsScene *parent = nullptr);
     ~QOpencvScene();
-//  protected:
-//    void mousePressEvent(QGraphicsSceneMouseEvent *event);
-//    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-//    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
-//    void leaveEvent(QGraphicsSceneMouseEvent *event);
-//    void keyPressEvent(QKeyEvent *event);
-//    void keyReleaseEvent(QKeyEvent *event);
 };
 
 class QOpencvView : public QGraphicsView {
@@ -65,7 +55,7 @@ class QOpencvView : public QGraphicsView {
     ~QOpencvView();
   protected:
     void wheelEvent(QWheelEvent *event);
-//    void mouseMoveEvent(QMouseEvent *event);
+
 };
 
 #endif // QOPENCVWIDGET_H

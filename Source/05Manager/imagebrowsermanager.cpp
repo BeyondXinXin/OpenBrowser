@@ -1,4 +1,7 @@
 #include "imagebrowsermanager.h"
+#include "mainwindow.h"
+#include "formedgeadjustment.h"
+
 
 
 ImageBrowserManager::ImageBrowserManager(QOpencvWidget &widget,
@@ -49,7 +52,26 @@ void ImageBrowserManager::OpenStlFile(const QString &file_path) {
 
 }
 
-void ImageBrowserManager::SlotImgProcess(const int) {
+void ImageBrowserManager::SlotImgProcess(const int &operation) {
+    if (this->img_vector.size() == 0) {
+        emit SignalPromptInformationOut(tr("Image 数据错误"));
+        return;
+    }
 
+    switch (operation) {
+        case 601: {
+                MainWindow *tmp = new MainWindow;
+                tmp->OpenMinPathWidgetIn(widget_.GetSurface());
+                break;
+            }
+        case 602: {
+                FormEdgeAdjustment *tmp = new FormEdgeAdjustment();
+                tmp->showMaximized();
+                break;
+            }
+        default: {
+                break;
+            }
+    }
 }
 

@@ -1,4 +1,6 @@
 #include "qopencvprocessing.h"
+using namespace cv;
+using namespace std;
 
 QScopedPointer<QOpencvProcessing> QOpencvProcessing::self;
 QOpencvProcessing *QOpencvProcessing::Instance() {

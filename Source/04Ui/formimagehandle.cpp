@@ -69,11 +69,6 @@ void FormImageHandle::WinGeom() {// 几何变换
     line_degree->setAlignment(Qt::AlignCenter);
     line_degree->setRange(-360, 360);
     line_degree->setValue(0);
-    connect(button_rotate, SIGNAL(clicked()), this, SLOT(rotateImageOK()));
-    connect(button_left, SIGNAL(clicked()), this, SLOT(rotateImage_270()));
-    connect(button_right, SIGNAL(clicked()), this, SLOT(rotateImage_90()));
-    connect(button_180, SIGNAL(clicked()), this, SLOT(rotateImage_180()));
-
     // 图像倾斜
     QLabel *label_lean = new QLabel(QString("图像倾斜"));
     QLabel *label_leanX = new QLabel(QString("水平角度:"));

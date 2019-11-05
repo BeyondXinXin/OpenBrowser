@@ -8,6 +8,7 @@
 // 04 uimanager includes
 #include "stlmanager.h"
 #include "dcmmanager.h"
+#include "imagebrowsermanager.h"
 
 // 05vtkthread includes
 #include "vtkthreadpolydataread.h"
@@ -43,23 +44,22 @@ class FormMain : public QWidget {
     ~FormMain();
 
   Q_SIGNALS:
-    void SignalMaskWidgetDisappearOut();
-
+    void SignalMainWindosChangeOut(const int);
   private :
     void initFrom();
-
   private Q_SLOTS:
-    //响应打开图像文件的槽函数
-    void SlotOpenFileIn(QString tmp_file = "");
-    void SlotLaftIn(const int int_tmp, const QString qstr_tmp);
-
+    void SlotOpenFileIn(QString tmp_file = "");// 打开文件
+    void SlotSetMainWindos(const int mainwindow);
   private:
     Ui::FormMain *ui;
     myMenu *I_menubar;
-    // imagedata manager
-    QPointer<DcmManager> dcm_manager_;// dcm show
-    // polydata manager
-    QPointer<STLManager> stl_manager_;// stl show
+    // image manager
+    QPointer<ImageBrowserManager> image_manager_;
+    // mode manager
+    QPointer<STLManager> mode_manager_;
+    // dcm manager
+    QPointer<DcmManager> dcm_manager_;
+
 };
 
 #endif // FORMMAIN_H

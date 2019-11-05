@@ -2,9 +2,8 @@
 #include "formmain.h"
 #include "ui_formmain.h"
 #include "myMenu.h"
-
-// 04ui includes
 #include "formmaskwidget.h"
+
 
 // VTK includes
 #include <vtkPlane.h>
@@ -57,12 +56,28 @@ FormMain::~FormMain() {
 }
 
 void FormMain::initFrom() {
-    //dcm界面初始化
+    SlotSetMainWindos(4);
+
+    // modle 初始化
+    mode_manager_ = new STLManager(*ui->mainwindow1, this);
+    connect(ui->left_form, &FormLeft::SignalsModeBrowserOut, // Mode Handle操作
+            this->mode_manager_, &STLManager::SlotPolyDataHandle);
+    connect(this->mode_manager_, &STLManager::SignalPromptInformationOut,// 信息
+            ui->left_form, &FormLeft::SlotPromptInformation);
+    connect(this->mode_manager_, &STLManager::SingnalFinished,// Handle操作完成
+            ui->left_form, &FormLeft::SlotModeBrowserBtnEnabledTrue);
+    // Image 初始化
+    image_manager_ = new ImageBrowserManager(*ui->image_window, this);
+    connect(ui->left_form, &FormLeft::SingalImageBrowserOut, // Image Handle操作
+            this->image_manager_, &ImageBrowserManager::SlotImgProcess);
+
+    connect(this->image_manager_, &ImageBrowserManager::SignalPromptInformationOut,
+            ui->left_form, &FormLeft::SlotPromptInformation); // 信息
+
+    // dcm 初始化
     dcm_manager_ = new DcmManager(ui->view1, ui->view2, ui->view3, ui->view4, this);
-    //ui界面初始化
-    SlotLaftIn(0, "PageNumber");
     QList<QPushButton *> btns =
-        ui->page->findChildren<QPushButton *>();
+        ui->mainwindow2->findChildren<QPushButton *>();
     foreach (QPushButton *btn, btns) {
         btn->setCheckable(true);
         IconHelper::Instance()->setIcon(
@@ -70,49 +85,48 @@ void FormMain::initFrom() {
         connect(btn, &QPushButton::toggled,
                 dcm_manager_, &DcmManager::SlotViewMaximization);
     }
-    // stl manager 初始化
-    stl_manager_ = new STLManager(*ui->view5, this);
-    connect(ui->left_form, &FormLeft::SignalsPolyDataHandle, // PolyData Handle操作
-            this->stl_manager_, &STLManager::SlotPolyDataHandle);
-    connect(this->stl_manager_, &STLManager::SignalPromptInformationOut,// 信息
-            ui->left_form, &FormLeft::SlotPromptInformation);
-    connect(this->stl_manager_, &STLManager::SingnalFinished,// Handle操作完成
-            ui->left_form, &FormLeft::SlotAllBtnEnabledTrue);
-    // 计算 png转stl dcm提取png manager 初始化
-    connect(ui->left_form, &FormLeft::SignalsMainOut,
-            this, &FormMain::SlotLaftIn);
+    // ui界面初始化
+    connect(ui->left_form, &FormLeft::SingalSliderBarMovtToOut,
+            this, &FormMain::SlotSetMainWindos);
+    connect(this, &FormMain::SignalMainWindosChangeOut,
+            this, &FormMain::SlotSetMainWindos);
+    connect(this, &FormMain::SignalMainWindosChangeOut,
+            ui->left_form, &FormLeft::SingalSliderBarMovtToIn);
+
 }
 
-
-void FormMain::SlotLaftIn(const int int_tmp, const QString qstr_tmp) {
-    if (qstr_tmp == "PageNumber") {
-        ui->formmain_stackedWidget->setCurrentIndex(int_tmp);
-    }
-}
 
 void FormMain::SlotOpenFileIn(QString tmp_file) {
     if (tmp_file.isEmpty()) {
-        tmp_file = QUIHelper::getFileName("*.dcm *.stl");
+        tmp_file =
+            QUIHelper::getFileName("*.dcm "
+                                   "*.stl "
+                                   "*.bmp *.jpg *.pbm *.pgm *.png *.ppm *.xbm *.xpm ");
     }
     QFileInfo file_info(tmp_file);
     QString extension = file_info.suffix();
     if (extension == "dcm") {
         dcm_manager_->OpenStlFile(tmp_file);
-        SlotLaftIn(0, "PageNumber");
-        ui->left_form->SlotsSliderBarMovtToIn(0);
+        SlotSetMainWindos(2);
     } else if (extension == "stl") {
-        stl_manager_->OpenStlFile(tmp_file);
-        SlotLaftIn(1, "PageNumber");
-        ui->left_form->SlotsSliderBarMovtToIn(1);
+        mode_manager_->OpenStlFile(tmp_file);
+        SlotSetMainWindos(1);
+    } else if (extension == "bmp" ||
+               extension == "jpg" ||
+               extension == "pbm" ||
+               extension == "pgm" ||
+               extension == "png" ||
+               extension == "ppm" ||
+               extension == "xbm" ||
+               extension == "xpm") {
+        image_manager_->OpenStlFile(tmp_file);
+        SlotSetMainWindos(0);
     }
 }
 
-
-
-
-
-
-
+void FormMain::SlotSetMainWindos(const int mainwindow) {
+    ui->main_stacked_widget->setCurrentIndex(mainwindow);
+}
 
 
 

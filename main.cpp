@@ -25,6 +25,7 @@ int main(int argc, char *argv[]) {
     QUIHelper::setStyle(":/Style/style.qss");
     //------开始------//
     qui.show();
+
     return a.exec();
 }
 

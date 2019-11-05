@@ -392,7 +392,7 @@ background-color: rgb(65, 65, 69);
 }
 
 /*---------------------------------------------------------------------------*/
-/*  QMenuBar  */
+/*  QMenuBar  QToolBar  */
 
 QToolBar{
 border-left: 8px solid transparent;
@@ -404,7 +404,7 @@ spacing: 25px;
 
 QToolBar::separator{
 background-color: rgb(25, 25, 25);
-width: 1px;height: 5px;
+width: 2px;height: 8px;
 }
 
 QToolBar>QToolButton{
@@ -881,9 +881,10 @@ spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #262829,stop:1 #262829);
 /*  QTabBar  标签栏  */
 
 QTabBar::tab{
-border:1px solid #67696B;
 color:#BEC0C2;
 margin:0px;
+font:12px;
+width:52px;
 background:qlineargradient(
 spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #262829,stop:1 #262829);
 }
@@ -895,7 +896,8 @@ background:#2E2F30;
 }
 
 QTabBar::tab:top,QTabBar::tab:bottom{
-padding:3px 8px 3px 8px;
+padding:0px 10px 0px 0px;
+background-color:rgb(90, 90, 90);
 }
 
 QTabBar::tab:left,QTabBar::tab:right{
@@ -1070,18 +1072,30 @@ border-radius:0px;
 /*---------------------------------------------------------------------------*/
 /*  QTabWidget  表格视窗  */
 
-QTabWidget::pane:top{top:-1px;}
-QTabWidget::pane:bottom{bottom:-1px;}
-QTabWidget::pane:left{right:-1px;}
-QTabWidget::pane:right{left:-1px;}
-
 QTabWidget::pane{
 border:1px solid #67696B;
 selection-background-color:#262829;
 selection-color:#BEC0C2;
 alternate-background-color:#262829;
 gridline-color:#67696B;
+background-color:rgb(100, 100, 100);
 }
+
+
+/*---------------------------------------------------------------------------*/
+/*  QStackedWidget  切换窗口  */
+QStackedWidget{
+
+}
+
+/*---------------------------------------------------------------------------*/
+/*  QGraphicsView  图形窗口  */
+QGraphicsView{
+background-color:rgb(90, 90, 90);
+border:0px
+}
+
+
 
 /*---------------------------------------------------------------------------*/
 /* 重定义 （根据objectname）*/
@@ -1093,15 +1107,16 @@ QWidget#widget_title>QLabel#logo_label{
 }
 
 /* 重定义  ui_formleft */
-
-QWidget#left_form>QWidget>QPushButton{
+QWidget#widget_mode>QPushButton,
+QWidget#widget_image>QPushButton{
 font-size:12px;
 text-align: center;
 background-color:rgb(60, 60, 60);
 border:none;
 }
 
-QWidget#left_form>QWidget>QPushButton:hover{
+QWidget#widget_mode>QPushButton:hover,
+QWidget#widget_image>QPushButton:hover{
 background:qlineargradient(
 spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #262829,stop:1 #262829);
 }
@@ -1117,6 +1132,7 @@ QLabel#label_ai{
 border-radius:3px;
 background-color:rgb(115, 114, 120);
 }
+
 
 
 /* 重定义  all */
@@ -1138,6 +1154,9 @@ QPushButton[background_color="2"]{
 background-color:rgb(70, 70, 70);
 }
 
+QWidget[background_color="3"]{
+background-color:rgb(100, 100, 100);
+}
 
 QLabel[formshow="lab"]{
 font:75 25px;color:#F0F0F0;
@@ -1185,7 +1204,6 @@ border-radius:3px;
 padding:2px;
 }
 
-
 QPushButton[CustomStyle="formshow4"]{
 image:url(:/Image/btn-4-1.png);
 }
@@ -1215,4 +1233,8 @@ image:url(:/Image/btn-16-1.png);
 }
 QPushButton[CustomStyle="formshow16"]:hover{
 image:url(:/Image/btn-16-2.png);
+}
+
+QWidget[CustomStyle="home"]{
+image:url(:/Image/openBrowser.png);
 }

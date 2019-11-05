@@ -1,4 +1,8 @@
-﻿// 01frame includes
+﻿/*
+ * Mode 界面管理
+*/
+
+// 01frame includes
 #include "stlmanager.h"
 
 // 04ui includes
@@ -140,7 +144,7 @@ void STLManager::OpenStlFile(const QString &file_path,
 void STLManager::SlotPolyDataHandle(const int &operation) {// polydata 处理
     if (this->polydata_list_.size() == 0 && operation != 21) {
         emit SingnalFinished();
-        emit SignalPromptInformationOut(tr("PolyData 数据错误"));
+        emit SignalPromptInformationOut(QString("PolyData 数据错误"));
         return;
     }
     switch (operation) {
@@ -152,29 +156,29 @@ void STLManager::SlotPolyDataHandle(const int &operation) {// polydata 处理
         case 2: {// 直线剪裁
                 surface_line_clipper_->SetSurface(this->polydata_list_.back());
                 surface_line_clipper_->Execute();
-                emit SignalPromptInformationOut(tr("左键：选取剪制区域\n"
-                                                   "空格：确认选取区域\n"
-                                                   " Q ：取消选区区域"));
+                emit SignalPromptInformationOut(QString("左键：选取剪制区域\n"
+                                                        "空格：确认选取区域\n"
+                                                        " Q ：取消选区区域"));
                 break;
             }
         case 3: {// 修剪
                 this->surface_smooth_selector_->SetMethod(SmoothSurfaceSelector::CUT);
                 this->surface_smooth_selector_->SetSurface(this->polydata_list_.back());
                 this->surface_smooth_selector_->Execute();
-                emit SignalPromptInformationOut(tr("左键：选取修剪区域\n空格：确认选取区域\n"
-                                                   " Q ：取消选区区域\n"));
+                emit SignalPromptInformationOut(QString("左键：选取修剪区域\n空格：确认选取区域\n"
+                                                        " Q ：取消选区区域\n"));
                 break;
             }
         case 4: {// 平滑
                 this->surface_smooth_selector_->SetMethod(SmoothSurfaceSelector::SMOOTH);
                 this->surface_smooth_selector_->SetSurface(this->polydata_list_.back());
                 this->surface_smooth_selector_->Execute();
-                emit SignalPromptInformationOut(tr("左键：选取平滑区域\n空格：确认选取区域\n"
-                                                   " Q ：取消选区区域\n"));
+                emit SignalPromptInformationOut(QString("左键：选取平滑区域\n空格：确认选取区域\n"
+                                                        " Q ：取消选区区域\n"));
                 break;
             }
         case 5: {// 细分
-                emit SignalPromptInformationOut(tr("正在细分模型"));
+                emit SignalPromptInformationOut(QString("正在细分模型"));
                 surface_subdivision_->SetSurface(this->polydata_list_.back());
                 surface_subdivision_->SetMethod(VtkThreadSubdivision::LINEAR);
                 SlotVTKThreadMaskWidgetIn();
@@ -192,7 +196,7 @@ void STLManager::SlotPolyDataHandle(const int &operation) {// polydata 处理
                 surface_cgal_subdivision_->start();
                 break;
             }
-        case 12: {// CGAL平滑
+        case 12: {// CGAL自相交检测
                 emit SingnalFinished();
                 break;
             }
@@ -201,9 +205,9 @@ void STLManager::SlotPolyDataHandle(const int &operation) {// polydata 处理
                     this->polydata_list_.back());
                 fill_surface_selector_->Execute();
                 emit SignalPromptInformationOut(
-                    QString(tr("共有%1个未封闭区域"
-                               "\n左键：选取封闭区域\n空格：确认选取区域\nEsc：取消选区区域"
-                               "\n前处理完成请单击#选择主动脉入口#"))
+                    QString(QString("共有%1个未封闭区域"
+                                    "\n左键：选取封闭区域\n空格：确认选取区域\nEsc：取消选区区域"
+                                    "\n前处理完成请单击#选择主动脉入口#"))
                     .arg(fill_surface_selector_->GetFillCount()));
                 break;
             }
@@ -217,7 +221,7 @@ void STLManager::SlotPolyDataHandle(const int &operation) {// polydata 处理
                 if (file_info.suffix() == "stl") {
                     OpenStlFile(tmp_file);
                 } else {
-                    emit SignalPromptInformationOut(tr("文件错误"));
+                    emit SignalPromptInformationOut(QString("文件错误"));
                 }
                 break;
             }
@@ -236,14 +240,14 @@ void STLManager::SlotPolyDataHandle(const int &operation) {// polydata 处理
         case 23: {// 撤销
                 if (this->polydata_list_.size() == 1) {
                     emit SingnalFinished();
-                    emit SignalPromptInformationOut(tr("PolyData 数据错误"));
+                    emit SignalPromptInformationOut(QString("PolyData 数据错误"));
                     return;
                 }
                 this->polydata_list_.pop_back();
                 this->viewer_->SetSurface(this->polydata_list_.back());
                 this->viewer_ ->Execute();
                 this->renderer_->ResetCamera();
-                emit SignalPromptInformationOut(tr("已撤销"));
+                emit SignalPromptInformationOut(QString("已撤销"));
                 emit SingnalFinished();
                 break;
             }
@@ -258,7 +262,7 @@ void STLManager::SlotRunFinished() {// Handle PolyData操作完成
     emit SingnalFinished();
     if (QObject::sender() == reade_) {// 读取stl
         if (!reade_->GetThreadResult()) {
-            emit SignalPromptInformationOut(tr("stl模型载入失败"));
+            emit SignalPromptInformationOut(QString("stl模型载入失败"));
             return;
         }
         if (this->polydata_list_.size() != 0) {
@@ -269,7 +273,7 @@ void STLManager::SlotRunFinished() {// Handle PolyData操作完成
         this->viewer_ ->Execute();
         this->renderer_->ResetCamera();
         this->renderer_->GetRenderer()->GetActiveCamera()->SetParallelProjection(1);
-        emit SignalPromptInformationOut(tr("stl模型载入成功\n") +
+        emit SignalPromptInformationOut(QString("stl模型载入成功\n") +
                                         reade_->GetVolumeSurfaaceArea());
     } else if (QObject::sender() == this->marching_cubes_) { // imagedata 转 polydata
         if (!marching_cubes_->GetThreadResult()) {
@@ -281,58 +285,58 @@ void STLManager::SlotRunFinished() {// Handle PolyData操作完成
         this->viewer_ ->Execute();
         this->renderer_->ResetCamera();
         this->renderer_->GetRenderer()->GetActiveCamera()->SetParallelProjection(1);
-        emit SignalPromptInformationOut(tr(""));
+        emit SignalPromptInformationOut(QString(""));
     } else if (QObject::sender() == this->write_) { // stl 保存
         if (!this->write_->GetThreadResult()) {
-            emit SignalPromptInformationOut(tr("stl模型保存失败"));
+            emit SignalPromptInformationOut(QString("stl模型保存失败"));
             return;
         }
-        emit SignalPromptInformationOut(tr("stl模型保存成功"));
+        emit SignalPromptInformationOut(QString("stl模型保存成功"));
     } else if (QObject::sender() == surface_auto_division_) { // 提取最大连通域
         this->polydata_list_.push_back(this->surface_auto_division_->GetSurface());
         this->viewer_->SetSurface(this->polydata_list_.back());
         this->viewer_ ->Execute();
-        emit SignalPromptInformationOut(tr("自动分割完毕"));
+        emit SignalPromptInformationOut(QString("自动分割完毕"));
     } else if (QObject::sender() == surface_line_clipper_) { // 线性剪裁
         this->polydata_list_.push_back(this->surface_line_clipper_->GetSurface());
         this->viewer_->SetSurface(this->polydata_list_.back());
         this->viewer_ ->Execute();
-        emit SignalPromptInformationOut(tr("手动剪裁完毕"));
+        emit SignalPromptInformationOut(QString("手动剪裁完毕"));
     } else if (QObject::sender() == surface_smooth_selector_) { // 修剪 平滑
         this->polydata_list_.push_back(this->surface_smooth_selector_->GetSurface());
         this->viewer_->SetSurface(this->polydata_list_.back());
         this->viewer_ ->Execute();
-        emit SignalPromptInformationOut(tr("手动修剪 平滑完毕"));
+        emit SignalPromptInformationOut(QString("手动修剪 平滑完毕"));
     } else if (QObject::sender() == surface_subdivision_) { // 细分
         if (!surface_subdivision_->GetThreadResult()) {
-            emit SignalPromptInformationOut(tr("模型细化失败"));
+            emit SignalPromptInformationOut(QString("模型细化失败"));
             return;
         }
         this->polydata_list_.push_back(this->surface_subdivision_->GetSurface());
         this->viewer_->SetSurface(this->polydata_list_.back());
         this->viewer_ ->Execute();
-        emit SignalPromptInformationOut(tr("自动细分完毕"));
+        emit SignalPromptInformationOut(QString("自动细分完毕"));
     }  else if (QObject::sender() == surface_refine_) { // 表面细分
         this->polydata_list_.push_back(this->surface_refine_->GetSurface());
         this->viewer_->SetSurface(this->polydata_list_.back());
         this->viewer_ ->Execute();
-        emit SignalPromptInformationOut(tr("自动细分完毕"));
+        emit SignalPromptInformationOut(QString("自动细分完毕"));
     } else if (QObject::sender() == surface_cgal_subdivision_) { // CGAL表面细分
         if (!surface_cgal_subdivision_->GetThreadResult()) {
-            emit SignalPromptInformationOut(tr("CGAL表面细分失败"));
+            emit SignalPromptInformationOut(QString("CGAL表面细分失败"));
             return;
         }
         this->polydata_list_.push_back(
             this->surface_cgal_subdivision_->GetSurface());
         this->viewer_->SetSurface(this->polydata_list_.back());
         this->viewer_ ->Execute();
-        emit SignalPromptInformationOut(tr("CGAL表面细分成功"));
+        emit SignalPromptInformationOut(QString("CGAL表面细分成功"));
     } else if (QObject::sender() == fill_surface_selector_) { // CGAL 封闭
         this->polydata_list_.push_back(
             this->fill_surface_selector_->GetSurface());
         this->viewer_->SetSurface(this->polydata_list_.back());
         this->viewer_ ->Execute();
-        emit SignalPromptInformationOut(tr("CGAL表面封闭成功"));
+        emit SignalPromptInformationOut(QString("CGAL表面封闭成功"));
     }
 }
 

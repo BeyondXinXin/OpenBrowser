@@ -30,9 +30,9 @@
     <widget class="FormLeft" name="left_form" native="true"/>
    </item>
    <item>
-    <widget class="QStackedWidget" name="formmain_stackedWidget">
+    <widget class="QStackedWidget" name="main_stacked_widget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <property name="background_color" stdset="0">
       <string>2</string>
@@ -40,7 +40,29 @@
      <property name="border_no" stdset="0">
       <bool>true</bool>
      </property>
-     <widget class="QWidget" name="page">
+     <widget class="QWidget" name="mainwindow0">
+      <layout class="QGridLayout" name="gridLayout">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="QOpencvWidget" name="image_window" native="true"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QVTKOpenGLWidget" name="mainwindow1">
+      <layout class="QGridLayout" name="modle_layout"/>
+     </widget>
+     <widget class="QWidget" name="mainwindow2">
       <layout class="QGridLayout" name="gridLayout_4">
        <item row="0" column="0">
         <layout class="QGridLayout" name="gridLayout_2">
@@ -116,10 +138,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QVTKOpenGLWidget" name="view5">
-      <layout class="QGridLayout" name="modle_layout"/>
-     </widget>
-     <widget class="QWidget" name="page_4">
+     <widget class="QWidget" name="mainwindow3">
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
         <widget class="FormShow" name="formshow1" native="true"/>
@@ -129,17 +148,16 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="home">
+      <property name="CustomStyle" stdset="0">
+       <string>home</string>
+      </property>
+     </widget>
     </widget>
    </item>
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>QVTKOpenGLWidget</class>
-   <extends>QWidget</extends>
-   <header>QVTKOpenGLWidget.h</header>
-   <container>1</container>
-  </customwidget>
   <customwidget>
    <class>FormLeft</class>
    <extends>QWidget</extends>
@@ -150,6 +168,18 @@
    <class>FormShow</class>
    <extends>QWidget</extends>
    <header>formshow.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>QOpencvWidget</class>
+   <extends>QWidget</extends>
+   <header>qopencvwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>QVTKOpenGLWidget</class>
+   <extends>QWidget</extends>
+   <header>QVTKOpenGLWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

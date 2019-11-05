@@ -13,9 +13,7 @@ class Application : public QApplication {
   public:
     Application(int &argc, char **argv);
     ~Application();
-
     bool lock();
-
   private:
     QSharedMemory *_singular; // shared memory !! SINGLE ACCESS
 };
@@ -47,7 +45,6 @@ class QUIMessageBox : public QDialog {
     static QUIMessageBox *Instance();
     explicit QUIMessageBox(QWidget *parent = nullptr);
     ~QUIMessageBox();
-
   protected:
     void closeEvent(QCloseEvent *);
     bool eventFilter(QObject *obj, QEvent *evt);

@@ -35,6 +35,7 @@ include_directories(  ${OpenCV_INCLUDE_DIRS} )
 
 find_package(CGAL REQUIRED)
 include(${CGAL_USE_FILE})
+
 find_package(Eigen3 REQUIRED)
 include( ${EIGEN3_USE_FILE} )
 
@@ -91,11 +92,13 @@ set(02CustomControl
     Source/02CustomControl/NetCom/frmudpserver.ui
     )
 
-
 include_directories(Source/03Opencv)
 set(03Opencv
-    Source/03Opencv/qt_opencv.h
-    Source/03Opencv/qt_opencv.cpp)
+    Source/03Opencv/qopencvprocessing.cpp
+    Source/03Opencv/qopencvprocessing.h
+    Source/03Opencv/qopencvwidget.h
+    Source/03Opencv/qopencvwidget.cpp
+    )
 
 include_directories(Source/03CGAL)
 include_directories(Source/03CGAL/CGALThread)
@@ -158,15 +161,34 @@ set(04Ui
     Source/04Ui/formmaskwidget.h
     Source/04Ui/formmaskwidget.cpp
     Source/04Ui/formmaskwidget.ui
+    Source/04Ui/formimagehandle.h
+    Source/04Ui/formimagehandle.cpp
+    Source/04Ui/formimagehandle.ui
     )
 
 include_directories(Source/05Manager)
-include_directories(Source/05Manager/UiManager)
 set(05Manager
-    Source/05Manager/UiManager/stlmanager.h
-    Source/05Manager/UiManager/stlmanager.cpp
-    Source/05Manager/UiManager/dcmmanager.h
-    Source/05Manager/UiManager/dcmmanager.cpp
+    Source/05Manager/stlmanager.h
+    Source/05Manager/stlmanager.cpp
+    Source/05Manager/dcmmanager.h
+    Source/05Manager/dcmmanager.cpp
+    Source/05Manager/imagebrowsermanager.h
+    Source/05Manager/imagebrowsermanager.cpp
+    )
+
+include_directories(Source/06Test)
+include_directories(Source/06Test/MinPath)
+include_directories(Source/06Test/EdgeAdjustment)
+set(06Test
+    Source/06Test/MinPath/minimalpathextraction.h
+    Source/06Test/MinPath/custom_item.h
+    Source/06Test/MinPath/custom_item.cpp
+    Source/06Test/MinPath/mainwindow.h
+    Source/06Test/MinPath/mainwindow.cpp
+    Source/06Test/MinPath/mainwindow.ui
+    Source/06Test/EdgeAdjustment/formedgeadjustment.h
+    Source/06Test/EdgeAdjustment/formedgeadjustment.cpp
+    Source/06Test/EdgeAdjustment/formedgeadjustment.ui
     )
 
 set(Source
@@ -181,7 +203,7 @@ add_executable(${PROJECT_NAME}
     ${03VTK}
     ${04Ui}
     ${05Manager}
-    ${06Calculation}
+    ${06Test}
     )
 
 target_link_libraries(

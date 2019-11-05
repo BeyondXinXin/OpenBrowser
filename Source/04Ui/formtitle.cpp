@@ -53,7 +53,7 @@ void FormTitle::on_btnMenu_Max_clicked() {
 }
 
 void FormTitle::on_btnMenu_Close_clicked() {
-    close();
+    qApp->closeAllWindows();
 }
 
 void FormTitle::SlotFullScreen() {

@@ -221,7 +221,7 @@ void FillSurfaceSelector::SlotKeyPressed(const QString &key) {
         if (key == "space" && (fill_id_ >= 0)) {
             this->SelectorOff();
             this->FillerCallback();
-        } else if (key == "Escape") {
+        } else if (key == "q") {
             this->SelectorOff();
             emit SignalFillFinish();
         }
@@ -333,9 +333,9 @@ bool FillSurfaceSelector::OFF2STL(const QString off_filename) {
         vtkSmartPointer<vtkMassProperties>::New();
     massProperties->SetInputConnection(normals->GetOutputPort());
     massProperties->Update();
+    fin.close();
     if (massProperties->GetSurfaceArea() > 0.01) {
         this->surface_ = surface;
-        fin.close();
         if (this->surface_ == nullptr) {
             return false;
         }

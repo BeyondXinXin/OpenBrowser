@@ -57,8 +57,16 @@ void FormLeft::initFrom() {
     image_handle->hide();
     QList<QPushButton *> imgbtns = ui->widget_image->findChildren<QPushButton *>();
     foreach (QPushButton *btn, imgbtns) {
-        if (btn->objectName().contains("btn_imagehandle")) {
-            qint32 tmp = btn->objectName().remove(0, 15).toInt();
+
+        if (btn->objectName().contains("btn_image")) {
+            qint32 tmp = btn->objectName().remove(0, 9).toInt();
+            connect(btn, &QPushButton::clicked, this, [ = ] { // v自动提取连通域
+                emit SingalImageBrowserOut(tmp);
+            });
+        }
+
+        if (btn->objectName().contains("btn_menuimage")) {
+            qint32 tmp = btn->objectName().remove(0, 13).toInt();
             connect(btn, &QPushButton::clicked, this, [ = ] { // v自动提取连通域
                 image_handle->ShowImageHandel(tmp);
             });

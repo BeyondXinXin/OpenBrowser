@@ -19,27 +19,27 @@ void myMenu::Menu_File() {
     QAction *Act_file_new = new QAction(QIcon(":/Image/New.png"),
                                         tr("新建"), this);
     Act_file_new->setShortcut(Qt::Key_Control & Qt::Key_I);
-    Act_file_new->setStatusTip(tr("新建"));
+    Act_file_new->setStatusTip(("新建"));
     QAction *Act_file_open = new QAction(QIcon(":/Image/Open.png"),
                                          tr("打开"), this);
     Act_file_open->setShortcuts(QKeySequence::Open);
-    Act_file_open->setStatusTip(tr("打开"));
+    Act_file_open->setStatusTip(("打开"));
     connect(Act_file_open, SIGNAL(triggered()),
             I_MainWindow, SIGNAL(SigalOpenFileOut()));
     QAction *Act_file_save = new QAction(QIcon(":/Image/Save.png"),
                                          tr("保存"), this);
     Act_file_save->setShortcuts(QKeySequence::Save);
-    Act_file_save->setStatusTip(tr("保存"));
+    Act_file_save->setStatusTip(("保存"));
     QAction *Act_file_saveas = new QAction(QIcon(":/Image/SaveAs.png"),
                                            tr("另存为"), this);
     Act_file_new->setShortcut(Qt::Key_Control & Qt::Key_D);
-    Act_file_saveas->setStatusTip(tr("另存为"));
+    Act_file_saveas->setStatusTip(("另存为"));
     connect(Act_file_saveas, SIGNAL(triggered()), this, SLOT(File_open_database()));
     QAction *Act_file_close = new QAction(QIcon(":/Image/Close.png"),
                                           tr("关闭"), this);
     Act_file_close->setShortcuts(QKeySequence::Close);
-    Act_file_close->setStatusTip(tr("关闭软件"));
-    QMenu *file = addMenu(tr("文件"));
+    Act_file_close->setStatusTip(("关闭软件"));
+    QMenu *file = addMenu(("文件"));
     file->addAction(Act_file_new);
     file->addAction(Act_file_open);
     file->addAction(Act_file_save);
@@ -54,18 +54,18 @@ void myMenu::Menu_Edit() {
     QAction *Act_edit_full = new QAction(QIcon(":/Image/Edit_Full.png"),
                                          tr("全屏显示"), this);
     Act_edit_full->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_F));
-    Act_edit_full->setStatusTip(tr("全屏显示"));
+    Act_edit_full->setStatusTip(("全屏显示"));
     connect(Act_edit_full, SIGNAL(triggered()), this, SLOT(qappfullScreen()));
     QAction *Act_edit_back = new QAction(QIcon(":/Image/Edit_Max.png"),
                                          tr("退出全屏"), this);
     Act_edit_back->setShortcut(QKeySequence(Qt::Key_Escape));
     connect(Act_edit_back, SIGNAL(triggered()), this, SLOT(qappmaxScreen()));
-    Act_edit_back->setStatusTip(tr("退出全屏"));
+    Act_edit_back->setStatusTip(("退出全屏"));
     QAction *Act_edit_screenshot = new QAction(QIcon(":/Image/btndo2.png"),
             tr("截图"), this);
     Act_edit_screenshot->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_A));
     connect(Act_edit_screenshot, SIGNAL(triggered()), this, SLOT(Act_edit_screenshot()));
-    Act_edit_screenshot->setStatusTip(tr("截图"));
+    Act_edit_screenshot->setStatusTip(("截图"));
     QAction *Act_edit_net1 = new QAction(QIcon(""), tr("打开网络——tcp服务器"), this);
     connect(Act_edit_net1, SIGNAL(triggered()), this, SLOT(qappNet()));
     QAction *Act_edit_net2 = new QAction(QIcon(""), tr("打开网络——tcp客户端"), this);
@@ -75,19 +75,19 @@ void myMenu::Menu_Edit() {
     Act_edit_net1->setObjectName("Act_edit_net1");
     Act_edit_net2->setObjectName("Act_edit_net2");
     Act_edit_net3->setObjectName("Act_edit_net3");
-    Act_edit_net1->setStatusTip(tr("打开网络——tcp服务器"));
-    Act_edit_net2->setStatusTip(tr("打开网络——tcp客户端"));
-    Act_edit_net3->setStatusTip(tr("打开网络——udp客户端"));
+    Act_edit_net1->setStatusTip(("打开网络——tcp服务器"));
+    Act_edit_net2->setStatusTip(("打开网络——tcp客户端"));
+    Act_edit_net3->setStatusTip(("打开网络——udp客户端"));
     QAction *Act_edit_com = new QAction(QIcon(""), tr("打开端口"), this);
     Act_edit_com->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_A));
     connect(Act_edit_com, SIGNAL(triggered()), this, SLOT(qappCom()));
-    Act_edit_com->setStatusTip(tr("打开端口"));
-    QMenu *Act_edit_net = new QMenu(tr("打开网络"));
+    Act_edit_com->setStatusTip(("打开端口"));
+    QMenu *Act_edit_net = new QMenu(("打开网络"));
     Act_edit_net->addAction(Act_edit_net1);
     Act_edit_net->addAction(Act_edit_net2);
     Act_edit_net->addAction(Act_edit_net3);
-    Act_edit_net->setStatusTip(tr("打开网络"));
-    QMenu *edit = addMenu(tr("编辑"));
+    Act_edit_net->setStatusTip(("打开网络"));
+    QMenu *edit = addMenu(("编辑"));
     edit->addAction(Act_edit_full);
     edit->addAction(Act_edit_back);
     edit->addAction(Act_edit_screenshot);
@@ -104,14 +104,14 @@ void myMenu::Menu_Help() {
         new QAction(QIcon(":/ImageProcessing/Image/Help_Info.png"),
                     tr("关于"), this);
     connect(Act_about_info, SIGNAL(triggered()), this, SLOT(About_info()));
-    Act_about_info->setStatusTip(tr("关于"));
+    Act_about_info->setStatusTip(("关于"));
     QAction *Act_help_info =
         new QAction(QIcon(":/ImageProcessing/Image/Help_Info.png"),
                     tr("帮助"), this);
     connect(Act_help_info, SIGNAL(triggered()), this, SLOT(Help_info()));
-    Act_help_info->setStatusTip(tr("帮助"));
-    Act_help_info->setStatusTip(tr("帮助"));
-    QMenu *help = addMenu(tr("帮助"));
+    Act_help_info->setStatusTip(("帮助"));
+    Act_help_info->setStatusTip(("帮助"));
+    QMenu *help = addMenu(("帮助"));
     help->addAction(Act_about_info);
     help->addAction(Act_help_info);
 }
@@ -181,7 +181,7 @@ void myMenu::Initial() {
     I_frmTcpServer = new frmTcpServer();
     I_frmUdpServer = new frmUdpServer();
     com_Settings  = new SettingsDialog();
-    toolbar_ = new QToolBar(tr("工具栏01")) ;
+    toolbar_ = new QToolBar(("工具栏01")) ;
     toolbar_->setObjectName("toolbar");
     Qt::ToolBarArea area;
     area = Qt::LeftToolBarArea;//设置停靠位置

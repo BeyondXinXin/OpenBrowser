@@ -274,28 +274,28 @@
            <number>0</number>
           </property>
           <item row="0" column="2">
-           <widget class="QPushButton" name="btn_imagehandle2">
+           <widget class="QPushButton" name="btn_menuimage2">
             <property name="text">
              <string>图像增强</string>
             </property>
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QPushButton" name="btn_imagehandle1">
+           <widget class="QPushButton" name="btn_menuimage1">
             <property name="text">
              <string>灰度变换</string>
             </property>
            </widget>
           </item>
           <item row="0" column="0">
-           <widget class="QPushButton" name="btn_imagehandle0">
+           <widget class="QPushButton" name="btn_menuimage0">
             <property name="text">
              <string>几何变换</string>
             </property>
            </widget>
           </item>
           <item row="2" column="2">
-           <widget class="QPushButton" name="btn_imagehandle5">
+           <widget class="QPushButton" name="btn_menuimage5">
             <property name="enabled">
              <bool>true</bool>
             </property>
@@ -304,23 +304,23 @@
             </property>
            </widget>
           </item>
+          <item row="2" column="1">
+           <widget class="QPushButton" name="btn_menuimage4">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>颜色模型形</string>
+            </property>
+           </widget>
+          </item>
           <item row="2" column="0">
-           <widget class="QPushButton" name="btn_imagehandle4">
+           <widget class="QPushButton" name="btn_menuimage3">
             <property name="enabled">
              <bool>true</bool>
             </property>
             <property name="text">
              <string>形态学处理</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QPushButton" name="btn_imagehandle3">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="text">
-             <string>颜色模型</string>
             </property>
            </widget>
           </item>

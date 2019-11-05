@@ -10,7 +10,14 @@ QOpencvWidget::~QOpencvWidget() {
 }
 
 void QOpencvWidget::SetSurface(const QImage value) {
+    int tmp_height = img_.height() - value.height() ;
+    int tmp_width = img_.width() - value.width();
     img_ = value;
+    if (tmp_height > 0 || tmp_width > 0) {
+        opencv_pixmap_->setOffset(tmp_width / 2, tmp_height / 2);
+    } else if (tmp_height < 0 || tmp_width < 0) {
+        opencv_pixmap_->setOffset(0, 0);
+    }
     opencv_pixmap_->setPixmap(QPixmap::fromImage(img_));
 }
 
@@ -19,22 +26,17 @@ QImage QOpencvWidget::GetSurface() {
 }
 
 void QOpencvWidget::Initial() {
-
     this->setObjectName(QStringLiteral("QOpencvWidget"));
-    this->resize(1002, 647);
-
     gridLayout = new QGridLayout(this);
     gridLayout->setContentsMargins(0, 0, 0, 0);
     graphicsView = new QOpencvView(this);
-    gridLayout->addWidget(graphicsView, 0, 0, 1, 1);
+    gridLayout->addWidget(graphicsView);
     opencv_scene_ = new QOpencvScene;
     opencv_pixmap_ = new QOpencvPixmapItem;
-    opencv_pixmap_->setZValue(0);
-    opencv_scene_->addItem(opencv_pixmap_);
     graphicsView->setScene(opencv_scene_);
-    graphicsView->show();
+    opencv_scene_->addItem(opencv_pixmap_);
     graphicsView->setDragMode(QGraphicsView::ScrollHandDrag);
-    graphicsView->scale(1.1, 1.1);
+    graphicsView->show();
 }
 
 QOpencvPixmapItem::QOpencvPixmapItem(QGraphicsPixmapItem *parent):

@@ -32,7 +32,7 @@ class FormLeft : public QWidget {
 
   Q_SIGNALS:
     void SignalsModeBrowserOut(const int &operation);// Mode 信号处理
-    void SingalImageBrowserOut(const int &operation);// Image 信号处理
+    void SingalImageBrowserOut(const int &operation, const QString &text = ""); // Image 信号处理
     void SingalSliderBarMovtToIn(const int);// 界面切换信号
     void SingalSliderBarMovtToOut(const int);// 界面切换信号
 

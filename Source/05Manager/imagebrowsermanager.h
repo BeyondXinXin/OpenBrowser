@@ -16,15 +16,16 @@ class ImageBrowserManager: public QObject {
     explicit ImageBrowserManager(QOpencvWidget &widget,
                                  QObject *parent = nullptr);
     virtual ~ImageBrowserManager() override;
-    void OpenStlFile(const QString &file_path);
+    void OpenStlFile(const QString &file_path = "");
   public Q_SLOTS:
-    void SlotImgProcess(const int &operation);
+    void SlotImgProcess(const int &operation, const QString &text);
   Q_SIGNALS:
     void SignalPromptInformationOut(const QString &text);
   private:
     void Initial();
     void UnDo();
     void ReDo();
+    void UpDataImage(const QImage);
 
   private:
     QOpencvWidget &widget_;

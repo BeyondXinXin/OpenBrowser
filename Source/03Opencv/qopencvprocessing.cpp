@@ -114,41 +114,67 @@ QImage QOpencvProcessing::splitBGR(QImage src, int color) {		// 提取RGB分量
 
 QImage QOpencvProcessing::splitColor(
     QImage src, String model, int color) {	// 提取分量
-    Mat img = QImage2cvMat(src);
-    Mat img_rgb, img_hsv, img_hls, img_yuv, img_dst;
-
-    if (img.channels() == 1) {
-        QUIHelper::showMessageBoxError("该图像为灰度图像。");
-        return src;
-    } else {
-        vector <Mat> vecRGB, vecHsv, vecHls, vecYuv;
-        img_hsv.create(img.rows, img.cols, CV_8UC3);
-        img_hls.create(img.rows, img.cols, CV_8UC3);
-
-        cvtColor(img, img_rgb, CV_BGR2RGB);
-        cvtColor(img, img_hsv, CV_BGR2HSV);
-        cvtColor(img, img_hls, CV_BGR2HLS);
-        cvtColor(img, img_yuv, CV_BGR2YUV);
-
-        split(img_rgb, vecRGB);
-        split(img_hsv, vecHsv);
-        split(img_hls, vecHls);
-        split(img_yuv, vecYuv);
-
-        if (model == "RGB") {
-            img_dst = vecRGB[static_cast<unsigned long>(color)];
-        } else if (model == "HSV") {
-            img_dst = vecHsv[static_cast<unsigned long>(color)];
-        } else if (model == "HLS") {
-            img_dst = vecHls[static_cast<unsigned long>(color)];
-        } else if (model == "YUV") {
-            img_dst = vecYuv[static_cast<unsigned long>(color)];
+    if (model == "RGB") {
+        Mat srcImg, dstImg;
+        srcImg = QImage2cvMat(src);
+        if (srcImg.channels() == 1) {
+            QMessageBox message(QMessageBox::Information,
+                                QString::fromLocal8Bit("提示"),
+                                QString::fromLocal8Bit("该图像为灰度图像。"));
+            message.exec();
+            return src;
         } else {
-            img_dst = img;
+            vector<Mat> m;
+            split(srcImg, m);
+            vector<Mat>Rchannels, Gchannels, Bchannels;
+            split(srcImg, Rchannels);
+            split(srcImg, Gchannels);
+            split(srcImg, Bchannels);
+            Rchannels[1] = 0;
+            Rchannels[2] = 0;
+            Gchannels[0] = 0;
+            Gchannels[2] = 0;
+            Bchannels[0] = 0;
+            Bchannels[1] = 0;
+            merge(Rchannels, m[0]);
+            merge(Gchannels, m[1]);
+            merge(Bchannels, m[2]);
+            dstImg = m[static_cast<unsigned long>(color)];		// 分别对应B、G、R
+            QImage dst = cvMat2QImage(dstImg);
+            return dst;
         }
-
-        QImage dst = cvMat2QImage(img_dst);
-        return dst;
+    } else {
+        Mat img = QImage2cvMat(src);
+        Mat img_rgb, img_hsv, img_hls, img_yuv, img_dst;
+        if (img.channels() == 1) {
+            QUIHelper::showMessageBoxError("该图像为灰度图像。");
+            return src;
+        } else {
+            vector <Mat> vecRGB, vecHsv, vecHls, vecYuv;
+            img_hsv.create(img.rows, img.cols, CV_8UC3);
+            img_hls.create(img.rows, img.cols, CV_8UC3);
+            cvtColor(img, img_rgb, CV_BGR2RGB);
+            cvtColor(img, img_hsv, CV_BGR2HSV);
+            cvtColor(img, img_hls, CV_BGR2HLS);
+            cvtColor(img, img_yuv, CV_BGR2YUV);
+            split(img_rgb, vecRGB);
+            split(img_hsv, vecHsv);
+            split(img_hls, vecHls);
+            split(img_yuv, vecYuv);
+            if (model == "RGB") {
+                img_dst = vecRGB[static_cast<unsigned long>(color)];
+            } else if (model == "HSV") {
+                img_dst = vecHsv[static_cast<unsigned long>(color)];
+            } else if (model == "HLS") {
+                img_dst = vecHls[static_cast<unsigned long>(color)];
+            } else if (model == "YUV") {
+                img_dst = vecYuv[static_cast<unsigned long>(color)];
+            } else {
+                img_dst = img;
+            }
+            QImage dst = cvMat2QImage(img_dst);
+            return dst;
+        }
     }
 }
 
@@ -265,14 +291,12 @@ void QOpencvProcessing::Lean(QImage &src, int x, int y) {
 
 
 // 图像增强
-
 QImage QOpencvProcessing::Normalized(QImage src, int kernel_length) {
     // 简单滤波
     Mat srcImg, dstImg;
     srcImg = QImage2cvMat(src);
     blur(srcImg, dstImg, Size(kernel_length, kernel_length), Point(-1, -1));
-    QImage dst = cvMat2QImage(dstImg);
-    return dst;
+    return cvMat2QImage(dstImg);
 }
 
 QImage QOpencvProcessing::Gaussian(QImage src, int kernel_length) {
@@ -280,8 +304,7 @@ QImage QOpencvProcessing::Gaussian(QImage src, int kernel_length) {
     Mat srcImg, dstImg;
     srcImg = QImage2cvMat(src);
     GaussianBlur(srcImg, dstImg, Size(kernel_length, kernel_length), 0, 0);
-    QImage dst = cvMat2QImage(dstImg);
-    return dst;
+    return cvMat2QImage(dstImg);
 }
 
 QImage QOpencvProcessing::Median(QImage src, int kernel_length) {
@@ -289,8 +312,7 @@ QImage QOpencvProcessing::Median(QImage src, int kernel_length) {
     Mat srcImg, dstImg;
     srcImg = QImage2cvMat(src);
     medianBlur(srcImg, dstImg, kernel_length);
-    QImage dst = cvMat2QImage(dstImg);
-    return dst;
+    return cvMat2QImage(dstImg);
 }
 
 QImage QOpencvProcessing::HoughLine(
@@ -299,7 +321,7 @@ QImage QOpencvProcessing::HoughLine(
     Mat srcImg, dstImg, cdstPImg;
     srcImg = QImage2cvMat(src);
 
-    cv::Canny(srcImg, dstImg, 50, 200, 3);                // Canny算子边缘检测
+    cv::Canny(srcImg, dstImg, 50, 200, 3);             // Canny算子边缘检测
     if (srcImg.channels() != 1) {
         cvtColor(dstImg, cdstPImg, COLOR_GRAY2BGR);    // 转换灰度图像
     } else {
@@ -314,9 +336,7 @@ QImage QOpencvProcessing::HoughLine(
         line(cdstPImg, Point(l[0], l[1]),
              Point(l[2], l[3]), Scalar(0, 0, 255), 1, LINE_AA);
     }
-
-    QImage dst = cvMat2QImage(cdstPImg);
-    return dst;
+    return cvMat2QImage(cdstPImg);
 
 }
 

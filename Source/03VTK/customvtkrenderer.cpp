@@ -69,7 +69,7 @@ CustomVtkRenderer::GetRenderWindowInteractor() const {
 }
 
 void CustomVtkRenderer::SlotKeyPressed(const QString &key) {
-    if (key == "r") {
+    if (key == "r" || key == "R") {
         this->ResetCamera();
     }
 }
@@ -132,7 +132,6 @@ void CustomVtkRenderer::Initialize() {
     this->render_window_interactor_->GetInteractorStyle()->KeyPressActivationOff();
 
     this->connections_ = vtkSmartPointer<vtkEventQtSlotConnect>::New();
-
     connections_->Connect(this->render_window_interactor_,
                           vtkCommand::KeyPressEvent,
                           this, SLOT(KeyPressCallback(vtkObject *,

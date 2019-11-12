@@ -16,12 +16,9 @@ namespace Ui {
 
 class FormEdgeAdjustment : public QWidget {
     Q_OBJECT
-
   public:
     explicit FormEdgeAdjustment(QWidget *parent = nullptr);
     ~FormEdgeAdjustment();
-
-
   private slots:
     void SlotAdjustClickBegin();// 边缘调整控件 左键按下事件
     void SlotAdjustClickEnd();// 边缘调整控件 左键松开事件
@@ -51,8 +48,6 @@ class FormEdgeAdjustment : public QWidget {
     vtkNew<vtkPolyData> polydata_adjust_;// 边缘调整控件 数据级
     QList<bool> current_adjust_bool_;// 边缘调整控件 当前是否移动 是否平滑
     QList<double> adjust_click_;// 边缘调整控件 鼠标点击记录点
-
-
 };
 
 #endif // FORMEDGEADJUSTMENT_H

@@ -1,7 +1,7 @@
 #include "imagebrowsermanager.h"
 #include "mainwindow.h"
 #include "formedgeadjustment.h"
-
+#include "readivus.h"
 
 
 ImageBrowserManager::ImageBrowserManager(QOpencvWidget &widget,
@@ -350,6 +350,11 @@ void ImageBrowserManager::SlotImgProcess(const int &operation, const QString &te
         case 602: {// 边缘调整控件测试
                 FormEdgeAdjustment *tmp = new FormEdgeAdjustment();
                 tmp->showMaximized();
+                break;
+            }
+        case 603: {// IVUS浏览控件
+                ReadIVUS *tmp = new ReadIVUS();
+                tmp->show();
                 break;
             }
         default: {

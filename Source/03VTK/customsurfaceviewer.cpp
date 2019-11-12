@@ -146,7 +146,7 @@ void CustomSurfaceViewer::SetSurfaceRepresentation(
 }
 
 void CustomSurfaceViewer::SlotKeyPressed(const QString &key) {
-    if (key == "e") {
+    if (key == "e" || key == "E") {
         this->RepresentationCallback();
     }
 }

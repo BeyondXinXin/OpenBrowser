@@ -112,6 +112,7 @@ void DcmManager::SlotRunFinished() {
             int imageDims[3];
             imagedata_read_->GetImageData()->GetDimensions(imageDims);//获取长宽高
             vtkNew<vtkImageCast> imagedata;
+            imagedata_read_->GetImageData()->SetSpacing(1, 1, 0.5);
             imagedata->SetInputData(imagedata_read_->GetImageData());
             imagedata->SetOutputScalarTypeToFloat();
             for (int i = 0; i < 3; i++) {
@@ -135,6 +136,7 @@ void DcmManager::SlotRunFinished() {
                 planeWidget_[i]->On();
                 planeWidget_[i]->InteractionOn();
             }
+            riw_[2]->SetSlice(2000);
             renderer_->ResetCamera();
             render_window_->Render();
         }

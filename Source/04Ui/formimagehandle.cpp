@@ -828,6 +828,7 @@ void FormImageHandle::WinTest() {// 测试窗口
     QLabel *label_RGB = new QLabel(QString("测试"));
     QPushButton *button_R = new QPushButton(QString("最短路径提取控件"));
     QPushButton *button_G = new QPushButton(QString("边缘修正控件"));
+    QPushButton *button_B = new QPushButton(QString("IVUS浏览控件"));
     connect(button_R, &QPushButton::clicked,
     this, [ = ] {
         emit SingalImageMenuOut(601);
@@ -835,6 +836,10 @@ void FormImageHandle::WinTest() {// 测试窗口
     connect(button_G, &QPushButton::clicked,
     this, [ = ] {
         emit SingalImageMenuOut(602);
+    });
+    connect(button_B, &QPushButton::clicked,
+    this, [ = ] {
+        emit SingalImageMenuOut(603);
     });
 
     QGridLayout *testLayout = new QGridLayout();
@@ -844,6 +849,7 @@ void FormImageHandle::WinTest() {// 测试窗口
     testLayout->addWidget(label_RGB, 0, 0);
     testLayout->addWidget(button_R, 1, 1);
     testLayout->addWidget(button_G, 2, 1);
+    testLayout->addWidget(button_B, 3, 1);
 
     dock_Test->setFixedWidth(420);
     dock_Test->setLayout(testLayout);

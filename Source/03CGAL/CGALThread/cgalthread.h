@@ -7,7 +7,7 @@
 #define CGALTHREAD_H
 
 //01frame
-#include "app.h"
+#include "stable.h"
 
 class CGALThread : public QThread {
     Q_OBJECT

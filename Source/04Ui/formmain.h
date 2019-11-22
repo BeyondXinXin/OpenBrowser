@@ -2,8 +2,8 @@
 #define FORMMAIN_H
 
 // 01frame includes
-#include "app.h"
-#include "myMenu.h"
+#include "stable.h"
+#include "quimenu.h"
 
 // 04 uimanager includes
 #include "stlmanager.h"
@@ -35,7 +35,7 @@ namespace Ui {
     class FormMain;
 }
 
-class myMenu;
+class QUIMenu;
 
 class FormMain : public QWidget {
     Q_OBJECT
@@ -52,7 +52,7 @@ class FormMain : public QWidget {
     void SlotSetMainWindos(const int mainwindow);
   private:
     Ui::FormMain *ui;
-    myMenu *I_menubar;
+    QUIMenu *I_menubar;
     // image manager
     QPointer<ImageBrowserManager> image_manager_;
     // mode manager

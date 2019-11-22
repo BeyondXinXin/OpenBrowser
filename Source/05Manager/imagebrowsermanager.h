@@ -5,7 +5,7 @@
 #ifndef IMAGEBROWSERMANAGER_H
 #define IMAGEBROWSERMANAGER_H
 
-#include <app.h>
+#include "stable.h"
 #include "qopencvprocessing.h"
 #include "qopencvwidget.h"
 

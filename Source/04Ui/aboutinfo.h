@@ -2,7 +2,7 @@
 #define ABOUTINFO_H
 
 // 01frame includes
-#include <app.h>
+#include "stable.h"
 
 
 namespace Ui {

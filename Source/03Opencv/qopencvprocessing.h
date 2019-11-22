@@ -6,7 +6,7 @@
 #ifndef QOPENCVPROCESSING_H
 #define QOPENCVPROCESSING_H
 
-#include <app.h>
+#include "stable.h"
 
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/opencv.hpp"

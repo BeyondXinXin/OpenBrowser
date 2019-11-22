@@ -2,6 +2,7 @@
 #include "mainwindow.h"
 #include "formedgeadjustment.h"
 #include "readivus.h"
+#include "quihelper.h"
 
 
 ImageBrowserManager::ImageBrowserManager(QOpencvWidget &widget,

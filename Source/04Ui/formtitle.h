@@ -2,15 +2,15 @@
 #define FORMTITLE_H
 
 // 01frame includes
-#include "app.h"
-#include "myMenu.h"
+#include "stable.h"
+#include "quimenu.h"
 
 
 
 namespace Ui {
     class FormTitle;
 }
-class myMenu;
+class QUIMenu;
 
 class FormTitle : public QDialog {
     Q_OBJECT
@@ -25,7 +25,7 @@ class FormTitle : public QDialog {
     void SlotFullScreen();//全屏
     void SlotNormalScreen();//退出全屏
   Q_SIGNALS:
-    void SigalOpenFileOut();
+    void SignalOpenFileOut();
   protected:
     bool eventFilter(QObject *obj, QEvent *evt);
   private :
@@ -33,7 +33,7 @@ class FormTitle : public QDialog {
   private:
     Ui::FormTitle *ui;
     bool full_screen_;// 是否全屏标识符
-    myMenu *my_menu_;
+    QUIMenu *my_menu_;
 };
 
 #endif // FORMTITLE_H

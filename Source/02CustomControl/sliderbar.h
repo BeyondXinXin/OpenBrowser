@@ -18,7 +18,7 @@
 #define SLIDERBAR_H
 
 // 01frame include
-#include "app.h"
+#include "stable.h"
 
 class SliderBar : public QWidget {
     Q_OBJECT

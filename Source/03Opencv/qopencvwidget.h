@@ -8,7 +8,7 @@
 #ifndef QOPENCVWIDGET_H
 #define QOPENCVWIDGET_H
 
-#include <app.h>
+#include "stable.h"
 
 class QOpencvPixmapItem;
 class QOpencvScene;

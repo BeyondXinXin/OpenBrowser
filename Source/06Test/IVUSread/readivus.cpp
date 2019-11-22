@@ -1,5 +1,6 @@
 ﻿#include "readivus.h"
 #include "ui_readivus.h"
+#include "quihelper.h"
 
 
 ReadIVUS::ReadIVUS(QWidget *parent) :

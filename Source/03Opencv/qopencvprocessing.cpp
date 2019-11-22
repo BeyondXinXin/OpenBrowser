@@ -1,4 +1,7 @@
 #include "qopencvprocessing.h"
+#include "quihelper.h"
+
+
 using namespace cv;
 using namespace std;
 

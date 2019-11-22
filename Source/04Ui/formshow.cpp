@@ -1,6 +1,7 @@
 // 01 frame
 #include "formshow.h"
 #include "ui_formshow.h"
+#include "quihelper.h"
 
 //---------------------界面初始化---------------------//
 FormShow::FormShow(QWidget *parent) :

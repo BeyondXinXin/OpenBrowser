@@ -11,7 +11,7 @@
 #define FORMLEFT_H
 
 // 01frame includes
-#include <app.h>
+#include "stable.h"
 #include "formimagehandle.h"
 
 namespace Ui {

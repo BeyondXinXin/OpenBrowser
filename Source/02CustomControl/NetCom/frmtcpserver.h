@@ -2,7 +2,7 @@
 #define FRMTCPSERVER_H
 
 //01frame
-#include <app.h>
+#include "stable.h"
 
 
 
@@ -10,7 +10,7 @@ class TcpClient;
 class TcpServer;
 
 namespace Ui {
-class frmTcpServer;
+    class frmTcpServer;
 }
 
 class frmTcpServer : public QWidget {

@@ -1,7 +1,7 @@
 #ifndef CUSTOM_ITEM_H
 #define CUSTOM_ITEM_H
 
-#include <app.h>
+#include "stable.h"
 
 // 自定义 item
 class MyCustomIQGraphicsEllipseItem : public QGraphicsEllipseItem {

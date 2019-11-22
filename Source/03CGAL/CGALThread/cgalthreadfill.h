@@ -11,7 +11,7 @@
 #define CGALTHREADFILL_H
 
 // 01 frame includes
-#include "app.h"
+#include "stable.h"
 
 // 05customvtk includes
 #include "customvtkrenderer.h"

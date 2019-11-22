@@ -1,6 +1,7 @@
 ﻿//01frame
 #include "frmtcpserver.h"
 #include "ui_frmtcpserver.h"
+#include "quihelper.h"
 
 //02control
 #include "setupini.h"
@@ -95,7 +96,9 @@ void frmTcpServer::append(int type, const QString &data, bool clear) {
         strType = "接收";
         ui->txtMain->setTextColor(QColor("red"));
     }
-    strData = QString("时间[%1] %2: %3").arg(TIMEMS).arg(strType).arg(strData);
+    strData = QString("时间[%1] %2: %3")
+              .arg(QDateTime::currentDateTime().
+                   toString("yyyy_MM_dd_hh_mm_ss")).arg(strType).arg(strData);
     ui->txtMain->append(strData);
     currentCount++;
 }
@@ -162,7 +165,9 @@ void frmTcpServer::on_btnSave_clicked() {
     if (data.length() <= 0) {
         return;
     }
-    QString fileName = QString("%1/%2.txt").arg(QUIHelper::appPath()).arg(STRDATETIME);
+    QString fileName = QString("%1/%2.txt").arg(QUIHelper::appPath())
+                       .arg(QDateTime::currentDateTime().
+                            toString("yyyy_MM_dd_hh_mm_ss"));
     QFile file(fileName);
     if (file.open(QFile::WriteOnly | QFile::Text)) {
         file.write(data.toUtf8());

@@ -12,7 +12,7 @@
 #define SLIDERRANGE_H
 
 // 01frame include
-#include "app.h"
+#include "stable.h"
 
 
 class SliderRange : public QWidget {

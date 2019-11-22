@@ -6,7 +6,7 @@
 #define CUSTOMVTKRENDERER_H
 
 // 01frame includes
-#include "app.h"
+#include "stable.h"
 
 // VTK includes
 #include <vtkPolyData.h>

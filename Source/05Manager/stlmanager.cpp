@@ -4,6 +4,7 @@
 
 // 01frame includes
 #include "stlmanager.h"
+#include "quihelper.h"
 
 // 04ui includes
 #include "formmaskwidget.h"

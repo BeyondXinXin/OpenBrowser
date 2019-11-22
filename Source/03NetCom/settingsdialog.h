@@ -2,7 +2,7 @@
 #define SETTINGSDIALOG_H
 
 //qt
-#include "app.h"
+#include "stable.h"
 #include <QSerialPort>
 
 QT_BEGIN_NAMESPACE

@@ -1,7 +1,7 @@
 #ifndef FORMEDGEADJUSTMENT_H
 #define FORMEDGEADJUSTMENT_H
 
-#include <app.h>
+#include "stable.h"
 #include <vtkSmartPointer.h>
 #include <vtkRenderer.h>
 #include <vtkPolyData.h>

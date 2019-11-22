@@ -1,6 +1,6 @@
 #ifndef MINIMALPATHEXTRACTION_H
 #define MINIMALPATHEXTRACTION_H
-#include <app.h>
+#include "stable.h"
 #include <iostream>
 #include "itkNumericTraits.h"
 #include "itkImage.h"

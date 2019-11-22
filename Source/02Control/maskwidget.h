@@ -6,7 +6,7 @@
 #define MASKWIDGET_H
 
 //01frame
-#include "app.h"
+#include "stable.h"
 
 class MaskWidget : public QWidget {
     Q_OBJECT

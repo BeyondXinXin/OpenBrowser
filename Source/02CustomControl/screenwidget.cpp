@@ -214,7 +214,7 @@ void ScreenWidget::showEvent(QShowEvent *) {
 void ScreenWidget::saveScreenOther() {
     QString fileName =
         QFileDialog::getSaveFileName(this, "保存图片",
-                                     STRDATETIME, "Images (*.png *.bmp *.jpg)");
+                                     "screen", "Images (*.png *.bmp *.jpg)");
     if (fileName.length() > 0) {
         int x = screen->getLeftUp().x();
         int y = screen->getLeftUp().y();
@@ -232,18 +232,19 @@ void ScreenWidget::saveScreen() {
     int y = screen->getLeftUp().y();
     int w = screen->getRightDown().x() - x;
     int h = screen->getRightDown().y() - y;
-
-    QString fileName = QString("%1/screen_%2.jpg").arg(AppPath).arg(STRDATETIME);
+    QString fileName = QString("%1%2")
+                       .arg(QDateTime::currentDateTime().
+                            toString("screen_yyyy_MM_dd_hh_mm_ss")).arg(".txt");
     fullScreen->copy(x, y, w, h).save(fileName, "jpg");
-
     close();
 }
 
 
 void ScreenWidget::saveFullScreen() {
-    QString fileName = QString("%1/full_%2.jpg").arg(AppPath).arg(STRDATETIME);
+    QString fileName = QString("%1%2")
+                       .arg(QDateTime::currentDateTime().
+                            toString("full_yyyy_MM_dd_hh_mm_ss")).arg(".jpg");
     fullScreen->save(fileName, "jpg");
-
     close();
 }
 

@@ -1,5 +1,6 @@
 //01frame
 #include "setupini.h"
+#include "quihelper.h"
 
 
 //---------------------全局变量（ini内）//

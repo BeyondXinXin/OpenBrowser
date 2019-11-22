@@ -51,11 +51,31 @@ include_directories(Source/01Frame)
 set(01Frame
     Source/01Frame/Resources/style.qrc
     Source/01Frame/Resources/Image.qrc
-    Source/01Frame/app.h
-    Source/01Frame/app.cpp
+
+
+    Source/01Frame/openbrowserapplication.h
+    Source/01Frame/openbrowserapplication.cpp
+    Source/01Frame/commandlinemanager.h
+    Source/01Frame/commandlinemanager.cpp
+
+    Source/01Frame/quiapplication.h
+    Source/01Frame/quiapplication.cpp
+    Source/01Frame/quimenu.cpp
+    Source/01Frame/quimenu.h
+    Source/01Frame/quihelper.h
+    Source/01Frame/quihelper.cpp
+    Source/01Frame/quiconfig.h
+    Source/01Frame/quiconfig.cpp
+    Source/01Frame/quitrayicon.h
+    Source/01Frame/quitrayicon.cpp
+    Source/01Frame/quiiconhelper.h
+    Source/01Frame/quiiconhelper.cpp
+    Source/01Frame/quimessagebox.h
+    Source/01Frame/quimessagebox.cpp
+    Source/01Frame/quiwidgetmove.h
+    Source/01Frame/quiwidgetmove.cpp
+
     Source/01Frame/stable.h
-    Source/01Frame/myMenu.cpp
-    Source/01Frame/myMenu.h
     )
 
 include_directories(Source/02CustomControl)

@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include <custom_item.h>
-#include <app.h>
+#include "stable.h"
 
 namespace Ui {
     class MainWindow;

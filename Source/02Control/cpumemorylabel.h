@@ -8,7 +8,7 @@
 #define CPUMEMORYLABEL_H
 
 //01frame
-#include "app.h"
+#include "stable.h"
 
 class QProcess;
 class CpuMemoryLabel : public QLabel {

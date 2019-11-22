@@ -2,7 +2,7 @@
 #define SETUPINI_H
 
 //01frame
-#include <app.h>
+#include "stable.h"
 
 //读取配置文件相关
 class SetUpIni {

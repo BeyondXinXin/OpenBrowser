@@ -7,7 +7,7 @@
 #define LINESURFACECLIPPER_H
 
 // 01frame includes
-#include "app.h"
+#include "stable.h"
 
 // 05customvtk includes
 #include "customvtkrenderer.h"

@@ -7,7 +7,7 @@
 #define VTKTHREAD_H
 
 // 01frame inludes
-#include "app.h"
+#include "stable.h"
 
 // VTK inludes
 #include <vtkObject.h>

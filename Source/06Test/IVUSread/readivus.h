@@ -1,7 +1,7 @@
 ﻿#ifndef READIVUS_H
 #define READIVUS_H
 
-#include <app.h>
+#include "stable.h"
 #include <vtkNew.h>
 #include <vtkResliceImageViewer.h>
 #include <vtkGenericOpenGLRenderWindow.h>

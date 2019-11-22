@@ -7,7 +7,7 @@ FormMaskWidget::FormMaskWidget(QWidget *parent) :
     ui(new Ui::FormMaskWidget) {
     ui->setupUi(this);
     this->setObjectName("MaskWidget");
-    this->setProperty("my_canMove", true);
+    this->setProperty("can_move", true);
     this->setWindowFlags(Qt::FramelessWindowHint |
                          Qt::Tool |
                          Qt::WindowStaysOnTopHint);

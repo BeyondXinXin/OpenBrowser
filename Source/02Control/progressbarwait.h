@@ -12,7 +12,7 @@
 #define PROGRESSBARWAIT_H
 
 //01frame
-#include <app.h>
+#include "stable.h"
 
 class ProgressBarWait : public QWidget {
     Q_OBJECT

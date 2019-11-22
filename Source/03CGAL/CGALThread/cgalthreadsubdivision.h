@@ -6,7 +6,7 @@
 #define CGALTHREADSUBDIVISIONMETHODS_H
 
 // 01frame includes
-#include "app.h"
+#include "stable.h"
 
 // 05CGALThread includes
 #include "cgalthread.h"

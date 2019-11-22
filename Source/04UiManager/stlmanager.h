@@ -8,7 +8,7 @@
 #define STLMANAGER_H
 
 // 01 frame includes
-#include <app.h>
+#include "stable.h"
 
 // 05 includes
 #include "cgalthreadfill.h"

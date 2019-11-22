@@ -2,7 +2,7 @@
 #define FRM1_H
 
 //01frame
-#include "app.h"
+#include "stable.h"
 
 namespace Ui {
     class FormMaskWidget;

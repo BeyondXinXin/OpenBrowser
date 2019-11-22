@@ -1,9 +1,10 @@
 ﻿// 01frame includes
 #include "formmain.h"
 #include "ui_formmain.h"
-#include "myMenu.h"
+#include "quimenu.h"
 #include "formmaskwidget.h"
-
+#include "quihelper.h"
+#include "quiiconhelper.h"
 
 // VTK includes
 #include <vtkPlane.h>
@@ -80,7 +81,7 @@ void FormMain::initFrom() {
         ui->mainwindow2->findChildren<QPushButton *>();
     foreach (QPushButton *btn, btns) {
         btn->setCheckable(true);
-        IconHelper::Instance()->setIcon(
+        QUIIconHelper::Instance()->setIcon(
             btn, 0xf009, static_cast<quint32>(btn->size().height() - 10));
         connect(btn, &QPushButton::toggled,
                 dcm_manager_, &DcmManager::SlotViewMaximization);

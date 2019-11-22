@@ -2,7 +2,7 @@
 #define SCREENWIDGET_H
 
 //frame
-#include <app.h>
+#include "stable.h"
 
 //全局截屏控件、鼠标右键选择菜单|鼠标右键选择菜单|图片另存为//
 class Screen {

@@ -10,14 +10,17 @@ openBrowserApplication::openBrowserApplication(QObject *parent) :
     appReadyState_(true),
     appRunState_(false) {
     this->DirInitial();
+    this->LogInitial();
     this->openBrowserInitial();
 }
 
 openBrowserApplication::~openBrowserApplication() {
     qui_->deleteLater();
+    log_manager_->deleteLater();
 }
 
 bool openBrowserApplication::Run() {
+    qDebug();
     if (appReadyState_ && !appRunState_) {
         if( QUIConfig::cmd_option_.debug_mode == true) {
             return true;
@@ -41,7 +44,7 @@ bool openBrowserApplication::Run() {
 }
 
 void openBrowserApplication::LogInitial() {
-
+    log_manager_ = new QUILogManager();
 }
 
 void openBrowserApplication::openBrowserInitial() {

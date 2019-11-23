@@ -74,6 +74,8 @@ set(01Frame
     Source/01Frame/quimessagebox.cpp
     Source/01Frame/quiwidgetmove.h
     Source/01Frame/quiwidgetmove.cpp
+    Source/01Frame/quilogmanager.h
+    Source/01Frame/quilogmanager.cpp
 
     Source/01Frame/stable.h
     )

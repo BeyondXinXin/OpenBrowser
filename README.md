@@ -124,18 +124,25 @@ v0.2.0  程序优化
 3. UI left按钮布局重新调整  
 4. UI formshow 底部按钮状态调整  
 
-v0.3.0  增加Opencv模块  
+v0.3.1  增加Opencv模块  
 1. 界面框架重新调整
 2. 增加Image模块(利用opencv处理)
 3. 增加两个测试控件  中心线提取  和 线拖动(仿ps)
 4. 优化若干bug
 
-v0.3.0  系统结构修改 
-1. 增加命令行操作  -test（ivus模块）   -debug  -relese
+v0.3.2  系统结构修改 
+1. 增加命令行操作  -test（ivus模块）   -debug   -relese
 2. 增加openbrowserapplication  程序运行控制类
 3. 增加 8个 QUIXXXXX类，用于全局控制
 4. 修复若干bug
 5. 增加系统路径   /.openBrowser  用来放日志、临时文件、程序文件、数据库
 6. 增加发布版本（AppImage格式，可直接运行）
 7. 增加发布脚本
+
+v0.3.3  增加日志系统 
+1. 增加日志控制类QUILogManager  日志保存目录 .openBrowser/log/  
+日志格式  
+时间(yyyy-MM-dd hh:mm:ss:zzz) [线程名称]  类型(DEBUG/INFO/WARNING/CRITICAL/FATAL) - 
+发送者：信息
+
 

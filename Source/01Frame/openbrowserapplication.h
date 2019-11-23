@@ -8,6 +8,7 @@
 
 #include "stable.h"
 #include "formtitle.h"
+#include "quilogmanager.h"
 
 class openBrowserApplication : public QObject {
     Q_OBJECT
@@ -20,7 +21,7 @@ class openBrowserApplication : public QObject {
 
   public slots:
   private:
-    void LogInitial(); // 登录界面初始化
+    void LogInitial(); // 日志界面初始化
     void openBrowserInitial(); // 主界面初始化
     void DirInitial(); // 程序路径初始化
     void DbInitial(); // 数据库初始化
@@ -32,6 +33,7 @@ class openBrowserApplication : public QObject {
     bool appRunState_; // 运行状态
 
     FormTitle *qui_;
+    QUILogManager *log_manager_;
 
 };
 

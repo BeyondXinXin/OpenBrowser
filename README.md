@@ -17,7 +17,6 @@
 我的使用的版本见下方安装教程，由于能力有限，仅维护测试ubuntu下程序，windos下需要自己简单修改就可以。  
 每一个模块采用manager进行管理(事件驱动),非常容易分离,便于拆去单独使用!!  
 
-
 ## 主要参考  
 https://me.csdn.net/feiyangqingyun   feiyangqingyun   QT自定义控件教程   
 https://gitee.com/feiyangqingyun   feiyangqingyun   QT自定义控件教程     
@@ -43,6 +42,8 @@ https://doc.qt.io/ qt 官方教程
 ![](https://gitee.com/yaoxin001/openBrowser/raw/master/preview/011.png)
 ![](https://gitee.com/yaoxin001/openBrowser/raw/master/preview/012.png)
 ![](https://gitee.com/yaoxin001/openBrowser/raw/master/preview/013.png)
+![](https://gitee.com/yaoxin001/openBrowser/raw/master/preview/014.png)
+
 
 ## 代码风格
 Artistic Style
@@ -83,6 +84,11 @@ Images
 /Source/04Ui  UI相关  
 /Source/05Manager  结构管理  
 /Source/06Test  测试控件    
+
+## 命令行
+-test  正在开发的ivus模块     
+-debug  
+-relese  
 
 ## 安装教程
 

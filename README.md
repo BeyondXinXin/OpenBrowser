@@ -49,18 +49,18 @@ https://doc.qt.io/ qt 官方教程
 Artistic Style
 
 --style=google
-indent=spaces=4	          # 缩进采用4个空格
-indent-switches           # -S  设置 switch 整体缩进
-indent-cases 	          # -K  设置 cases 整体缩进
-indent-namespaces         # -N  设置 namespace 整体缩进
-indent-preproc-block      # -xW 设置预处理模块缩进
-indent-preproc-define     # -w  设置宏定义模块缩进
-pad-oper                  # -p  操作符前后填充空格
-pad-header                # 在if，for，while等代码段前后增加空行
-unpad-paren               # 备份文件的后缀，默认是.orig,=none表示不进行备份
-delete-empty-lines        # -xe 删除多余空行,调试时候并未使用,提交前使用一次
-add-braces                # -j  单行语句加上大括号
-align-pointer=name        # *、&这类字符靠近变量名字
+indent=spaces=4	          # 缩进采用4个空格  
+indent-switches           # -S  设置 switch 整体缩进  
+indent-cases 	          # -K  设置 cases 整体缩进  
+indent-namespaces         # -N  设置 namespace 整体缩进  
+indent-preproc-block      # -xW 设置预处理模块缩进  
+indent-preproc-define     # -w  设置宏定义模块缩进  
+pad-oper                  # -p  操作符前后填充空格  
+pad-header                # 在if，for，while等代码段前后增加空行  
+unpad-paren               # 备份文件的后缀，默认是.orig,=none表示不进行备份  
+delete-empty-lines        # -xe 删除多余空行,调试时候并未使用,提交前使用一次  
+add-braces                # -j  单行语句加上大括号  
+align-pointer=name        # *、&这类字符靠近变量名字  
 
 
 

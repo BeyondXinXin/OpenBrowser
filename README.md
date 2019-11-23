@@ -18,14 +18,14 @@
 每一个模块采用manager进行管理(事件驱动),非常容易分离,便于拆去单独使用!!  
 
 
-## 主要参考    
-https://me.csdn.net/feiyangqingyun   feiyangqingyun   QT自定义控件教程  
-https://gitee.com/feiyangqingyun/QWidgetDemo  飞扬青云  QT自定义控件教程 
+## 主要参考  
+https://me.csdn.net/feiyangqingyun   feiyangqingyun   QT自定义控件教程   
+https://gitee.com/feiyangqingyun   feiyangqingyun   QT自定义控件教程     
 https://blog.csdn.net/webzhuce  阿兵-AI医疗  VKT中文教程  
-https://blog.csdn.net/u013165921 笔尖bj opencv+qt结合  
+https://blog.csdn.net/u013165921 笔尖bj opencv+qt结合   
 https://me.csdn.net/u011012932  一去丶二三里   QT常用控件基础  
 https://doc.cgal.org/latest/Manual/index.html  CGAL 官方教程  
-https://lorensen.github.io/VTKExamples/site/Cxx/#surface-reconstruction VTK  官方教程  
+https://lorensen.github.io/VTKExamples/site/Cxx/#surface-reconstruction  VTK  官方教程  
 https://itk.org/Doxygen/html/index.html  ITK  官方教程  
 https://doc.qt.io/ qt 官方教程  
 

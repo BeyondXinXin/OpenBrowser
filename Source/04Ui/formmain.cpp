@@ -1,49 +1,10 @@
-﻿// 01frame includes
+﻿// 01 Frame includes
 #include "formmain.h"
 #include "ui_formmain.h"
 #include "quimenu.h"
 #include "formmaskwidget.h"
 #include "quihelper.h"
 #include "quiiconhelper.h"
-
-// VTK includes
-#include <vtkPlane.h>
-#include <vtkCamera.h>
-#include <vtkCommand.h>
-#include <vtkStripper.h>
-#include <vtkProperty.h>
-#include <vtkSTLWriter.h>
-#include <vtkSTLReader.h>
-#include <vtkImageData.h>
-#include <vtkImageCast.h>
-#include <vtkCellPicker.h>
-#include <vtkNamedColors.h>
-#include <vtkLookupTable.h>
-#include <vtkPlaneSource.h>
-#include <vtkImageViewer2.h>
-#include <vtkSphereSource.h>
-#include <vtkSmartPointer.h>
-#include <vtkRenderWindow.h>
-#include <vtkOutlineFilter.h>
-#include <vtkPolyDataReader.h>
-#include <vtkMetaImageReader.h>
-#include <vtkImageSlabReslice.h>
-#include <vtkDICOMImageReader.h>
-#include <vtkResliceCursorActor.h>
-#include <vtkResliceCursorWidget.h>
-#include <vtkImageGaussianSmooth.h>
-#include <vtkHandleRepresentation.h>
-#include <vtkInteractorStyleImage.h>
-#include <vtkRenderWindowInteractor.h>
-#include <vtkDistanceRepresentation.h>
-#include <vtkBoundedPlanePointPlacer.h>
-#include <vtkDistanceRepresentation2D.h>
-#include <vtkWindowedSincPolyDataFilter.h>
-#include <vtkPointHandleRepresentation2D.h>
-#include <vtkPointHandleRepresentation3D.h>
-#include <vtkImageMapToWindowLevelColors.h>
-#include <vtkResliceCursorLineRepresentation.h>
-
 
 FormMain::FormMain(QWidget *parent) :
     QWidget(parent),
@@ -81,7 +42,7 @@ void FormMain::initFrom() {
         ui->mainwindow2->findChildren<QPushButton *>();
     foreach (QPushButton *btn, btns) {
         btn->setCheckable(true);
-        QUIIconHelper::Instance()->setIcon(
+        QUIIconHelper::Instance()->SetIcon(
             btn, 0xf009, static_cast<quint32>(btn->size().height() - 10));
         connect(btn, &QPushButton::toggled,
                 dcm_manager_, &DcmManager::SlotViewMaximization);
@@ -100,7 +61,7 @@ void FormMain::initFrom() {
 void FormMain::SlotOpenFileIn(QString tmp_file) {
     if (tmp_file.isEmpty()) {
         tmp_file =
-            QUIHelper::getFileName("*.dcm "
+            QUIHelper::GetFileName("*.dcm "
                                    "*.stl "
                                    "*.bmp *.jpg *.pbm *.pgm *.png *.ppm *.xbm *.xpm ");
     }

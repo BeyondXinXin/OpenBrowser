@@ -1,14 +1,14 @@
+#ifndef CGALTHREADSUBDIVISIONMETHODS_H
+#define CGALTHREADSUBDIVISIONMETHODS_H
+
 /*
  * CGAL 表面细分算法
  * */
 
-#ifndef CGALTHREADSUBDIVISIONMETHODS_H
-#define CGALTHREADSUBDIVISIONMETHODS_H
-
-// 01frame includes
+// 01 Frame includes
 #include "stable.h"
 
-// 05CGALThread includes
+// 03 CGAL includes
 #include "cgalthread.h"
 
 // VTK includes

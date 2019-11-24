@@ -1,6 +1,7 @@
-[TOC]
-
 # QT_openBrowser
+[![Fork me on Gitee](https://gitee.com/yaoxin001/openBrowser/widgets/widget_6.svg)](https://gitee.com/yaoxin001/openBrowser)
+
+[![star](https://gitee.com/yaoxin001/openBrowser/badge/star.svg?theme=gray)](https://gitee.com/yaoxin001/openBrowser/stargazers)   
 
 ## 介绍
 基于QT      一个开源的文件浏览器  
@@ -11,13 +12,15 @@
 等文件的浏览和前处理  
 (off mha mhd vtk vtu格式文件目前需要自己更改下源码,下一个版本直接增加打开选项)
 
+
+## 特性
 程序主要来自网络整理，便于自己和他人使用。 
 所有模块均采用manager管理，从程序中分割非常方便。  
 其他功能持续增加维护，比如opencv与QT结合使用、QT+Halcon使用、QT下文本编辑器等  
 我的使用的版本见下方安装教程，由于能力有限，仅维护测试ubuntu下程序，windos下需要自己简单修改就可以。  
 每一个模块采用manager进行管理(事件驱动),非常容易分离,便于拆去单独使用!!  
 
-## 主要参考  
+## 参考  
 https://me.csdn.net/feiyangqingyun   feiyangqingyun   QT自定义控件教程   
 https://gitee.com/feiyangqingyun   feiyangqingyun   QT自定义控件教程     
 https://blog.csdn.net/webzhuce  阿兵-AI医疗  VKT中文教程  
@@ -62,7 +65,31 @@ delete-empty-lines        # -xe 删除多余空行,调试时候并未使用,提�
 add-braces                # -j  单行语句加上大括号  
 align-pointer=name        # *、&这类字符靠近变量名字  
 
+## 命名格式
+```cpp
+class ImageBrowserManager: public QObject {
+    Q_OBJECT
+  public:
+    explicit ImageBrowserManager(QOpencvWidget &widget,
+                                 QObject *parent = nullptr);
+    virtual ~ImageBrowserManager() override;
+    void OpenStlFile(const QString &file_path = "");
+  public Q_SLOTS:
+    void SlotImgProcess(const int &operation, const QString &text);
+  Q_SIGNALS:
+    void SignalPromptInformationOut(const QString &text);
+  private:
+    void Initial();
+    void UnDo();
+    void ReDo();
+    void UpDataImage(const QImage);
 
+  private:
+    QOpencvWidget &widget_;
+    QVector<QImage> img_vector_;	                // 存储图像的Vector容器
+    QVector<QImage>::iterator imt_iter_;		// Vector迭代器
+};
+```
 
 ## 软件架构
 分层架构和事件驱动型  
@@ -73,17 +100,30 @@ Dcm
 Images
 
 
-1.文件结构  
-/bin      程序exe生成目录，程序运行根目录（代码没有修改根目录，浏览过程中临时文件都存在这里，有需要可以放到专门的tmp目录下）  
-/bulid    cmake构建目录，每个人都不一样，无需下载    
-/Source   程序源码  
-/Source/01Frame  程序框架，初始化相关  
-/Source/02CustomControl  自定义小控件  
-/Source/02CustomControl/NetCom  串口网口插件  
-/Source/03  调用开源库封装算法,包含itk vtk opencv cgal vcg   
-/Source/04Ui  UI相关  
-/Source/05Manager  结构管理  
-/Source/06Test  测试控件    
+## 文件结构  
+/preview  ................................................运行截图  
+/Source   .................................................程序源码  
+/Source/01Frame  ..................................程序框架  
+/Source/01Frame/Resources  ................程序资源  
+/Source/01Frame/Resources/Image  .....程序使用图片  
+/Source/01Frame/Resources/Style  .......程序使用风格  
+/Source/02CustomControl/  ...................自定义控件  
+/Source/02CustomControl/NetCom ......网口串口   
+/Source/03CGAL/  .................................CGAL QT封装  
+/Source/03CGAL/CGALThread  .............CGAL QT封装  
+/Source/03Opencv  ................................OPENCV QT封装
+/Source/03VTK  ......................................VTK QT封装
+/Source/03VTK/VTKThread  ...................VTK QT封装
+/Source/04Ui  ..........................................UI界面
+/Source/05UiManager  ............................UI界面管理器
+/Source/06Test  .......................................测试/开发中临时文件
+.gitignore  ................................................git忽略文件
+CMakeLists.txt  .......................................cmake配置文件  
+Pack.sh  ..................................................打包文件  
+README.md .........................................程序介绍  
+linuxdeployqt.APPimage  .......................QT打包工具  
+main.cpp  ................................................程序入口  
+
 
 ## 命令行
 -test  正在开发的ivus模块     
@@ -92,10 +132,10 @@ Images
 
 ## 安装教程
 
-###### 打包教程  
+### 打包教程  
 https://blog.csdn.net/a15005784320/article/details/103160721
 
-###### 开源库使用  
+### 开源库使用  
 armadillo-9.600.6  
 CGAL-4.13.1  
 gmp-6.1.2  

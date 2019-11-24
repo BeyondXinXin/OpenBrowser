@@ -1,11 +1,13 @@
 ﻿#ifndef FORMTITLE_H
 #define FORMTITLE_H
 
-// 01frame includes
+/*
+ * 显示ui框架
+ */
+
+// 01 Frame includes
 #include "stable.h"
 #include "quimenu.h"
-
-
 
 namespace Ui {
     class FormTitle;
@@ -19,9 +21,9 @@ class FormTitle : public QDialog {
     explicit FormTitle(QWidget *parent = nullptr);
     ~FormTitle();
   public slots:
-    void on_btnMenu_Min_clicked();
-    void on_btnMenu_Max_clicked();
-    void on_btnMenu_Close_clicked();
+    void SlotMinClicked();
+    void SlotMaxClicked();
+    void SlotCloseClicked();
     void SlotFullScreen();//全屏
     void SlotNormalScreen();//退出全屏
   Q_SIGNALS:

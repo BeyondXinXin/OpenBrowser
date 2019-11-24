@@ -1,7 +1,11 @@
 #ifndef QUIMESSAGEBOX_H
 #define QUIMESSAGEBOX_H
-//弹出信息框类
 
+/*
+ * 弹出信息框类
+*/
+
+// 01 Frame includes
 #include "stable.h"
 
 class QUIMessageBox : public QDialog {
@@ -11,13 +15,31 @@ class QUIMessageBox : public QDialog {
     static QUIMessageBox *Instance();
     explicit QUIMessageBox(QWidget *parent = nullptr);
     ~QUIMessageBox();
+
+
+  public Q_SLOTS:
+    void setIconMain(const QChar &str, quint32 size = 12);
+    void setMessage(const QString &msg, int type, int closeSec = 0);
+
+
+  private Q_SLOTS:
+    void SlotBtnOkClicked();
+    void SlotBtnMenuCloseClicked();
+
   protected:
     void closeEvent(QCloseEvent *);
     bool eventFilter(QObject *obj, QEvent *evt);
+  private:
+    void InitControl();             //初始化控件
+    void InitForm();                //初始化窗体
+    void CheckSec();                //校验倒计时
 
   private:
-    static QScopedPointer<QUIMessageBox> self;
+    static QScopedPointer<QUIMessageBox> self_;
+    qint32 closeSec;                   //总显示时间
+    qint32 currentSec;                 //当前已显示时间
 
+  private:
     QVBoxLayout *verticalLayout1;
     QWidget *widgetTitle;
     QHBoxLayout *horizontalLayout3;
@@ -40,22 +62,7 @@ class QUIMessageBox : public QDialog {
     QPushButton *btnOk;
     QPushButton *btnCancel;
 
-  private:
-    int closeSec;                   //总显示时间
-    int currentSec;                 //当前已显示时间
 
-  private slots:
-    void initControl();             //初始化控件
-    void initForm();                //初始化窗体
-    void checkSec();                //校验倒计时
-
-  private slots:
-    void on_btnOk_clicked();
-    void on_btnMenu_Close_clicked();
-
-  public Q_SLOTS:
-    void setIconMain(const QChar &str, quint32 size = 12);
-    void setMessage(const QString &msg, int type, int closeSec = 0);
 };
 
 

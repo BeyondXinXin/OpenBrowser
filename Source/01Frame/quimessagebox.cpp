@@ -1,30 +1,31 @@
-#include "quimessagebox.h"
+// 01 Frame includes
 #include "quihelper.h"
+#include "quimessagebox.h"
 #include "quiiconhelper.h"
 
-QScopedPointer<QUIMessageBox> QUIMessageBox::self;
+QScopedPointer<QUIMessageBox> QUIMessageBox::self_;
 QUIMessageBox *QUIMessageBox::Instance() {
-    if (self.isNull()) {
+    if (self_.isNull()) {
         QMutex mutex;
         QMutexLocker locker(&mutex);
-        if (self.isNull()) {
-            self.reset(new QUIMessageBox);
+        if (self_.isNull()) {
+            self_.reset(new QUIMessageBox);
         }
     }
-    return self.data();
+    return self_.data();
 }
 
 QUIMessageBox::QUIMessageBox(QWidget *parent) : QDialog(parent) {
-    this->initControl();
-    this->initForm();
-    QUIHelper::setFormInCenter(this);
+    this->InitControl();
+    this->InitForm();
+    QUIHelper::SetFormInCenter(this);
 }
 
 QUIMessageBox::~QUIMessageBox() {
     delete widgetMain;
 }
 
-void QUIMessageBox::initControl() {
+void QUIMessageBox::InitControl() {
     this->setObjectName(QString::fromUtf8("QUIMessageBox"));
     verticalLayout1 = new QVBoxLayout(this);
     verticalLayout1->setSpacing(0);
@@ -147,17 +148,17 @@ void QUIMessageBox::initControl() {
     frame->raise();
     btnOk->setText("确定");
     btnCancel->setText("取消");
-    connect(btnOk, SIGNAL(clicked()), this, SLOT(on_btnOk_clicked()));
+    connect(btnOk, SIGNAL(clicked()), this, SLOT(SlotBtnOkClicked()));
     connect(btnMenu_Close, SIGNAL(clicked()),
-            this, SLOT(on_btnMenu_Close_clicked()));
+            this, SLOT(SlotBtnMenuCloseClicked()));
     connect(btnCancel, SIGNAL(clicked()),
-            this, SLOT(on_btnMenu_Close_clicked()));
+            this, SLOT(SlotBtnMenuCloseClicked()));
 }
 
-void QUIMessageBox::initForm() {
-    QUIIconHelper::Instance()->setIcon(
+void QUIMessageBox::InitForm() {
+    QUIIconHelper::Instance()->SetIcon(
         labIco, QChar(0xf072), 14);
-    QUIIconHelper::Instance()->setIcon(
+    QUIIconHelper::Instance()->SetIcon(
         btnMenu_Close, QChar(0xf00d), 12);
     this->setProperty("form", true);
     this->widgetTitle->setProperty("form", "title");
@@ -177,12 +178,12 @@ void QUIMessageBox::initForm() {
     currentSec = 0;
     QTimer *timer = new QTimer(this);
     timer->setInterval(1000);
-    connect(timer, SIGNAL(timeout()), this, SLOT(checkSec()));
+    connect(timer, SIGNAL(timeout()), this, SLOT(CheckSec()));
     timer->start();
     this->installEventFilter(this);
 }
 
-void QUIMessageBox::checkSec() {
+void QUIMessageBox::CheckSec() {
     if (closeSec == 0) {
         return;
     }
@@ -200,7 +201,7 @@ void QUIMessageBox::setMessage(const QString &msg, int type, int closeSec) {
     this->closeSec = closeSec;
     this->currentSec = 0;
     this->labTime->clear();
-    checkSec();
+    CheckSec();
     //图片存在则取图片,不存在则取图形字体
     int size = this->labIcoMain->size().height();
     bool exist = !QImage(":/Image/msg_info.png").isNull();
@@ -209,7 +210,7 @@ void QUIMessageBox::setMessage(const QString &msg, int type, int closeSec) {
             this->labIcoMain->
             setStyleSheet("border-image: url(:/Image/msg_info.png);");
         } else {
-            QUIIconHelper::Instance()->setIcon(
+            QUIIconHelper::Instance()->SetIcon(
                 this->labIcoMain, 0xf05a, static_cast<quint32>(size));
         }
         this->btnCancel->setVisible(false);
@@ -219,7 +220,7 @@ void QUIMessageBox::setMessage(const QString &msg, int type, int closeSec) {
             this->labIcoMain->
             setStyleSheet("border-image: url(:/Image/msg_question.png);");
         } else {
-            QUIIconHelper::Instance()->setIcon(
+            QUIIconHelper::Instance()->SetIcon(
                 this->labIcoMain, 0xf059, static_cast<quint32>(size));
         }
         this->setMinimumWidth(1200);
@@ -229,7 +230,7 @@ void QUIMessageBox::setMessage(const QString &msg, int type, int closeSec) {
             this->labIcoMain->
             setStyleSheet("border-image: url(:/Image/msg_error.png);");
         } else {
-            QUIIconHelper::Instance()->setIcon(
+            QUIIconHelper::Instance()->SetIcon(
                 this->labIcoMain, 0xf057, static_cast<quint32>(size));
         }
         this->btnCancel->setVisible(false);
@@ -266,18 +267,18 @@ bool QUIMessageBox::eventFilter(QObject *obj, QEvent *evt) {
     return QWidget::eventFilter(obj, evt);
 }
 
-void QUIMessageBox::on_btnOk_clicked() {
+void QUIMessageBox::SlotBtnOkClicked() {
     done(QMessageBox::Yes);
     close();
 }
 
-void QUIMessageBox::on_btnMenu_Close_clicked() {
+void QUIMessageBox::SlotBtnMenuCloseClicked() {
     done(QMessageBox::No);
     close();
 }
 
 void QUIMessageBox::setIconMain(const QChar &str, quint32 size) {
-    QUIIconHelper::Instance()->setIcon(this->labIco, str, size);
+    QUIIconHelper::Instance()->SetIcon(this->labIco, str, size);
 }
 
 

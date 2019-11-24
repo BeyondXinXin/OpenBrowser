@@ -1,13 +1,14 @@
-// 01frame includes
+// 01 Frame includes
+#include "quihelper.h"
 #include "quiapplication.h"
 #include "commandlinemanager.h"
-#include "quihelper.h"
 #include "openbrowserapplication.h"
 
 // VTK includes
-#include "QVTKOpenGLWidget.h"
-#include "vtkOpenGLRenderWindow.h"
 #include <vtkOutputWindow.h>
+#include <QVTKOpenGLWidget.h>
+#include <vtkOpenGLRenderWindow.h>
+
 
 
 int main(int argc, char *argv[]) {
@@ -25,7 +26,7 @@ int main(int argc, char *argv[]) {
     // qt全局初始化
     QUIApplication a(argc, argv);
     if (!a.lock()) {
-        QUIHelper::showMessageBoxError("正在运行，请不要重复启动", 5, true);
+        QUIHelper::ShowMessageBoxError("正在运行，请不要重复启动", 5, true);
         return 0;
     }
 
@@ -42,11 +43,18 @@ int main(int argc, char *argv[]) {
 }
 
 
-
-
-
-
-
+// 01 Frame includes
+// 02 CustomControl includes
+// 03 VTK includes
+// 03 OPENCV includes
+// 03 CGAL includes
+// 04 Ui includes
+// 05 UiManager includes
+// 06 Test includes
+// VTK includes
+// C++ includes
+// CGAL includes
+// OPENCV includes
 
 
 

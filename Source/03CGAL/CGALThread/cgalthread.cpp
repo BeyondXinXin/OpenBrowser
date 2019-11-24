@@ -1,4 +1,4 @@
-//01frame
+// 01 Frame includes
 #include "cgalthread.h"
 
 CGALThread::CGALThread(QObject *parent) : QThread(parent) {

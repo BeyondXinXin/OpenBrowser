@@ -1,10 +1,5 @@
-﻿//01frame
+﻿// 01 Frame includes
 #include "progressbarcolor.h"
-
-//qt
-#include <QPainter>
-#include <QTimer>
-#include <QDebug>
 
 ProgressBarColor::ProgressBarColor(QWidget *parent) : QWidget(parent) {
     minValue = 0;

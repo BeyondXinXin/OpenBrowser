@@ -1,7 +1,11 @@
 #ifndef FORMSHOW_H
 #define FORMSHOW_H
 
-//01frame
+/*
+ * ImagesBrowser 组件
+ */
+
+// 01 Frame includes
 #include "stable.h"
 
 namespace Ui {
@@ -16,41 +20,37 @@ class FormShow : public QWidget {
 
   protected:
     bool eventFilter(QObject *watched, QEvent *event);
-
   private:
-    Ui::FormShow *ui;
-
-    bool videoMax;
-    int videoCount;
-    QString videoType;
-    QMenu *videoMenu;
-    QList<QLabel *> widgets;
-
-  private slots:
     void Initial();
-
   private slots:
-    void show_video_all();
-    void show_video_4();
-    void show_video_6();
-    void show_video_8();
-    void show_video_9();
-    void show_video_16();
-
-    void hide_video_all();
-    void change_video(int index, int flag);
-
-    void change_video_4(int index);
-    void change_video_6(int index);
-    void change_video_8(int index);
-    void change_video_9(int index);
-    void change_video_16(int index);
+    void ShowVideoAll();
+    void ShowVideo4();
+    void ShowVideo6();
+    void ShowVideo8();
+    void ShowVideo9();
+    void ShowVideo16();
+    void HideVideoAll();
+    void ChangeVideo(const qint32 index, const qint32 flag);
+    void ChangeVideo4(const qint32 index);
+    void ChangeVideo6(const qint32 index);
+    void ChangeVideo8(const qint32 index);
+    void ChangeVideo9(const qint32 index);
+    void ChangeVideo16(const qint32 index);
     void on_frmshowpushButton_8_clicked();
     void on_frmshowpushButton_9_clicked();
     void on_frmshowpushButton_10_clicked();
     void on_frmshowpushButton_11_clicked();
     void on_frmshowpushButton_12_clicked();
     void on_frmshowpushButton_clicked();
+  private:
+    Ui::FormShow *ui;
+    bool video_max_;
+    qint32 video_count_;
+    QString video_type_;
+    QMenu *video_menu_;
+    QList<QLabel *> widgets_;
+
+
 };
 
 #endif // FORMSHOW_H

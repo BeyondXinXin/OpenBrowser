@@ -1,17 +1,16 @@
+// 01 Frame includes
 #include "quiwidgetmove.h"
 
-
-
-QUIWidgetMove *QUIWidgetMove::self = nullptr;
+QUIWidgetMove *QUIWidgetMove::self_ = nullptr;
 QUIWidgetMove *QUIWidgetMove::Instance() {
-    if (!self) {
+    if (!self_) {
         QMutex mutex;
         QMutexLocker locker(&mutex);
-        if (!self) {
-            self = new QUIWidgetMove;
+        if (!self_) {
+            self_ = new QUIWidgetMove;
         }
     }
-    return self;
+    return self_;
 }
 
 QUIWidgetMove::QUIWidgetMove(QObject *parent) : QObject(parent) {
@@ -44,7 +43,7 @@ bool QUIWidgetMove::eventFilter(QObject *obj, QEvent *evt) {
     return QObject::eventFilter(obj, evt);
 }
 
-void QUIWidgetMove::start() {
+void QUIWidgetMove::Run() {
     qApp->installEventFilter(this);
 }
 

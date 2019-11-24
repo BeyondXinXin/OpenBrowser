@@ -1,11 +1,11 @@
+#ifndef AUTOMATICDIVISION_H
+#define AUTOMATICDIVISION_H
+
 /*
  * 提取最大连通域
  */
 
-#ifndef AUTOMATICDIVISION_H
-#define AUTOMATICDIVISION_H
-
-// 01frame includes
+// 01 Frame includes
 #include "stable.h"
 
 // VTK includes

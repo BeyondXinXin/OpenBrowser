@@ -1,7 +1,7 @@
-﻿// 01 frame includes
+﻿// 01 Frame includes
 #include "dcmmanager.h"
 
-// 04 ui includes
+// 04 Ui includes
 #include "formmaskwidget.h"
 
 // VTK includes
@@ -39,6 +39,23 @@ void DcmManager::OpenStlFile(const QString &file_path) {
     SlotVTKThreadMaskWidgetIn();
     imagedata_read_->start();
 }
+
+void DcmManager::SlotViewMaximization(const bool &value) { // 最大化显示
+    QVTKOpenGLWidget *wid = static_cast<QVTKOpenGLWidget *>(sender()->parent());
+    if (value) {
+        dcm_widget1_->hide();
+        dcm_widget2_->hide();
+        dcm_widget3_->hide();
+        dcm_widget_->hide();
+        wid->show();
+    } else {
+        dcm_widget1_->show();
+        dcm_widget2_->show();
+        dcm_widget3_->show();
+        dcm_widget_->show();
+    }
+}
+
 
 void DcmManager::Initial() {
     imagedata_read_ = new VtkThreadImageDataRead();
@@ -95,6 +112,7 @@ void DcmManager::SlotRunFinished() {
             int imageDims[3];
             imagedata_read_->GetImageData()->GetDimensions(imageDims);//获取长宽高
             vtkNew<vtkImageCast> imagedata;
+            imagedata_read_->GetImageData()->SetSpacing(1, 1, 0.5);
             imagedata->SetInputData(imagedata_read_->GetImageData());
             imagedata->SetOutputScalarTypeToFloat();
             for (int i = 0; i < 3; i++) {
@@ -118,6 +136,7 @@ void DcmManager::SlotRunFinished() {
                 planeWidget_[i]->On();
                 planeWidget_[i]->InteractionOn();
             }
+            riw_[2]->SetSlice(2000);
             renderer_->ResetCamera();
             render_window_->Render();
         }

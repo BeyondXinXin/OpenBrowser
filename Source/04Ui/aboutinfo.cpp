@@ -1,4 +1,5 @@
-﻿#include "aboutinfo.h"
+﻿// 01 Frame includes
+#include "aboutinfo.h"
 #include "ui_aboutinfo.h"
 
 AboutInfo::AboutInfo(QWidget *parent) :

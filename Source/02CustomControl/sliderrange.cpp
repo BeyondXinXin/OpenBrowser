@@ -1,4 +1,4 @@
-﻿// 01frame include
+﻿// 01 Frame includes
 #include "sliderrange.h"
 
 

@@ -1,11 +1,11 @@
+#ifndef REFINESURFACE_H
+#define REFINESURFACE_H
+
 /*
  * 表面细化
  */
 
-#ifndef REFINESURFACE_H
-#define REFINESURFACE_H
-
-// 01frame includes
+// 01 Frame includes
 #include "stable.h"
 
 // VTK includes

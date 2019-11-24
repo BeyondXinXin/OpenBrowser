@@ -1,13 +1,14 @@
-/*
- * vtk线程  写出PolyData数据(stl)
-*/
 #ifndef VTKTHREADPOLYDATAWRITE_H
 #define VTKTHREADPOLYDATAWRITE_H
 
-// 05vtkthred includes
+/*
+ * vtk线程  写出PolyData数据(stl)
+*/
+
+// 03 VTK includes
 #include "vtkthread.h"
 
-// Vtk includes
+// VTK includes
 #include <vtkSmartPointer.h>
 #include <vtkPolyData.h>
 

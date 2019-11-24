@@ -1,31 +1,32 @@
+// 01 Frame includes
 #include "quitrayicon.h"
 
-QScopedPointer<QUITrayIcon> QUITrayIcon::self;
+QScopedPointer<QUITrayIcon> QUITrayIcon::self_;
 QUITrayIcon *QUITrayIcon::Instance() {
-    if (self.isNull()) {
+    if (self_.isNull()) {
         QMutex mutex;
         QMutexLocker locker(&mutex);
-        if (self.isNull()) {
-            self.reset(new QUITrayIcon);
+        if (self_.isNull()) {
+            self_.reset(new QUITrayIcon);
         }
     }
-    return self.data();
+    return self_.data();
 }
 
 QUITrayIcon::QUITrayIcon(QObject *parent) : QObject(parent) {
-    mainWidget = nullptr;
-    trayIcon = new QSystemTrayIcon(this);
-    connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
-            this, SLOT(iconIsActived(QSystemTrayIcon::ActivationReason)));
-    menu = new QMenu(QApplication::desktop());
-    exitDirect = true;
+    main_widget_ = nullptr;
+    tray_icon_ = new QSystemTrayIcon(this);
+    connect(tray_icon_, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+            this, SLOT(SlotIconIsActived(QSystemTrayIcon::ActivationReason)));
+    menu_ = new QMenu(QApplication::desktop());
+    exit_direct_ = true;
 }
 
-void QUITrayIcon::iconIsActived(QSystemTrayIcon::ActivationReason reason) {
+void QUITrayIcon::SlotIconIsActived(QSystemTrayIcon::ActivationReason reason) {
     switch (reason) {
         case QSystemTrayIcon::Trigger:
         case QSystemTrayIcon::DoubleClick: {
-                mainWidget->showNormal();
+                main_widget_->showNormal();
                 break;
             }
         default:
@@ -33,44 +34,44 @@ void QUITrayIcon::iconIsActived(QSystemTrayIcon::ActivationReason reason) {
     }
 }
 
-void QUITrayIcon::setExitDirect(bool exitDirect) {
-    if (this->exitDirect != exitDirect) {
-        this->exitDirect = exitDirect;
+void QUITrayIcon::SetExitDirect(bool exitDirect) {
+    if (this->exit_direct_ != exitDirect) {
+        this->exit_direct_ = exitDirect;
     }
 }
 
-void QUITrayIcon::setMainWidget(QWidget *mainWidget) {
-    this->mainWidget = mainWidget;
-    menu->addAction("主界面", mainWidget, SLOT(on_btnMenu_Min_clicked()));
-    if (exitDirect) {
-        menu->addAction("退出", this, SLOT(closeAll()));
+void QUITrayIcon::SetMainWidget(QWidget *mainWidget) {
+    this->main_widget_ = mainWidget;
+    menu_->addAction("主界面", mainWidget, SLOT(SlotMinClicked()));
+    if (exit_direct_) {
+        menu_->addAction("退出", this, SLOT(SlotCloseAll()));
     } else {
-        menu->addAction("退出", this, SIGNAL(trayIconExit()));
+        menu_->addAction("退出", this, SIGNAL(TrayIconExit()));
     }
-    trayIcon->setContextMenu(menu);
+    tray_icon_->setContextMenu(menu_);
 }
 
-void QUITrayIcon::showMessage(
+void QUITrayIcon::ShowMessage(
     const QString &title, const QString &msg,
     QSystemTrayIcon::MessageIcon icon, int msecs) {
-    trayIcon->showMessage(title, msg, icon, msecs);
+    tray_icon_->showMessage(title, msg, icon, msecs);
 }
 
-void QUITrayIcon::setIcon(const QString &strIcon) {
-    trayIcon->setIcon(QIcon(strIcon));
+void QUITrayIcon::SetIcon(const QString &strIcon) {
+    tray_icon_->setIcon(QIcon(strIcon));
 }
 
-void QUITrayIcon::setToolTip(const QString &tip) {
-    trayIcon->setToolTip(tip);
+void QUITrayIcon::ToolTip(const QString &tip) {
+    tray_icon_->setToolTip(tip);
 }
 
-void QUITrayIcon::setVisible(bool visible) {
-    trayIcon->setVisible(visible);
+void QUITrayIcon::SlotsetVisible(bool visible) {
+    tray_icon_->setVisible(visible);
 }
 
-void QUITrayIcon::closeAll() {
-    trayIcon->hide();
-    trayIcon->deleteLater();
+void QUITrayIcon::SlotCloseAll() {
+    tray_icon_->hide();
+    tray_icon_->deleteLater();
     exit(0);
 }
 

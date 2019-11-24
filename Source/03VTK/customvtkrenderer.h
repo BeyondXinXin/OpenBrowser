@@ -1,11 +1,11 @@
+#ifndef CUSTOMVTKRENDERER_H
+#define CUSTOMVTKRENDERER_H
+
 /*
  * 自定义vtk randerer
  */
 
-#ifndef CUSTOMVTKRENDERER_H
-#define CUSTOMVTKRENDERER_H
-
-// 01frame includes
+// 01 Frame includes
 #include "stable.h"
 
 // VTK includes

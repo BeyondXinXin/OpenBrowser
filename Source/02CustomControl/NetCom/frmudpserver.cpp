@@ -129,9 +129,9 @@ void frmUdpServer::readData() {
         udpSocket->readDatagram(data.data(), data.size(), &host, &port);
 
         if (SetUpIni::HexReceiveUdpServer) {
-            buffer = QUIHelper::byteArrayToHexStr(data);
+            buffer = QUIHelper::ByteArrayToHexStr(data);
         } else if (SetUpIni::AsciiUdpServer) {
-            buffer = QUIHelper::byteArrayToAsciiStr(data);
+            buffer = QUIHelper::ByteArrayToAsciiStr(data);
         } else {
             buffer = QString(data);
         }
@@ -159,9 +159,9 @@ void frmUdpServer::readData() {
 void frmUdpServer::sendData(const QString &ip, int port, const QString &data) {
     QByteArray buffer;
     if (SetUpIni::HexSendUdpServer) {
-        buffer = QUIHelper::hexStrToByteArray(data);
+        buffer = QUIHelper::HexStrToByteArray(data);
     } else if (SetUpIni::AsciiUdpServer) {
-        buffer = QUIHelper::asciiStrToByteArray(data);
+        buffer = QUIHelper::AsciiStrToByteArray(data);
     } else {
         buffer = data.toLatin1();
     }
@@ -196,7 +196,7 @@ void frmUdpServer::on_btnSave_clicked() {
         return;
     }
 
-    QString fileName = QString("%1/%2.txt").arg(QUIHelper::appPath())
+    QString fileName = QString("%1/%2.txt").arg(QUIHelper::AppPath())
                        .arg(QDateTime::currentDateTime().
                             toString("yyyy_MM_dd_hh_mm_ss"));
     QFile file(fileName);

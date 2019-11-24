@@ -1,12 +1,13 @@
-/**
- * qt UIWidget 框架
- */
+#ifndef QAUIAPPLICATION_H
+#define QAUIAPPLICATION_H
 
-#ifndef APP_H
-#define APP_H
+/*
+ * 仅能启动一个实例
+*/
+
+// 01 Frame includes
 #include "stable.h"
 
-// 仅能启动一个实例
 class QUIApplication : public QApplication {
     Q_OBJECT
 

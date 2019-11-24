@@ -1,7 +1,9 @@
-// 全局变量控制
-
 #ifndef GLOBVALUE_H
 #define GLOBVALUE_H
+
+/*
+ * 全局变量控制
+*/
 
 #include "stable.h"
 

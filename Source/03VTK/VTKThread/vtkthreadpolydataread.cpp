@@ -1,7 +1,7 @@
-// 01frame includes
+// 01 Frame includes
 #include "vtkthreadpolydataread.h"
 
-// Vtk includes
+// VTK includes
 #include <vtkCommand.h>
 #include <vtkSTLReader.h>
 #include <vtkMarchingCubes.h>

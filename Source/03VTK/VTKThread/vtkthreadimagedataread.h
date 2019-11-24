@@ -1,11 +1,11 @@
-﻿/*
+﻿#ifndef VTKTHREADIMAGEDATAREAD_H
+#define VTKTHREADIMAGEDATAREAD_H
+
+/*
  * vtk线程  读取ImageData数据
 */
 
-#ifndef VTKTHREADIMAGEDATAREAD_H
-#define VTKTHREADIMAGEDATAREAD_H
-
-//05vtkthred
+// 03 VTK includes
 #include "vtkthread.h"
 
 //vtk

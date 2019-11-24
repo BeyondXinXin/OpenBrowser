@@ -1,10 +1,19 @@
 #ifndef SCREENWIDGET_H
 #define SCREENWIDGET_H
 
-//frame
+/**
+ * 等待进度条控件
+ * 1:圆弧状风格 旋转圆风格 三角圆弧 线条风格 圆环风格
+ * 2:可设置范围值和当前值
+ * 3:可设置前景色背景色
+ * 4:可设置顺时针逆时针旋转
+ * 5:支持任意大小缩放
+ * 6:支持设置旋转速度间隔
+ */
+
+// 01 Frame includes
 #include "stable.h"
 
-//全局截屏控件、鼠标右键选择菜单|鼠标右键选择菜单|图片另存为//
 class Screen {
   public:
     enum STATUS {SELECT, MOV, SET_W_H};

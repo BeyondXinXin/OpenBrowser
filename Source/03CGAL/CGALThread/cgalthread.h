@@ -1,12 +1,12 @@
+#ifndef CGALTHREAD_H
+#define CGALTHREAD_H
+
 /*
  * CGAL线程   操作基类
  * 仅有run函数在子线程,其余均在主线程
 */
 
-#ifndef CGALTHREAD_H
-#define CGALTHREAD_H
-
-//01frame
+// 01 Frame includes
 #include "stable.h"
 
 class CGALThread : public QThread {

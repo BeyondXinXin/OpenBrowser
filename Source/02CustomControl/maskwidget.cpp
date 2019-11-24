@@ -1,58 +1,55 @@
-﻿//01frame
+﻿// 01 Frame includes
 #include "maskwidget.h"
 
-//qt
-#include <qapplication.h>
-
-MaskWidget *MaskWidget::self = nullptr;
+MaskWidget *MaskWidget::self_ = nullptr;
 MaskWidget::MaskWidget(QWidget *parent) : QWidget(parent) {
-    mainWidget = nullptr;
-    setOpacity(0.7);
-    setBgColor(QColor(0, 0, 0));
+    main_widget_ = nullptr;
+    SlotSetOpacity(0.7);
+    SlotSetBgColor(QColor(0, 0, 0));
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);
     qApp->installEventFilter(this);
 }
 
-void MaskWidget::setMainWidget(QWidget *mainWidget) {
-    if (this->mainWidget != mainWidget) {
-        this->mainWidget = mainWidget;
+void MaskWidget::SlotSetMainWidget(QWidget *mainWidget) {
+    if (this->main_widget_ != mainWidget) {
+        this->main_widget_ = mainWidget;
         setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
     }
 }
 
-void MaskWidget::setDialogNames(const QStringList &dialogNames) {
-    if (this->dialogNames != dialogNames) {
-        this->dialogNames = dialogNames;
+void MaskWidget::SlotSetDialogNames(const QStringList &dialogNames) {
+    if (this->dialog_names_ != dialogNames) {
+        this->dialog_names_ = dialogNames;
     }
 }
 
-void MaskWidget::setOpacity(double opacity) {
+void MaskWidget::SlotSetOpacity(double opacity) {
     this->setWindowOpacity(opacity);
 }
 
-void MaskWidget::setBgColor(const QColor &bgColor) {
+void MaskWidget::SlotSetBgColor(const QColor &bgColor) {
     QPalette palette = this->palette();
     palette.setBrush(QPalette::Background, bgColor);
     this->setPalette(palette);
 }
 
 void MaskWidget::showEvent(QShowEvent *) {
-    if (mainWidget != nullptr) {
-        if (mainWidget->isFullScreen()) {
+    if (main_widget_ != nullptr) {
+        if (main_widget_->isFullScreen()) {
             this->showFullScreen();
         } else {
-            this->setGeometry(mainWidget->geometry());
+            this->setGeometry(main_widget_->geometry());
         }
     }
 }
 
 bool MaskWidget::eventFilter(QObject *obj, QEvent *event) {
     if (event->type() == QEvent::Show) {
-        if (dialogNames.contains(obj->objectName())) {
+        if (dialog_names_.contains(obj->objectName())) {
             this->show();
         }
     } else if (event->type() == QEvent::Hide) {
-        if (dialogNames.contains(obj->objectName())) {
+        if (dialog_names_.contains(obj->objectName())) {
             this->hide();
         }
     }

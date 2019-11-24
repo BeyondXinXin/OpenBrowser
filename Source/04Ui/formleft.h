@@ -1,3 +1,6 @@
+#ifndef FORMLEFT_H
+#define FORMLEFT_H
+
 /*
  * Mode Browser
  * 1--自动提取连通域 2--直线剪裁 3--修剪  4--平滑 5--细分 6--细化
@@ -5,13 +8,10 @@
  * 21--载入文件 22--保存 23--撤销
  */
 
-
-
-#ifndef FORMLEFT_H
-#define FORMLEFT_H
-
-// 01frame includes
+// 01 Frame includes
 #include "stable.h"
+
+// 04 Ui includes
 #include "formimagehandle.h"
 
 namespace Ui {

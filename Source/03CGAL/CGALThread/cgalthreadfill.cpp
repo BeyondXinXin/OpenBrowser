@@ -1,11 +1,11 @@
-// 01 frame includes
+// 01 Frame includes
 #include "cgalthreadfill.h"
 
 // C++ includes
+#include <vector>
+#include <fstream>
 #include <fstream>
 #include <iostream>
-#include <fstream>
-#include <vector>
 #include <boost/foreach.hpp>
 
 // CGAL includes

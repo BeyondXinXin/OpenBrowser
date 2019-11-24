@@ -1,14 +1,14 @@
+#ifndef VTKTHREADSUBDIVISION_H
+#define VTKTHREADSUBDIVISION_H
+
 /*
  * vtk线程  polydata 表面细分
 */
 
-#ifndef VTKTHREADSUBDIVISION_H
-#define VTKTHREADSUBDIVISION_H
-
-// 05vtkthred includes
+// 03 VTK includes
 #include "vtkthread.h"
 
-// Vtk includes
+// VTK includes
 #include <vtkSmartPointer.h>
 #include <vtkPolyData.h>
 

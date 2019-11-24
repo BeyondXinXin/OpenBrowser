@@ -1,27 +1,29 @@
-﻿/*
- * STL 界面管理
-*/
-
-#ifndef STLMANAGER_H
+﻿#ifndef STLMANAGER_H
 #define STLMANAGER_H
 
-// 01 frame includes
+/*
+ * ModeBrowser 界面管理
+*/
+
+// 01 Frame includes
 #include "stable.h"
 
-// 05 includes
+// 03 VTK includes
 #include "refinesurface.h"
-#include "cgalthreadfill.h"
 #include "automaticdivision.h"
 #include "customvtkrenderer.h"
 #include "linesurfaceclipper.h"
 #include "customsurfaceviewer.h"
 #include "vtkthreadsubdivision.h"
 #include "smoothsurfaceselector.h"
-#include "cgalthreadsubdivision.h"
 #include "vtkthreadpolydataread.h"
 #include "vtkthreadimagedataread.h"
 #include "vtkthreadpolydatawrite.h"
 #include "vtkthreadmarchingcubes.h"
+
+// 03 CGAL includes
+#include "cgalthreadfill.h"
+#include "cgalthreadsubdivision.h"
 
 // VTL includes
 #include <QVTKOpenGLWidget.h>

@@ -1,4 +1,7 @@
-﻿/**
+﻿#ifndef SLIDERBAR_H
+#define SLIDERBAR_H
+
+/**
  * 滑动导航条控件
  * 2:支持窗体大小改变控件自动拉伸
  * 3:支持移动到第一个/末一个/上移/下移/移动到指定索引/移动到指定元素
@@ -14,10 +17,7 @@
  * 13:选中条目的宽度为条目文字集合中最长的一个
  */
 
-#ifndef SLIDERBAR_H
-#define SLIDERBAR_H
-
-// 01frame include
+// 01 Frame includes
 #include "stable.h"
 
 class SliderBar : public QWidget {

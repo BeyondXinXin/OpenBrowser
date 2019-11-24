@@ -1,4 +1,7 @@
-﻿/*
+﻿#ifndef CGALTHREADFILL_H
+#define CGALTHREADFILL_H
+
+/*
  * CGAL + VTK
  * 表面补洞
  * vtk交互寻找需要补的洞（预览功能）
@@ -6,14 +9,10 @@
  * 未写进线程，界面会出现假死状态
  * */
 
-
-#ifndef CGALTHREADFILL_H
-#define CGALTHREADFILL_H
-
-// 01 frame includes
+// 01 Frame includes
 #include "stable.h"
 
-// 05customvtk includes
+// 03 VTK includes
 #include "customvtkrenderer.h"
 
 // VTK includes

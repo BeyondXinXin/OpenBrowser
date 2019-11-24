@@ -1,8 +1,13 @@
+// 01 Frame includes
 #include "openbrowserapplication.h"
 #include "quihelper.h"
 #include "quitrayicon.h"
-#include "maskwidget.h"
 #include "quiconfig.h"
+
+// 02 CustomControl includes
+#include "maskwidget.h"
+
+// 06 Test includes
 #include "readivus.h"
 
 openBrowserApplication::openBrowserApplication(QObject *parent) :
@@ -33,9 +38,9 @@ bool openBrowserApplication::Run() {
         if( QUIConfig::cmd_option_.relese_mode == true) {
             return true;
         }
-        QUITrayIcon::Instance()->setIcon(":/Image/logo.ico");
-        QUITrayIcon::Instance()->setVisible(true);
-        QUITrayIcon::Instance()->setMainWidget(qui_);
+        QUITrayIcon::Instance()->SetIcon(":/Image/logo.ico");
+        QUITrayIcon::Instance()->SlotsetVisible(true);
+        QUITrayIcon::Instance()->SetMainWidget(qui_);
         qui_->show();
         return true;
     } else {
@@ -49,9 +54,9 @@ void openBrowserApplication::LogInitial() {
 
 void openBrowserApplication::openBrowserInitial() {
     qui_ = new FormTitle();
-    MaskWidget::Instance()->setDialogNames(QStringList("MaskWidget"));
-    MaskWidget::Instance()->setMainWidget(qui_);
-    QUIHelper::setStyle(":/Style/style.qss");
+    MaskWidget::Instance()->SlotSetDialogNames(QStringList("MaskWidget"));
+    MaskWidget::Instance()->SlotSetMainWidget(qui_);
+    QUIHelper::SetStyle(":/Style/style.qss");
 }
 
 void openBrowserApplication::DirInitial() {

@@ -1,11 +1,14 @@
-﻿
-#ifndef MYSCROLLAREA_H
+﻿#ifndef MYSCROLLAREA_H
 #define MYSCROLLAREA_H
 
-//01frame
+/*
+ * 菜单栏、状态栏
+*/
+
+// 01 Frame includes
 #include "stable.h"
 
-//02control
+// 02 CustomControl includes
 #include "frmtcpclient.h"
 #include "settingsdialog.h"
 #include "frmtcpserver.h"
@@ -19,33 +22,36 @@ class QUIMenu : public QMenuBar {
   public:
     QUIMenu(QWidget *parent, FormTitle *p);
     ~QUIMenu();
-    QToolBar *toolbar_;
   public slots :
     // 界面目录
-    void File_open();		// 打开
-    void File_save();		// 保存
-    void File_open_database();		// 另存为
-    void Help_info();		// 帮助
-    void About_info();//关于
-    void Act_edit_screenshot();//截图
-    void qappclose();//退出
-    void qappfullScreen();//全屏
-    void qappmaxScreen();//退出全屏
-    void qappNet();//打开网络
-    void qappCom();//打开串口
+    void SlotFileopen();		// 打开
+    void SlotFilesave();		// 保存
+    void SlotFileOpenDatabase();		// 另存为
+    void SlotHelpIinfo();		// 帮助
+    void SlotAboutIinfo();//关于
+    void SlotSscreenshot();//截图
+    void SlotQappClose();//退出
+    void SlotQappFullScreen();//全屏
+    void SlotQappMaxScreen();//退出全屏
+    void SlotQappNet();//打开网络
+    void SlotQappCom();//打开串口
+    QToolBar *GetToolBar();
+
+
+
   private:
-    FormTitle *I_MainWindow;
-    QStatusBar *T_StatusBa;
-    QString currentPath;	// 当前图像路径
-    frmTcpClient *I_frmTcpClient;
-    frmTcpServer *I_frmTcpServer;
-    frmUdpServer *I_frmUdpServer;
-    QSerialPort *m_serialPort; //串口类
-    SettingsDialog *com_Settings;
     void Initial();
-    void Menu_File();		// 文件菜单
-    void Menu_Edit();		// 编辑菜单
-    void Menu_Help();		   // 帮助菜单
+    void InitialMenuFile();		// 文件菜单
+    void InitialMenuEdit();		// 编辑菜单
+    void InitialMenuHelp();		// 帮助菜单
+  private:
+    QToolBar *toolbar_;
+    FormTitle *main_window_;
+    frmTcpClient *frm_tcp_client_;
+    frmTcpServer *frm_tcp_server_;
+    frmUdpServer *frm_udpserver_;
+    QSerialPort *serial_port_; //串口类
+    SettingsDialog *com_Settings_;
 };
 
 

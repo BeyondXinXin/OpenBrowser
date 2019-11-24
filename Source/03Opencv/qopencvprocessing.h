@@ -1,13 +1,15 @@
+#ifndef QOPENCVPROCESSING_H
+#define QOPENCVPROCESSING_H
+
 /**
  * qt封装
  * opencv 常用函数 输入输出参数转为qimage
  */
 
-#ifndef QOPENCVPROCESSING_H
-#define QOPENCVPROCESSING_H
-
+// 01 Frame includes
 #include "stable.h"
 
+// OPENCV includes
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/opencv.hpp"
 #include <opencv2/core/core.hpp>

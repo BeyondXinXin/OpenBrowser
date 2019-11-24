@@ -1,11 +1,11 @@
-/*
- * dcm 界面管理
-*/
-
 #ifndef DCMMANAGER_H
 #define DCMMANAGER_H
 
-// 01frame includes
+/*
+ * DcmManager 界面管理
+*/
+
+// 01 Frame includes
 #include "stable.h"
 
 //05calclation

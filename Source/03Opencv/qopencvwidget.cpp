@@ -1,3 +1,4 @@
+// 01 Frame includes
 #include "qopencvwidget.h"
 
 QOpencvWidget::QOpencvWidget(QWidget *parent) :

@@ -1,6 +1,6 @@
+// 01 Frame includes
 #include "qopencvprocessing.h"
 #include "quihelper.h"
-
 
 using namespace cv;
 using namespace std;
@@ -150,7 +150,7 @@ QImage QOpencvProcessing::splitColor(
         Mat img = QImage2cvMat(src);
         Mat img_rgb, img_hsv, img_hls, img_yuv, img_dst;
         if (img.channels() == 1) {
-            QUIHelper::showMessageBoxError("该图像为灰度图像。");
+            QUIHelper::ShowMessageBoxError("该图像为灰度图像。");
             return src;
         } else {
             vector <Mat> vecRGB, vecHsv, vecHls, vecYuv;

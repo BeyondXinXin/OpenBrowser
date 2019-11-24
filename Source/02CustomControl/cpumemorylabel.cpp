@@ -1,50 +1,50 @@
-﻿//01frame
+﻿// 01 Frame includes
 #include "cpumemorylabel.h"
 
 
 
 #ifdef Q_OS_WIN
-#ifndef _WIN32_WINNT
-#define _WIN32_WINNT 0x502
-#endif
-#include "windows.h"
+    #ifndef _WIN32_WINNT
+        #define _WIN32_WINNT 0x502
+    #endif
+    #include "windows.h"
 #endif
 #define MB (1024 * 1024)
 #define KB (1024)
 
 CpuMemoryLabel::CpuMemoryLabel(QWidget *parent) : QLabel(parent) {
-    totalNew = idleNew = totalOld = idleOld = 0;
-    cpuPercent = 0;
-    memoryPercent = 0;
-    memoryAll = 0;
-    memoryUse = 0;
-    timerCPU = new QTimer(this);
-    connect(timerCPU, SIGNAL(timeout()), this, SLOT(getCPU()));
+    total_new_ = idle_new_ = total_old_ = idle_old_ = 0;
+    cpu_percent_ = 0;
+    memory_percent_ = 0;
+    memory_all_ = 0;
+    memory_use_ = 0;
+    timer_cpu_ = new QTimer(this);
+    connect(timer_cpu_, SIGNAL(timeout()), this, SLOT(SlotGetCPU()));
 
-    timerMemory = new QTimer(this);
-    connect(timerMemory, SIGNAL(timeout()), this, SLOT(getMemory()));
+    timer_memory_ = new QTimer(this);
+    connect(timer_memory_, SIGNAL(timeout()), this, SLOT(SlotGetMemory()));
 
-    process = new QProcess(this);
-    connect(process, SIGNAL(readyRead()), this, SLOT(readData()));
+    process_ = new QProcess(this);
+    connect(process_, SIGNAL(readyRead()), this, SLOT(SlotReadData()));
 }
 
 CpuMemoryLabel::~CpuMemoryLabel() {
-    stop();
+    Stop();
 }
 
-void CpuMemoryLabel::start(int interval) {
-    getCPU();
-    getMemory();
-    timerCPU->start(interval);
-    timerMemory->start(interval + 200);
+void CpuMemoryLabel::Start(qint32 interval) {
+    SlotGetCPU();
+    SlotGetMemory();
+    timer_cpu_->start(interval);
+    timer_memory_->start(interval + 200);
 }
 
-void CpuMemoryLabel::stop() {
-    timerCPU->stop();
-    timerMemory->stop();
+void CpuMemoryLabel::Stop() {
+    timer_cpu_->stop();
+    timer_memory_->stop();
 }
 
-void CpuMemoryLabel::getCPU() {
+void CpuMemoryLabel::SlotGetCPU() {
 #ifdef Q_OS_WIN
     static FILETIME preidleTime;
     static FILETIME prekernelTime;
@@ -80,15 +80,15 @@ void CpuMemoryLabel::getCPU() {
     setData();
 #else
 
-    if (process->state() == QProcess::NotRunning) {
-        totalNew = idleNew = 0;
-        process->start("cat /proc/stat");
+    if (process_->state() == QProcess::NotRunning) {
+        total_new_ = idle_new_ = 0;
+        process_->start("cat /proc/stat");
     }
 
 #endif
 }
 
-void CpuMemoryLabel::getMemory() {
+void CpuMemoryLabel::SlotGetMemory() {
 #ifdef Q_OS_WIN
     MEMORYSTATUSEX statex;
     statex.dwLength = sizeof(statex);
@@ -101,67 +101,64 @@ void CpuMemoryLabel::getMemory() {
     setData();
 #else
 
-    if (process->state() == QProcess::NotRunning) {
-        process->start("cat /proc/meminfo");
+    if (process_->state() == QProcess::NotRunning) {
+        process_->start("cat /proc/meminfo");
     }
 
 #endif
 }
 
-void CpuMemoryLabel::readData() {
-    while (!process->atEnd()) {
-        QString s = QLatin1String(process->readLine());
+void CpuMemoryLabel::SlotReadData() {
+    while (!process_->atEnd()) {
+        QString s = QLatin1String(process_->readLine());
 
         if (s.startsWith("cpu")) {
             QStringList list = s.split(" ");
-            idleNew = list.at(5).toInt();
+            idle_new_ = list.at(5).toInt();
 
             foreach (QString value, list) {
-                totalNew += value.toInt();
+                total_new_ += value.toInt();
             }
 
-            int total = totalNew - totalOld;
-            int idle = idleNew - idleOld;
-            cpuPercent = 100 * (total - idle) / total;
-            totalOld = totalNew;
-            idleOld = idleNew;
+            int total = total_new_ - total_old_;
+            int idle = idle_new_ - idle_old_;
+            cpu_percent_ = 100 * (total - idle) / total;
+            total_old_ = total_new_;
+            idle_old_ = idle_new_;
             break;
         } else if (s.startsWith("MemTotal")) {
             s = s.replace(" ", "");
             s = s.split(":").at(1);
-            memoryAll = s.left(s.length() - 3).toInt() / KB;
+            memory_all_ = s.left(s.length() - 3).toInt() / KB;
         } else if (s.startsWith("MemFree")) {
             s = s.replace(" ", "");
             s = s.split(":").at(1);
-            memoryFree = s.left(s.length() - 3).toInt() / KB;
+            memory_free_ = s.left(s.length() - 3).toInt() / KB;
         } else if (s.startsWith("Buffers")) {
             s = s.replace(" ", "");
             s = s.split(":").at(1);
-            memoryFree += s.left(s.length() - 3).toInt() / KB;
+            memory_free_ += s.left(s.length() - 3).toInt() / KB;
         } else if (s.startsWith("Cached")) {
             s = s.replace(" ", "");
             s = s.split(":").at(1);
-            memoryFree += s.left(s.length() - 3).toInt() / KB;
-            memoryUse = memoryAll - memoryFree;
-            memoryPercent = 100 * memoryUse / memoryAll;
+            memory_free_ += s.left(s.length() - 3).toInt() / KB;
+            memory_use_ = memory_all_ - memory_free_;
+            memory_percent_ = 100 * memory_use_ / memory_all_;
             break;
         }
     }
 
-    setData();
+    SlotSetData();
 }
 
-void CpuMemoryLabel::setData() {
-    cpuPercent = (cpuPercent < 0 ? 0 : cpuPercent);
-
-    //    QString msg = QString("CPU %1%  Mem %2% ( 已用 %3 MB / 共 %4 MB )")
-    //                  .arg(cpuPercent).arg(memoryPercent)
-    //            .arg(memoryUse).arg(memoryAll);
+void CpuMemoryLabel::SlotSetData() {
+    cpu_percent_ = (cpu_percent_ < 0 ? 0 : cpu_percent_);
     QString msg = QString("CPU %1%  Mem %2%")
-                  .arg(cpuPercent).arg(memoryPercent);
+                  .arg(cpu_percent_).arg(memory_percent_);
     this->setText(msg);
-    emit textChanged(msg);
-    emit valueChanged(cpuPercent, memoryPercent, memoryAll, memoryUse, memoryFree);
+    emit SIgnalTextChanged(msg);
+    emit SignalValueChanged(cpu_percent_, memory_percent_,
+                            memory_all_, memory_use_, memory_free_);
 }
 
 QSize CpuMemoryLabel::sizeHint() const {

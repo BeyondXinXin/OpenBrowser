@@ -1,4 +1,7 @@
-﻿/**
+﻿#ifndef PROGRESSBARWAIT_H
+#define PROGRESSBARWAIT_H
+
+/**
  * 等待进度条控件
  * 1:圆弧状风格 旋转圆风格 三角圆弧 线条风格 圆环风格
  * 2:可设置范围值和当前值
@@ -8,10 +11,7 @@
  * 6:支持设置旋转速度间隔
  */
 
-#ifndef PROGRESSBARWAIT_H
-#define PROGRESSBARWAIT_H
-
-//01frame
+// 01 Frame includes
 #include "stable.h"
 
 class ProgressBarWait : public QWidget {

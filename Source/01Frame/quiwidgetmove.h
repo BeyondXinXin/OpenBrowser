@@ -1,7 +1,11 @@
 #ifndef QUIWIDGETMOVE_H
 #define QUIWIDGETMOVE_H
 
-//界面拖拽
+/*
+ * 界面支持拖拽
+*/
+
+// 01 Frame includes
 #include "stable.h"
 
 class QUIWidgetMove : public QObject {
@@ -9,13 +13,13 @@ class QUIWidgetMove : public QObject {
   public:
     static QUIWidgetMove *Instance();
     explicit QUIWidgetMove(QObject *parent = nullptr);
-    void start();
+    void Run();
 
   protected:
     bool eventFilter(QObject *obj, QEvent *evt);
 
   private:
-    static QUIWidgetMove *self;
+    static QUIWidgetMove *self_;
 
   signals:
 

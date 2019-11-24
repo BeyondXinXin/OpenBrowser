@@ -1,7 +1,11 @@
 #ifndef FORMIMAGEHANDLE_H
 #define FORMIMAGEHANDLE_H
 
-// 01frame includes
+/*
+ * ImageBrowser 菜单栏
+ */
+
+// 01 Frame includes
 #include "stable.h"
 
 namespace Ui {

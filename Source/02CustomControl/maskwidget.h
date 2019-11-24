@@ -1,11 +1,11 @@
-﻿/**
+﻿#ifndef MASKWIDGET_H
+#define MASKWIDGET_H
+
+/**
  * 遮挡罩控件
  */
 
-#ifndef MASKWIDGET_H
-#define MASKWIDGET_H
-
-//01frame
+// 01 Frame includes
 #include "stable.h"
 
 class MaskWidget : public QWidget {
@@ -15,29 +15,30 @@ class MaskWidget : public QWidget {
 
     static MaskWidget *Instance() {
         static QMutex mutex;
-        if (!self) {
+        if (!self_) {
             QMutexLocker locker(&mutex);
-            if (!self) {
-                self = new MaskWidget;
+            if (!self_) {
+                self_ = new MaskWidget;
             }
         }
-        return self;
+        return self_;
     }
+  public slots:
+    void SlotSetMainWidget(QWidget *main_widget_);
+    void SlotSetDialogNames(const QStringList &dialog_names_);
+    void SlotSetBgColor(const QColor &bgColor);
+    void SlotSetOpacity(double opacity);
 
   protected:
     void showEvent(QShowEvent *);
     bool eventFilter(QObject *obj, QEvent *event);
 
   private:
-    static MaskWidget *self;
-    QWidget *mainWidget;
-    QStringList dialogNames;
+    static MaskWidget *self_;
+    QWidget *main_widget_;
+    QStringList dialog_names_;
 
-  public slots:
-    void setMainWidget(QWidget *mainWidget);
-    void setDialogNames(const QStringList &dialogNames);
-    void setBgColor(const QColor &bgColor);
-    void setOpacity(double opacity);
+
 };
 
 #endif // MASKWIDGET_H

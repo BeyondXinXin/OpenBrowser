@@ -1,9 +1,11 @@
+// 01 Frame includes
 #include "imagebrowsermanager.h"
-#include "mainwindow.h"
-#include "formedgeadjustment.h"
-#include "readivus.h"
 #include "quihelper.h"
 
+// 06 Test includes
+#include "readivus.h"
+#include "mainwindow.h"
+#include "formedgeadjustment.h"
 
 ImageBrowserManager::ImageBrowserManager(QOpencvWidget &widget,
         QObject *parent) :
@@ -20,30 +22,30 @@ void ImageBrowserManager::Initial() {
 }
 
 void ImageBrowserManager::UnDo() {// 撤销
-    if (imt_iter_ != img_vector.begin()) {// 前面还有对象
+    if (imt_iter_ != img_vector_.begin()) {// 前面还有对象
         imt_iter_--;
         this->widget_.SetSurface(*imt_iter_);
-        if (imt_iter_ == img_vector.begin()) {// 自减为初始图像
-            if (imt_iter_ != (img_vector.end() - 1)) {
-                img_vector.erase(++imt_iter_, img_vector.end());
+        if (imt_iter_ == img_vector_.begin()) {// 自减为初始图像
+            if (imt_iter_ != (img_vector_.end() - 1)) {
+                img_vector_.erase(++imt_iter_, img_vector_.end());
             }
         }
     }
 }
 
 void ImageBrowserManager::ReDo() {// 重做
-    if (imt_iter_ != img_vector.end() && imt_iter_ != img_vector.end() - 1) {
+    if (imt_iter_ != img_vector_.end() && imt_iter_ != img_vector_.end() - 1) {
         // 后面还有对象
         imt_iter_++;
         this->widget_.SetSurface(*imt_iter_);
-        if (imt_iter_ == (img_vector.end())) {// 自加后是否为最后一个
+        if (imt_iter_ == (img_vector_.end())) {// 自加后是否为最后一个
         }
     }
 }
 
 void ImageBrowserManager::UpDataImage(const QImage tmp) {
-    img_vector.append(tmp);
-    imt_iter_ = img_vector.end() - 1;
+    img_vector_.append(tmp);
+    imt_iter_ = img_vector_.end() - 1;
     this->widget_.SetSurface(*imt_iter_);
 }
 
@@ -52,23 +54,23 @@ void ImageBrowserManager::OpenStlFile(const QString &file_path) {
     QImage *img = new QImage();
 
     if (tmp.isEmpty()) {
-        tmp = QUIHelper::getFileName(
+        tmp = QUIHelper::GetFileName(
                   "*.bmp *.jpg *.pbm *.pgm *.png *.ppm *.xbm *.xpm ");
     }
     if (!(img->load(tmp))) {
-        QUIHelper::showMessageBoxError("打开图像失败！", 3, true);
+        QUIHelper::ShowMessageBoxError("打开图像失败！", 3, true);
         delete img;
         return;
     }
     this->widget_.SetSurface(*img);
-    img_vector.clear();
-    img_vector.append(*img);
-    imt_iter_ = img_vector.end() - 1;
+    img_vector_.clear();
+    img_vector_.append(*img);
+    imt_iter_ = img_vector_.end() - 1;
     this->widget_.SetSurface(*imt_iter_);
 }
 
 void ImageBrowserManager::SlotImgProcess(const int &operation, const QString &text) {
-    if (this->img_vector.size() == 0) {
+    if (this->img_vector_.size() == 0) {
         emit SignalPromptInformationOut(("Image 数据错误"));
         return;
     }

@@ -1,4 +1,4 @@
-﻿//01frame
+﻿// 01 Frame includes
 #include "progressbarwait.h"
 
 ProgressBarWait::ProgressBarWait(QWidget *parent) : QWidget(parent) {

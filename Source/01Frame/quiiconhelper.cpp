@@ -1,16 +1,17 @@
+// 01 Frame includes
 #include "quiiconhelper.h"
 
 
-QScopedPointer<QUIIconHelper> QUIIconHelper::self;
+QScopedPointer<QUIIconHelper> QUIIconHelper::self_;
 QUIIconHelper *QUIIconHelper::Instance() {
-    if (self.isNull()) {
+    if (self_.isNull()) {
         QMutex mutex;
         QMutexLocker locker(&mutex);
-        if (self.isNull()) {
-            self.reset(new QUIIconHelper);
+        if (self_.isNull()) {
+            self_.reset(new QUIIconHelper);
         }
     }
-    return self.data();
+    return self_.data();
 }
 
 QUIIconHelper::QUIIconHelper(QObject *parent) : QObject(parent) {
@@ -24,30 +25,30 @@ QUIIconHelper::QUIIconHelper(QObject *parent) : QObject(parent) {
         }
     }
     if (fontDb.families().contains("FontAwesome")) {
-        iconFont = QFont("FontAwesome");
+        icon_font_ = QFont("FontAwesome");
 #if (QT_VERSION >= QT_VERSION_CHECK(4,8,0))
-        iconFont.setHintingPreference(QFont::PreferNoHinting);
+        icon_font_.setHintingPreference(QFont::PreferNoHinting);
 #endif
     }
 }
 
-QFont QUIIconHelper::getIconFont() {
-    return this->iconFont;
+QFont QUIIconHelper::GetIconFont() {
+    return this->icon_font_;
 }
 
-void QUIIconHelper::setIcon(QLabel *lab, const QChar &str, quint32 size) {
-    iconFont.setPixelSize(static_cast<int>(size));
-    lab->setFont(iconFont);
+void QUIIconHelper::SetIcon(QLabel *lab, const QChar &str, quint32 size) {
+    icon_font_.setPixelSize(static_cast<int>(size));
+    lab->setFont(icon_font_);
     lab->setText(str);
 }
 
-void QUIIconHelper::setIcon(QAbstractButton *btn, const QChar &str, quint32 size) {
-    iconFont.setPixelSize(static_cast<int>(size));
-    btn->setFont(iconFont);
+void QUIIconHelper::SetIcon(QAbstractButton *btn, const QChar &str, quint32 size) {
+    icon_font_.setPixelSize(static_cast<int>(size));
+    btn->setFont(icon_font_);
     btn->setText(str);
 }
 
-QPixmap QUIIconHelper::getPixmap(const QColor &color, const QChar &str, quint32 size,
+QPixmap QUIIconHelper::GetPixmap(const QColor &color, const QChar &str, quint32 size,
                                  quint32 pixWidth, quint32 pixHeight, int flags) {
     QPixmap pix(static_cast<int>(pixWidth), static_cast<int>(pixHeight));
     pix.fill(Qt::transparent);
@@ -55,21 +56,21 @@ QPixmap QUIIconHelper::getPixmap(const QColor &color, const QChar &str, quint32 
     painter.begin(&pix);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
     painter.setPen(color);
-    iconFont.setPixelSize(static_cast<int>(size));
-    painter.setFont(iconFont);
+    icon_font_.setPixelSize(static_cast<int>(size));
+    painter.setFont(icon_font_);
     painter.drawText(pix.rect(), flags, str);
     painter.end();
     return pix;
 }
 
-QPixmap QUIIconHelper::getPixmap(QToolButton *btn, bool normal) {
+QPixmap QUIIconHelper::GetPixmap(QToolButton *btn, bool normal) {
     QPixmap pix;
-    int index = btns.indexOf(btn);
+    int index = btns_.indexOf(btn);
     if (index >= 0) {
         if (normal) {
-            pix = pixNormal.at(index);
+            pix = pix_normal_.at(index);
         } else {
-            pix = pixDark.at(index);
+            pix = pix_dark_.at(index);
         }
     }
     return pix;
@@ -78,15 +79,15 @@ QPixmap QUIIconHelper::getPixmap(QToolButton *btn, bool normal) {
 bool QUIIconHelper::eventFilter(QObject *watched, QEvent *event) {
     if (watched->inherits("QToolButton")) {
         QToolButton *btn = static_cast<QToolButton *>(watched);
-        int index = btns.indexOf(btn);
+        int index = btns_.indexOf(btn);
         if (index >= 0) {
             if (event->type() == QEvent::Enter) {
-                btn->setIcon(QIcon(pixDark.at(index)));
+                btn->setIcon(QIcon(pix_dark_.at(index)));
             } else if (event->type() == QEvent::Leave) {
                 if (btn->isChecked()) {
-                    btn->setIcon(QIcon(pixDark.at(index)));
+                    btn->setIcon(QIcon(pix_dark_.at(index)));
                 } else {
-                    btn->setIcon(QIcon(pixNormal.at(index)));
+                    btn->setIcon(QIcon(pix_normal_.at(index)));
                 }
             }
         }

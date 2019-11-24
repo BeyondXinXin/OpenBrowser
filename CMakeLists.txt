@@ -31,7 +31,7 @@ find_package(ITK REQUIRED)
 include(${ITK_USE_FILE})
 
 find_package(OpenCV REQUIRED)
-include_directories(  ${OpenCV_INCLUDE_DIRS} )
+include_directories(${OpenCV_INCLUDE_DIRS} )
 
 find_package(CGAL REQUIRED)
 include(${CGAL_USE_FILE})
@@ -188,14 +188,14 @@ set(04Ui
     Source/04Ui/formimagehandle.ui
     )
 
-include_directories(Source/05Manager)
-set(05Manager
-    Source/05Manager/stlmanager.h
-    Source/05Manager/stlmanager.cpp
-    Source/05Manager/dcmmanager.h
-    Source/05Manager/dcmmanager.cpp
-    Source/05Manager/imagebrowsermanager.h
-    Source/05Manager/imagebrowsermanager.cpp
+include_directories(Source/05UiManager)
+set(05UiManager
+    Source/05UiManager/stlmanager.h
+    Source/05UiManager/stlmanager.cpp
+    Source/05UiManager/dcmmanager.h
+    Source/05UiManager/dcmmanager.cpp
+    Source/05UiManager/imagebrowsermanager.h
+    Source/05UiManager/imagebrowsermanager.cpp
     )
 
 include_directories(Source/06Test)
@@ -228,7 +228,7 @@ add_executable(${PROJECT_NAME}
     ${03CGAL}
     ${03VTK}
     ${04Ui}
-    ${05Manager}
+    ${05UiManager}
     ${06Test}
     )
 

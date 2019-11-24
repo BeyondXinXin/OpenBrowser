@@ -1,4 +1,4 @@
-// 01frame inludes
+// 01 Frame includes
 #include "vtkthread.h"
 
 // VTK inludes

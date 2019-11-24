@@ -1,11 +1,11 @@
-/*
- * 控制整个程序的运行过程
- *
- */
-
 #ifndef OPENBROWSERAPPLICATION_H
 #define OPENBROWSERAPPLICATION_H
 
+/*
+ * 控制整个程序的运行过程
+ */
+
+// 01 Frame includes
 #include "stable.h"
 #include "formtitle.h"
 #include "quilogmanager.h"

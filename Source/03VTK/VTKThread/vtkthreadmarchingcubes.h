@@ -1,14 +1,14 @@
+#ifndef VTKTHREADMARCHINGCUBES_H
+#define VTKTHREADMARCHINGCUBES_H
+
 /*
  * vtk线程  MarchingCubes 2维转3维
 */
 
-#ifndef VTKTHREADMARCHINGCUBES_H
-#define VTKTHREADMARCHINGCUBES_H
-
-//05vtkthred
+// 03 VTK includes
 #include "vtkthread.h"
 
-//vtk
+// VTK includes
 #include <vtkImageData.h>
 #include <vtkSmartPointer.h>
 #include <vtkMarchingCubes.h>

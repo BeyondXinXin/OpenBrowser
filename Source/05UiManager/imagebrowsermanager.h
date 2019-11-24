@@ -1,11 +1,14 @@
+#ifndef IMAGEBROWSERMANAGER_H
+#define IMAGEBROWSERMANAGER_H
+
 /*
  * image browser 模块 manager
 */
 
-#ifndef IMAGEBROWSERMANAGER_H
-#define IMAGEBROWSERMANAGER_H
-
+// 01 Frame includes
 #include "stable.h"
+
+// 03 OPENCV includes
 #include "qopencvprocessing.h"
 #include "qopencvwidget.h"
 

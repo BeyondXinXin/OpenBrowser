@@ -1,4 +1,4 @@
-﻿// 01frame includes
+﻿// 01 Frame includes
 #include "smoothsurfaceselector.h"
 
 // VTK includes

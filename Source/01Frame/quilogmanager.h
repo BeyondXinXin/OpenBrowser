@@ -1,6 +1,11 @@
 #ifndef QUIQUIlOGMANAGER_H
 #define QUIQUIlOGMANAGER_H
 
+/*
+ * 打印日志
+*/
+
+// 01 Frame includes
 #include <stable.h>
 
 class QUILogManager : public QObject {

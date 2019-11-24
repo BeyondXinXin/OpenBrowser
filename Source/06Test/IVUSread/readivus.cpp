@@ -70,7 +70,7 @@ void ReadIVUS::on_pushButton_clicked() {
 
     QString tmp_file;
     tmp_file =
-        QUIHelper::getFileName("*.dcm *.*");
+        QUIHelper::GetFileName("*.dcm *.*");
 
     QFileInfo file_info(tmp_file);
     QString extension = file_info.path();

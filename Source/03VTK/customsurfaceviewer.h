@@ -1,17 +1,15 @@
-/*
- * 自定义vtk view
- *
- */
-
 #ifndef CUSTOMSURFACEVIEWER_H
 #define CUSTOMSURFACEVIEWER_H
 
-// 01frame includes
+/*
+ * 自定义vtk view
+ */
+
+// 01 Frame includes
 #include "stable.h"
 
-//05calclation
+// 03 VTK includes
 #include "customvtkrenderer.h"
-
 
 // VTK includes
 #include <vtkActor.h>

@@ -122,9 +122,9 @@ void frmTcpClient::readData() {
     }
     QString buffer;
     if (SetUpIni::HexReceiveTcpClient) {
-        buffer = QUIHelper::byteArrayToHexStr(data);
+        buffer = QUIHelper::ByteArrayToHexStr(data);
     } else if (SetUpIni::AsciiTcpClient) {
-        buffer = QUIHelper::byteArrayToAsciiStr(data);
+        buffer = QUIHelper::ByteArrayToAsciiStr(data);
     } else {
         buffer = QString(data);
     }
@@ -144,9 +144,9 @@ void frmTcpClient::readData() {
 void frmTcpClient::sendData(const QString &data) {
     QByteArray buffer;
     if (SetUpIni::HexSendTcpClient) {
-        buffer = QUIHelper::hexStrToByteArray(data);
+        buffer = QUIHelper::HexStrToByteArray(data);
     } else if (SetUpIni::AsciiTcpClient) {
-        buffer = QUIHelper::asciiStrToByteArray(data);
+        buffer = QUIHelper::AsciiStrToByteArray(data);
     } else {
         buffer = data.toLatin1();
     }
@@ -168,7 +168,7 @@ void frmTcpClient::on_btnSave_clicked() {
     if (data.length() <= 0) {
         return;
     }
-    QString fileName = QString("%1/%2.txt").arg(QUIHelper::appPath())
+    QString fileName = QString("%1/%2.txt").arg(QUIHelper::AppPath())
                        .arg(QDateTime::currentDateTime().
                             toString("yyyy_MM_dd_hh_mm_ss"));
     QFile file(fileName);

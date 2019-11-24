@@ -1,35 +1,18 @@
 #ifndef FORMMAIN_H
 #define FORMMAIN_H
 
-// 01frame includes
+/*
+ * 主界面
+ */
+
+// 01 Frame includes
 #include "stable.h"
 #include "quimenu.h"
 
-// 04 uimanager includes
+// 05 UiManager includes
 #include "stlmanager.h"
 #include "dcmmanager.h"
 #include "imagebrowsermanager.h"
-
-// 05vtkthread includes
-#include "vtkthreadpolydataread.h"
-#include "vtkthreadimagedataread.h"
-#include "vtkthreadmarchingcubes.h"
-#include "vtkthreadpolydatawrite.h"
-
-// VTK includes
-#include <vtkActor.h>
-#include <vtkPolyData.h>
-#include <vtkRenderer.h>
-#include <vtkOutlineFilter.h>
-#include <vtkMarchingCubes.h>
-#include <vtkImageShrink3D.h>
-#include <vtkImageResample.h>
-#include <vtkPolyDataMapper.h>
-#include <vtkDistanceWidget.h>
-#include <vtkImagePlaneWidget.h>
-#include <vtkResliceImageViewer.h>
-#include <vtkGenericOpenGLRenderWindow.h>
-#include <vtkResliceImageViewerMeasurements.h>
 
 namespace Ui {
     class FormMain;
@@ -59,7 +42,6 @@ class FormMain : public QWidget {
     QPointer<STLManager> mode_manager_;
     // dcm manager
     QPointer<DcmManager> dcm_manager_;
-
 };
 
 #endif // FORMMAIN_H

@@ -1,10 +1,10 @@
-﻿// 01frame includes
+﻿// 01 Frame includes
 #include "cgalthreadsubdivision.h"
 
 // C++ includes
-#include <string.h>
 #include <fstream>
 #include <iostream>
+#include <string.h>
 
 // VTK includes
 #include <vtkPoints.h>

@@ -1,12 +1,11 @@
-/*
- * 命令行管理manager
- *
-*/
-
-
 #ifndef COMMANDLINEMANAGER_H
 #define COMMANDLINEMANAGER_H
 
+/*
+ * 命令行管理manager
+*/
+
+// 01 Frame includes
 #include "stable.h"
 
 class CommandLineManager : public QObject {

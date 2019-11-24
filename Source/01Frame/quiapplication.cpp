@@ -12,8 +12,8 @@ QUIApplication::QUIApplication(int &argc, char **argv):
     font.setFamily("Microsoft Yahei");
     font.setPixelSize(15);
     qApp->setFont(font);
-    QUIHelper::setCode();
-    QUIWidgetMove::Instance()->start();//支持界面拖拽
+    QUIHelper::SetCode();
+    QUIWidgetMove::Instance()->Run();//支持界面拖拽
 }
 
 QUIApplication::~QUIApplication() {

@@ -1,13 +1,12 @@
-/**
- * qt opencv widget
- * 试过各种图片浏览方式,感觉还是用现成的scene好一些,很多借口qt已经封装好了
- *
- */
-
-
 #ifndef QOPENCVWIDGET_H
 #define QOPENCVWIDGET_H
 
+/**
+ * qt opencv widget
+ * 试过各种图片浏览方式,感觉还是用现成的scene好一些,很多借口qt已经封装好了
+ */
+
+// 01 Frame includes
 #include "stable.h"
 
 class QOpencvPixmapItem;

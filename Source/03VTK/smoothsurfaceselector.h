@@ -1,18 +1,17 @@
-﻿/*
+﻿#ifndef SMOOTHSURFACESELECTOR_H
+#define SMOOTHSURFACESELECTOR_H
+
+/*
  * polydata 区域平滑和裁剪
  */
 
-#ifndef SMOOTHSURFACESELECTOR_H
-#define SMOOTHSURFACESELECTOR_H
-
-// 01frame includes
+// 01 Frame includes
 #include "stable.h"
 
-// 05customvtk includes
+// 03 VTK includes
 #include "customvtkrenderer.h"
 
 // VTK includes
-
 #include <vtkPolyData.h>
 #include <vtkSeedWidget.h>
 #include <vtkSmartPointer.h>

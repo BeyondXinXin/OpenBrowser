@@ -1,15 +1,14 @@
+#ifndef LINESURFACECLIPPER_H
+#define LINESURFACECLIPPER_H
+
 /*
  * polydata矩形剪裁
  */
 
-
-#ifndef LINESURFACECLIPPER_H
-#define LINESURFACECLIPPER_H
-
-// 01frame includes
+// 01 Frame includes
 #include "stable.h"
 
-// 05customvtk includes
+// 03 VTK includes
 #include "customvtkrenderer.h"
 
 // VTK includes

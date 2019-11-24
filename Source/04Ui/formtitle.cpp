@@ -1,4 +1,4 @@
-// 01frame includes
+// 01 Frame includes
 #include "formtitle.h"
 #include "quiiconhelper.h"
 #include "ui_formtitle.h"
@@ -25,35 +25,38 @@ void FormTitle::Initial() {
     ui->widgetTitle->installEventFilter(this);
     this->my_menu_ = new QUIMenu(this, this);
     ui->layout_titlemenu->addWidget(my_menu_);
-    ui->layout_titlemenu->addWidget(my_menu_->toolbar_);
+    ui->layout_titlemenu->addWidget(my_menu_->GetToolBar());
     connect(this, SIGNAL(SignalOpenFileOut()),
             ui->main_widget, SLOT(SlotOpenFileIn()));
-    QUIIconHelper::Instance()->setIcon(ui->btnMenu_Min, QChar(0xf068));
-    QUIIconHelper::Instance()->setIcon(ui->btnMenu_Max, QChar(0xf2d0));
-    QUIIconHelper::Instance()->setIcon(ui->btnMenu_Close, QChar(0xf00d));
+    QUIIconHelper::Instance()->SetIcon(ui->btnmenu_min, QChar(0xf068));
+    QUIIconHelper::Instance()->SetIcon(ui->btnmenu_max, QChar(0xf2d0));
+    QUIIconHelper::Instance()->SetIcon(ui->btnmenu_close, QChar(0xf00d));
+    connect(ui->btnmenu_close, &QPushButton::clicked, this, &FormTitle::SlotCloseClicked);
+    connect(ui->btnmenu_max, &QPushButton::clicked, this, &FormTitle::SlotMaxClicked);
+    connect(ui->btnmenu_min, &QPushButton::clicked, this, &FormTitle::SlotMinClicked);
 }
 
 
-void FormTitle::on_btnMenu_Min_clicked() {
+void FormTitle::SlotMinClicked() {
     showMinimized();
 }
 
-void FormTitle::on_btnMenu_Max_clicked() {
+void FormTitle::SlotMaxClicked() {
     static bool max = false;
     static QRect location = this->geometry();
     if (max) {
         this->setGeometry(location);
-        QUIIconHelper::Instance()->setIcon(ui->btnMenu_Max, QChar(0xf2d0));
+        QUIIconHelper::Instance()->SetIcon(ui->btnmenu_max, QChar(0xf2d0));
     } else {
         location = this->geometry();
         this->setGeometry(qApp->desktop()->availableGeometry());
-        QUIIconHelper::Instance()->setIcon(ui->btnMenu_Max, QChar(0xf2d2));
+        QUIIconHelper::Instance()->SetIcon(ui->btnmenu_max, QChar(0xf2d2));
     }
     this->setProperty("can_move", max);
     max = !max;
 }
 
-void FormTitle::on_btnMenu_Close_clicked() {
+void FormTitle::SlotCloseClicked() {
     this->close();
 }
 
@@ -73,7 +76,7 @@ bool FormTitle::eventFilter(QObject *obj, QEvent *evt) {
     if (false == full_screen_) {
         QMouseEvent *event = static_cast<QMouseEvent *>(evt);
         if (event->type() == QEvent::MouseButtonDblClick) {
-            on_btnMenu_Max_clicked();
+            SlotMaxClicked();
         }
     }
     return QWidget::eventFilter(obj, evt);

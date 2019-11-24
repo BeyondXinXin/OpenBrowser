@@ -1,7 +1,12 @@
 #ifndef SETUPINI_H
 #define SETUPINI_H
 
-//01frame
+/**
+ * ini配置文件设置
+ */
+
+
+// 01 Frame includes
 #include "stable.h"
 
 //读取配置文件相关

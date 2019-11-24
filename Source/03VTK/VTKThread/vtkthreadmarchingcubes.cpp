@@ -1,5 +1,9 @@
+// 01 Frame includes
 #include "vtkthreadmarchingcubes.h"
+
+// VTK includes
 #include <vtkImageCast.h>
+
 VtkThreadMarchingCubes::VtkThreadMarchingCubes(QObject *parent) :
     VtkThread(parent) {
     this->Initial();

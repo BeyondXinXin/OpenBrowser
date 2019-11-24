@@ -1,7 +1,11 @@
 #ifndef FRM1_H
 #define FRM1_H
 
-//01frame
+/*
+ * 弹框界面
+ */
+
+// 01 Frame includes
 #include "stable.h"
 
 namespace Ui {

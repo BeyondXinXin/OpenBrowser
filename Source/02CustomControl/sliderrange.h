@@ -1,4 +1,7 @@
-﻿/**
+﻿#ifndef SLIDERRANGE_H
+#define SLIDERRANGE_H
+
+/**
  * 范围滑动条控件
  * 1:可设置范围值,支持负数值
  * 2:可设置当前范围值
@@ -8,10 +11,7 @@
  * 6:可设置多种滑块样式
  */
 
-#ifndef SLIDERRANGE_H
-#define SLIDERRANGE_H
-
-// 01frame include
+// 01 Frame includes
 #include "stable.h"
 
 

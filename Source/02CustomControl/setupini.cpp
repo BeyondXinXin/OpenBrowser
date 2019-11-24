@@ -1,4 +1,4 @@
-//01frame
+// 01 Frame includes
 #include "setupini.h"
 #include "quihelper.h"
 
@@ -181,7 +181,7 @@ void SetUpIni::readSendData() {
     //读取发送数据列表
     SetUpIni::net_Datas.clear();
     QString fileName = QString("%1/%2").
-                       arg(QUIHelper::appPath()).arg(SetUpIni::SendFileName);
+                       arg(QUIHelper::AppPath()).arg(SetUpIni::SendFileName);
     QFile file(fileName);
     if (file.size() > 0 && file.open(QFile::ReadOnly | QIODevice::Text)) {
         while (!file.atEnd()) {
@@ -202,7 +202,7 @@ void SetUpIni::readDeviceData() {
     //读取转发数据列表
     SetUpIni::net_Keys.clear();
     SetUpIni::net_Values.clear();
-    QString fileName = QString("%1/%2").arg(QUIHelper::appPath()).
+    QString fileName = QString("%1/%2").arg(QUIHelper::AppPath()).
                        arg(SetUpIni::DeviceFileName);
     QFile file(fileName);
     if (file.size() > 0 && file.open(QFile::ReadOnly | QIODevice::Text)) {

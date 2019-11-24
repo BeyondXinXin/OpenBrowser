@@ -1,7 +1,8 @@
+// 01 Frame includes
 #include "quihelper.h"
 #include "quimessagebox.h"
 
-int QUIHelper::deskWidth() {
+int QUIHelper::DeskWidth() {
     //没有必要每次都获取,只有当变量为空时才去获取一次
     static int width = 0;
     if (width == 0) {
@@ -10,7 +11,7 @@ int QUIHelper::deskWidth() {
     return width;
 }
 
-int QUIHelper::deskHeight() {
+int QUIHelper::DeskHeight() {
     //没有必要每次都获取,只有当变量为空时才去获取一次
     static int height = 0;
     if (height == 0) {
@@ -19,7 +20,7 @@ int QUIHelper::deskHeight() {
     return height;
 }
 
-QString QUIHelper::appName() {
+QString QUIHelper::AppName() {
     //没有必要每次都获取,只有当变量为空时才去获取一次
     static QString name;
     if (name.isEmpty()) {
@@ -30,15 +31,15 @@ QString QUIHelper::appName() {
     return name;
 }
 
-QString QUIHelper::appPath() {
+QString QUIHelper::AppPath() {
     return qApp->applicationDirPath();
 }
 
-void QUIHelper::writeInfo(const QString &info, const QString &filePath) {
+void QUIHelper::WriteInfo(const QString &info, const QString &filePath) {
     QString fileName = QString("%1/%2/%3_runinfo_%4.txt")
-                       .arg(QUIHelper::appPath())
+                       .arg(QUIHelper::AppPath())
                        .arg(filePath)
-                       .arg(QUIHelper::appName())
+                       .arg(QUIHelper::AppName())
                        .arg(QDate::currentDate().toString("yyyyMM"));
     QFile file(fileName);
     file.open(QIODevice::WriteOnly | QIODevice::Append | QFile::Text);
@@ -46,12 +47,12 @@ void QUIHelper::writeInfo(const QString &info, const QString &filePath) {
     file.close();
 }
 
-void QUIHelper::writeError(const QString &info, const QString &filePath) {
+void QUIHelper::WriteError(const QString &info, const QString &filePath) {
     //正式运行屏蔽掉输出错误信息,调试阶段才需要
     QString fileName = QString("%1/%2/%3_runerror_%4.txt")
-                       .arg(QUIHelper::appPath())
+                       .arg(QUIHelper::AppPath())
                        .arg(filePath)
-                       .arg(QUIHelper::appName())
+                       .arg(QUIHelper::AppName())
                        .arg(QDate::currentDate().toString("yyyyMM"));
     QFile file(fileName);
     file.open(QIODevice::WriteOnly | QIODevice::Append | QFile::Text);
@@ -59,7 +60,7 @@ void QUIHelper::writeError(const QString &info, const QString &filePath) {
     file.close();
 }
 
-void QUIHelper::setStyle(const QString &qssFile) {
+void QUIHelper::SetStyle(const QString &qssFile) {
     QFile file(qssFile);
     if (file.open(QFile::ReadOnly)) {
         QString qss = QLatin1String(file.readAll());
@@ -73,14 +74,14 @@ void QUIHelper::setStyle(const QString &qssFile) {
     }
 }
 
-QPixmap QUIHelper::ninePatch(const QString &picName,
+QPixmap QUIHelper::NinePatch(const QString &picName,
                              int horzSplit, int vertSplit,
                              int dstWidth, int dstHeight) {
     QPixmap pix(picName);
-    return ninePatch(pix, horzSplit, vertSplit, dstWidth, dstHeight);
+    return NinePatch(pix, horzSplit, vertSplit, dstWidth, dstHeight);
 }
 
-QPixmap QUIHelper::ninePatch(const QPixmap &pix, int horzSplit,
+QPixmap QUIHelper::NinePatch(const QPixmap &pix, int horzSplit,
                              int vertSplit, int dstWidth, int dstHeight) {
     int pixWidth = pix.width();
     int pixHeight = pix.height();
@@ -131,7 +132,7 @@ QPixmap QUIHelper::ninePatch(const QPixmap &pix, int horzSplit,
     return resultImg;
 }
 
-void QUIHelper::setFormInCenter(QWidget *frm) {
+void QUIHelper::SetFormInCenter(QWidget *frm) {
     int frmX = frm->width();
     int frmY = frm->height();
     QDesktopWidget w;
@@ -141,25 +142,25 @@ void QUIHelper::setFormInCenter(QWidget *frm) {
     frm->move(movePoint);
 }
 
-void QUIHelper::setTranslator(const QString &qmFile) {
+void QUIHelper::SetTranslator(const QString &qmFile) {
     QTranslator *translator = new QTranslator(qApp);
     translator->load(qmFile);
     qApp->installTranslator(translator);
 }
 
-void QUIHelper::setCode() {
+void QUIHelper::SetCode() {
     QTextCodec *codec = QTextCodec::codecForName("utf-8");
     QTextCodec::setCodecForLocale(codec);
 }
 
-void QUIHelper::sleep(int sec) {
+void QUIHelper::Sleep(int sec) {
     QTime dieTime = QTime::currentTime().addMSecs(sec);
     while (QTime::currentTime() < dieTime) {
         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
     }
 }
 
-void QUIHelper::runWithSystem(
+void QUIHelper::RunWithSystem(
     const QString &strName, const QString &strPath, bool autoRun) {
     QSettings
     reg("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"
@@ -167,18 +168,18 @@ void QUIHelper::runWithSystem(
     reg.setValue(strName, autoRun ? strPath : "");
 }
 
-bool QUIHelper::isIP(const QString &ip) {
+bool QUIHelper::IsIP(const QString &ip) {
     QRegExp RegExp("((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.)"
                    "{3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)");
     return RegExp.exactMatch(ip);
 }
 
-bool QUIHelper::isMac(const QString &mac) {
+bool QUIHelper::IsMac(const QString &mac) {
     QRegExp RegExp("^[A-F0-9]{2}(-[A-F0-9]{2}){5}$");
     return RegExp.exactMatch(mac);
 }
 
-bool QUIHelper::isTel(const QString &tel) {
+bool QUIHelper::IsTel(const QString &tel) {
     if (tel.length() != 11) {
         return false;
     }
@@ -189,29 +190,29 @@ bool QUIHelper::isTel(const QString &tel) {
     return true;
 }
 
-bool QUIHelper::isEmail(const QString &email) {
+bool QUIHelper::IsEmail(const QString &email) {
     if (!email.contains("@") || !email.contains(".com")) {
         return false;
     }
     return true;
 }
 
-int QUIHelper::strHexToDecimal(const QString &strHex) {
+int QUIHelper::StrHexToDecimal(const QString &strHex) {
     bool ok;
     return strHex.toInt(&ok, 16);
 }
 
-int QUIHelper::strDecimalToDecimal(const QString &strDecimal) {
+int QUIHelper::StrDecimalToDecimal(const QString &strDecimal) {
     bool ok;
     return strDecimal.toInt(&ok, 10);
 }
 
-int QUIHelper::strBinToDecimal(const QString &strBin) {
+int QUIHelper::StrBinToDecimal(const QString &strBin) {
     bool ok;
     return strBin.toInt(&ok, 2);
 }
 
-QString QUIHelper::decimalToStrHex(int decimal) {
+QString QUIHelper::DecimalToStrHex(int decimal) {
     QString temp = QString::number(decimal, 16);
     if (temp.length() == 1) {
         temp = "0" + temp;
@@ -219,7 +220,7 @@ QString QUIHelper::decimalToStrHex(int decimal) {
     return temp;
 }
 
-int QUIHelper::byteToUShort(const QByteArray &data) {
+qint32 QUIHelper::ByteToUShort(const QByteArray &data) {
     int i = data.at(1) & 0x000000FF;
     i |= ((data.at(0) << 8) & 0x0000FF00);
     if (i >= 32768) {
@@ -228,7 +229,7 @@ int QUIHelper::byteToUShort(const QByteArray &data) {
     return i;
 }
 
-int QUIHelper::byteToUShortRec(const QByteArray &data) {
+qint32 QUIHelper::ByteToUShortRec(const QByteArray &data) {
     int i = data.at(0) & 0x000000FF;
     i |= ((data.at(1) << 8) & 0x0000FF00);
     if (i >= 32768) {
@@ -237,7 +238,7 @@ int QUIHelper::byteToUShortRec(const QByteArray &data) {
     return i;
 }
 
-QString QUIHelper::getXorEncryptDecrypt(const QString &str, char key) {
+QString QUIHelper::GetXorEncryptDecrypt(const QString &str, char key) {
     QByteArray data = str.toLatin1();
     int size = data.size();
     for (int i = 0; i < size; i++) {
@@ -246,7 +247,7 @@ QString QUIHelper::getXorEncryptDecrypt(const QString &str, char key) {
     return QLatin1String(data);
 }
 
-uchar QUIHelper::getOrCode(const QByteArray &data) {
+uchar QUIHelper::GetOrCode(const QByteArray &data) {
     int len = data.length();
     uchar result = 0;
     for (int i = 0; i < len; i++) {
@@ -255,7 +256,7 @@ uchar QUIHelper::getOrCode(const QByteArray &data) {
     return result;
 }
 
-uchar QUIHelper::getCheckCode(const QByteArray &data) {
+uchar QUIHelper::GetCheckCode(const QByteArray &data) {
     int len = data.length();
     uchar temp = 0;
     for (uchar i = 0; i < len; i++) {
@@ -264,7 +265,7 @@ uchar QUIHelper::getCheckCode(const QByteArray &data) {
     return temp % 256;
 }
 
-QString QUIHelper::getValue(quint8 value) {
+QString QUIHelper::GetValue(quint8 value) {
     QString result = QString::number(value);
     if (result.length() <= 1) {
         result = QString("0%1").arg(result);
@@ -272,7 +273,7 @@ QString QUIHelper::getValue(quint8 value) {
     return result;
 }
 
-QString QUIHelper::byteArrayToAsciiStr(const QByteArray &data) {
+QString QUIHelper::ByteArrayToAsciiStr(const QByteArray &data) {
     QString temp;
     int len = data.size();
     for (int i = 0; i < len; i++) {
@@ -347,7 +348,7 @@ QString QUIHelper::byteArrayToAsciiStr(const QByteArray &data) {
         } else if (0x5C == b) {
             temp += QString("\\x5C");
         } else if (0x20 >= b) {
-            temp += QString("\\x%1").arg(decimalToStrHex(static_cast<quint8>(b)));
+            temp += QString("\\x%1").arg(DecimalToStrHex(static_cast<quint8>(b)));
         } else {
             temp += QString("%1").arg(b);
         }
@@ -355,7 +356,7 @@ QString QUIHelper::byteArrayToAsciiStr(const QByteArray &data) {
     return temp.trimmed();
 }
 
-QByteArray QUIHelper::hexStrToByteArray(const QString &str) {
+QByteArray QUIHelper::HexStrToByteArray(const QString &str) {
     QByteArray senddata;
     int hexdata, lowhexdata;
     int hexdatalen = 0;
@@ -373,8 +374,8 @@ QByteArray QUIHelper::hexStrToByteArray(const QString &str) {
             break;
         }
         lstr = str.at(i).toLatin1();
-        hexdata = convertHexChar(hstr);
-        lowhexdata = convertHexChar(lstr);
+        hexdata = ConvertHexChar(hstr);
+        lowhexdata = ConvertHexChar(lstr);
         if ((hexdata == 16) || (lowhexdata == 16)) {
             break;
         } else {
@@ -388,7 +389,7 @@ QByteArray QUIHelper::hexStrToByteArray(const QString &str) {
     return senddata;
 }
 
-char QUIHelper::convertHexChar(char ch) {
+char QUIHelper::ConvertHexChar(char ch) {
     if ((ch >= '0') && (ch <= '9')) {
         return ch - 0x30;
     } else if ((ch >= 'A') && (ch <= 'F')) {
@@ -400,7 +401,7 @@ char QUIHelper::convertHexChar(char ch) {
     }
 }
 
-QByteArray QUIHelper::asciiStrToByteArray(const QString &str) {
+QByteArray QUIHelper::AsciiStrToByteArray(const QString &str) {
     QByteArray buffer;
     int len = str.length();
     QString letter;
@@ -413,7 +414,7 @@ QByteArray QUIHelper::asciiStrToByteArray(const QString &str) {
             if (letter == "x") {
                 i++;
                 hex = str.mid(i, 2);
-                buffer.append(static_cast<char>(strHexToDecimal(hex)));
+                buffer.append(static_cast<char>(StrHexToDecimal(hex)));
                 i++;
                 continue;
             } else if (letter == "N") {
@@ -645,7 +646,7 @@ QByteArray QUIHelper::asciiStrToByteArray(const QString &str) {
     return buffer;
 }
 
-QString QUIHelper::byteArrayToHexStr(const QByteArray &data) {
+QString QUIHelper::ByteArrayToHexStr(const QByteArray &data) {
     QString temp = "";
     QString hex = data.toHex();
     for (int i = 0; i < hex.length(); i = i + 2) {
@@ -654,28 +655,28 @@ QString QUIHelper::byteArrayToHexStr(const QByteArray &data) {
     return temp.trimmed().toUpper();
 }
 
-QString QUIHelper::getSaveName(const QString &filter, QString defaultDir) {
+QString QUIHelper::GetSaveName(const QString &filter, QString defaultDir) {
     return QFileDialog::getSaveFileName(nullptr, "选择文件", defaultDir, filter);
 }
 
-QString QUIHelper::getFileName(const QString &filter, QString defaultDir) {
+QString QUIHelper::GetFileName(const QString &filter, QString defaultDir) {
     return QFileDialog::getOpenFileName(nullptr, "选择文件", defaultDir, filter);
 }
 
-QStringList QUIHelper::getFileNames(const QString &filter, QString defaultDir) {
+QStringList QUIHelper::GetFileNames(const QString &filter, QString defaultDir) {
     return QFileDialog::getOpenFileNames(nullptr, "选择文件", defaultDir, filter);
 }
 
-QString QUIHelper::getFolderName() {
+QString QUIHelper::GetFolderName() {
     return QFileDialog::getExistingDirectory();
 }
 
-QString QUIHelper::getFileNameWithExtension(const QString &strFilePath) {
+QString QUIHelper::GetFileNameWithExtension(const QString &strFilePath) {
     QFileInfo fileInfo(strFilePath);
     return fileInfo.fileName();
 }
 
-QStringList QUIHelper::getFolderFileNames(const QStringList &filter) {
+QStringList QUIHelper::GetFolderFileNames(const QStringList &filter) {
     QStringList fileList;
     QString strFolder = QFileDialog::getExistingDirectory();
     if (0 != strFolder.length()) {
@@ -687,17 +688,17 @@ QStringList QUIHelper::getFolderFileNames(const QStringList &filter) {
     return fileList;
 }
 
-bool QUIHelper::folderIsExist(const QString &strFolder) {
+bool QUIHelper::FolderIsExist(const QString &strFolder) {
     QDir tempFolder(strFolder);
     return tempFolder.exists();
 }
 
-bool QUIHelper::fileIsExist(const QString &strFile) {
+bool QUIHelper::FileIsExist(const QString &strFile) {
     QFile tempFile(strFile);
     return tempFile.exists();
 }
 
-bool QUIHelper::copyFile(const QString &sourceFile, const QString &targetFile) {
+bool QUIHelper::CopyFile(const QString &sourceFile, const QString &targetFile) {
     bool ok;
     ok = QFile::copy(sourceFile, targetFile);
     //将复制过去的文件只读属性取消
@@ -705,7 +706,7 @@ bool QUIHelper::copyFile(const QString &sourceFile, const QString &targetFile) {
     return ok;
 }
 
-void QUIHelper::deleteDirectory(const QString &path) {
+void QUIHelper::DeleteDirectory(const QString &path) {
     QDir dir(path);
     if (!dir.exists()) {
         return;
@@ -716,7 +717,7 @@ void QUIHelper::deleteDirectory(const QString &path) {
         if (fi.isFile()) {
             fi.dir().remove(fi.fileName());
         } else {
-            deleteDirectory(fi.absoluteFilePath());
+            DeleteDirectory(fi.absoluteFilePath());
             dir.rmdir(fi.absoluteFilePath());
         }
     }
@@ -740,7 +741,7 @@ bool QUIHelper::DirMake(const QString &path) {
     }
 }
 
-bool QUIHelper::ipLive(const QString &ip, int port, int timeout) {
+bool QUIHelper::IpLive(const QString &ip, int port, int timeout) {
     QTcpSocket tcpClient;
     tcpClient.abort();
     tcpClient.connectToHost(ip, static_cast<quint16>(port));
@@ -748,7 +749,7 @@ bool QUIHelper::ipLive(const QString &ip, int port, int timeout) {
     return tcpClient.waitForConnected(timeout);
 }
 
-QString QUIHelper::getHtml(const QString &url) {
+QString QUIHelper::GetHtml(const QString &url) {
     QNetworkAccessManager *manager = new QNetworkAccessManager();
     QNetworkReply *reply = manager->get(QNetworkRequest(QUrl(url)));
     QByteArray responseData;
@@ -760,7 +761,7 @@ QString QUIHelper::getHtml(const QString &url) {
     return QString(responseData);
 }
 
-QString QUIHelper::getNetIP(const QString &webCode) {
+QString QUIHelper::GetNetIP(const QString &webCode) {
     QString web = webCode;
     web = web.replace(' ', "");
     web = web.replace("\r", "");
@@ -771,12 +772,12 @@ QString QUIHelper::getNetIP(const QString &webCode) {
     return ip.at(1);
 }
 
-QString QUIHelper::getLocalIP() {
+QString QUIHelper::GetLocalIP() {
     QStringList ips;
     QList<QHostAddress> addrs = QNetworkInterface::allAddresses();
     foreach (QHostAddress addr, addrs) {
         QString ip = addr.toString();
-        if (QUIHelper::isIP(ip)) {
+        if (QUIHelper::IsIP(ip)) {
             ips << ip;
         }
     }
@@ -791,17 +792,17 @@ QString QUIHelper::getLocalIP() {
     return ip;
 }
 
-QString QUIHelper::urlToIP(const QString &url) {
+QString QUIHelper::UrlToIP(const QString &url) {
     QHostInfo host = QHostInfo::fromName(url);
     return host.addresses().at(0).toString();
 }
 
-bool QUIHelper::isWebOk() {
+bool QUIHelper::IsWebOk() {
     //能接通百度IP说明可以通外网
-    return ipLive("115.239.211.112", 80);
+    return IpLive("115.239.211.112", 80);
 }
 
-void QUIHelper::showMessageBoxInfo(const QString &info, int closeSec, bool exec) {
+void QUIHelper::ShowMessageBoxInfo(const QString &info, int closeSec, bool exec) {
     if (exec) {
         QUIMessageBox msg;
         msg.setMessage(info, 0, closeSec);
@@ -812,7 +813,7 @@ void QUIHelper::showMessageBoxInfo(const QString &info, int closeSec, bool exec)
     }
 }
 
-void QUIHelper::showMessageBoxError(const QString &info, int closeSec, bool exec) {
+void QUIHelper::ShowMessageBoxError(const QString &info, int closeSec, bool exec) {
     if (exec) {
         QUIMessageBox msg;
         msg.setMessage(info, 2, closeSec);
@@ -823,7 +824,7 @@ void QUIHelper::showMessageBoxError(const QString &info, int closeSec, bool exec
     }
 }
 
-int QUIHelper::showMessageBoxQuestion(const QString &info) {
+qint32 QUIHelper::ShowMessageBoxQuestion(const QString &info) {
     QUIMessageBox msg;
     msg.setMessage(info, 1);
     return msg.exec();

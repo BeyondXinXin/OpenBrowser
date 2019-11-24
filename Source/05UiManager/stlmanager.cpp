@@ -1,12 +1,8 @@
-﻿/*
- * Mode 界面管理
-*/
-
-// 01frame includes
+﻿// 01 Frame includes
 #include "stlmanager.h"
 #include "quihelper.h"
 
-// 04ui includes
+// 04 Ui includes
 #include "formmaskwidget.h"
 
 // VTK includes
@@ -214,7 +210,7 @@ void STLManager::SlotPolyDataHandle(const int &operation) {// polydata 处理
             }
         case 21: { // 打开文件
                 emit SingnalFinished();
-                QString tmp_file = QUIHelper::getFileName("*.stl");
+                QString tmp_file = QUIHelper::GetFileName("*.stl");
                 if (tmp_file.isEmpty()) {
                     break;
                 }
@@ -228,7 +224,7 @@ void STLManager::SlotPolyDataHandle(const int &operation) {// polydata 处理
             }
         case 22: {// 保存文件
                 emit SingnalFinished();
-                QString tmp_file = QUIHelper::getSaveName("*.stl *.vtk", "***.stl");
+                QString tmp_file = QUIHelper::GetSaveName("*.stl *.vtk", "***.stl");
                 if (tmp_file.isEmpty()) {
                     break;
                 }

@@ -1,24 +1,24 @@
-// 01frame includes
+// 01 Frame includes
 #include "refinesurface.h"
 
 // VTK includes
 #include <vtkActor.h>
+#include <vtkCamera.h>
+#include <vtkPolyData.h>
+#include <vtkProperty.h>
+#include <vtkRenderer.h>
+#include <vtkNamedColors.h>
+#include <vtkDecimatePro.h>
+#include <vtkSmartPointer.h>
+#include <vtkRenderWindow.h>
+#include <vtkSphereSource.h>
 #include <vtkPolyDataMapper.h>
+#include <vtkTriangleFilter.h>
+#include <vtkPolyDataMapper.h>
+#include <vtkXMLPolyDataReader.h>
+#include <vtkRenderWindowInteractor.h>
 #include <vtkPolyDataConnectivityFilter.h>
 
-#include  <vtkXMLPolyDataReader.h>
-#include  <vtkPolyData.h>
-#include  <vtkSphereSource.h>
-#include  <vtkTriangleFilter.h>
-#include  <vtkDecimatePro.h>
-#include  <vtkSmartPointer.h>
-#include  <vtkPolyDataMapper.h>
-#include  <vtkProperty.h>
-#include  <vtkRenderWindow.h>
-#include  <vtkRenderWindowInteractor.h>
-#include  <vtkRenderer.h>
-#include  <vtkCamera.h>
-#include  <vtkNamedColors.h>
 
 RefineSurface::RefineSurface(QObject *parent) : QObject(parent) {
     this->Initial();

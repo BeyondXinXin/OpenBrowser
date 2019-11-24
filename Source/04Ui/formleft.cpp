@@ -1,4 +1,4 @@
-﻿//01frame
+﻿// 01 Frame includes
 #include "formleft.h"
 #include "ui_formleft.h"
 
@@ -15,7 +15,7 @@ FormLeft::~FormLeft() {
 
 void FormLeft::initFrom() {
     // CPU内存显示控件
-    ui->label_cpu->start(1000);
+    ui->label_cpu->Start(1000);
     // 滑动导航条控件
     ui->slider_bar->setItems("Image      Brower;"
                              "Mode        Brower;"

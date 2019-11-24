@@ -1,12 +1,12 @@
+#ifndef VTKTHREAD_H
+#define VTKTHREAD_H
+
 /*
  * vtk线程   操作基类
  * 仅有run函数在子线程,其余均在主线程
 */
 
-#ifndef VTKTHREAD_H
-#define VTKTHREAD_H
-
-// 01frame inludes
+// 01 Frame includes
 #include "stable.h"
 
 // VTK inludes

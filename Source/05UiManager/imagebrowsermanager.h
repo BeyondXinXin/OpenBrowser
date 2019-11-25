@@ -32,7 +32,7 @@ class ImageBrowserManager: public QObject {
 
   private:
     QOpencvWidget &widget_;
-    QVector<QImage> img_vector;	                // 存储图像的Vector容器
+    QVector<QImage> img_vector_;	                // 存储图像的Vector容器
     QVector<QImage>::iterator imt_iter_;		// Vector迭代器
 
 

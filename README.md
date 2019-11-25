@@ -1,5 +1,4 @@
 # QT_openBrowser
-[![Fork me on Gitee](https://gitee.com/yaoxin001/openBrowser/widgets/widget_6.svg)](https://gitee.com/yaoxin001/openBrowser)
 
 [![star](https://gitee.com/yaoxin001/openBrowser/badge/star.svg?theme=gray)](https://gitee.com/yaoxin001/openBrowser/stargazers)   
 
@@ -111,13 +110,13 @@ Images
 /Source/02CustomControl/NetCom ......网口串口   
 /Source/03CGAL/  .................................CGAL QT封装  
 /Source/03CGAL/CGALThread  .............CGAL QT封装  
-/Source/03Opencv  ................................OPENCV QT封装
-/Source/03VTK  ......................................VTK QT封装
-/Source/03VTK/VTKThread  ...................VTK QT封装
-/Source/04Ui  ..........................................UI界面
-/Source/05UiManager  ............................UI界面管理器
-/Source/06Test  .......................................测试/开发中临时文件
-.gitignore  ................................................git忽略文件
+/Source/03Opencv  ................................OPENCV QT封装  
+/Source/03VTK  ......................................VTK QT封装  
+/Source/03VTK/VTKThread  ...................VTK QT封装  
+/Source/04Ui  ..........................................UI界面  
+/Source/05UiManager  ............................UI界面管理器  
+/Source/06Test  .......................................测试/开发中临时文件  
+.gitignore  ................................................git忽略文件  
 CMakeLists.txt  .......................................cmake配置文件  
 Pack.sh  ..................................................打包文件  
 README.md .........................................程序介绍  

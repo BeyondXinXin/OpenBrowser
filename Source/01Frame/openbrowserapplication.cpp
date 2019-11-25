@@ -9,6 +9,8 @@
 
 // 06 Test includes
 #include "readivus.h"
+#include "anisotropicfiltering.h"
+
 
 openBrowserApplication::openBrowserApplication(QObject *parent) :
     QObject(parent),
@@ -31,8 +33,9 @@ bool openBrowserApplication::Run() {
             return true;
         }
         if( QUIConfig::cmd_option_.test_mode == true) {
-            ReadIVUS *tmp = new ReadIVUS();
-            tmp->show();
+            //ReadIVUS *tmp = new ReadIVUS();
+            // tmp->show();
+            AnisotropicFiltering::run();
             return true;
         }
         if( QUIConfig::cmd_option_.relese_mode == true) {

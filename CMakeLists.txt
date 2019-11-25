@@ -202,6 +202,7 @@ include_directories(Source/06Test)
 include_directories(Source/06Test/MinPath)
 include_directories(Source/06Test/EdgeAdjustment)
 include_directories(Source/06Test/IVUSread)
+include_directories(Source/06Test/Anisotropicfiltering)
 set(06Test
     Source/06Test/MinPath/minimalpathextraction.h
     Source/06Test/MinPath/custom_item.h
@@ -215,6 +216,8 @@ set(06Test
     Source/06Test/IVUSread/readivus.cpp
     Source/06Test/IVUSread/readivus.h
     Source/06Test/IVUSread/readivus.ui
+    Source/06Test/Anisotropicfiltering/anisotropicfiltering.h
+    Source/06Test/Anisotropicfiltering/anisotropicfiltering.cpp
     )
 
 set(Source

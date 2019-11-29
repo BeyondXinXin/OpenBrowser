@@ -182,6 +182,10 @@ v0.3.3  增加日志系统
 1. 增加日志控制类QUILogManager  日志保存目录 .openBrowser/log/  
 日志格式  
 时间(yyyy-MM-dd hh:mm:ss:zzz) [线程名称]  类型(DEBUG/INFO/WARNING/CRITICAL/FATAL) - 
-发送者：信息
+发送者：信息  
 
-
+v0.4.0  mode 模块增加重构功能  
+1. mode 模块增加重构功能  
+![](https://gitee.com/yaoxin001/openBrowser/raw/master/preview/015.png)  
+2. IVUS 增加窗口截图、当前角度显示、当前层数显示  
+3. 修复IVUS读取角度错误  

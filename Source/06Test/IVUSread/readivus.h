@@ -89,6 +89,10 @@ class ReadIVUS : public QWidget {
     void on_pushButton_clicked();
     void SlotTransverseCurrentIndex(const int value);
 
+    void on_spinbox_r_editingFinished();
+    void on_pushButton_2_clicked();
+    QImage VtkImageDataToQImage(vtkSmartPointer<vtkImageData> imageData);
+
   private:
     void LeftChangeAngle();
 

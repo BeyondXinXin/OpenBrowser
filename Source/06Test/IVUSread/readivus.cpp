@@ -1,7 +1,6 @@
 ﻿#include "readivus.h"
 #include "ui_readivus.h"
-#include "quihelper.h"
-
+#include "vtkWindowToImageFilter.h"
 
 ReadIVUS::ReadIVUS(QWidget *parent) :
     QWidget(parent),
@@ -9,16 +8,13 @@ ReadIVUS::ReadIVUS(QWidget *parent) :
     ui->setupUi(this);
     this->setFixedSize(880, 570);
     angle = 0;
-
-    ui->btn_angle0->move(470, 250);
-    ui->btn_angle45->move(470, 10);
-    ui->btn_angle90->move(250, 10);
-    ui->btn_angle135->move(10, 10);
-    ui->btn_angle180->move(10, 250);
-    ui->label_angle0->move(460, 250);
     ui->slider->move(300, 0);
     connect(ui->slider, &QSlider::valueChanged,
             this, &ReadIVUS::SlotTransverseCurrentIndex);
+
+    connect(ui->spinbox_l, SIGNAL(valueChanged(int)), ui->slider, SLOT(setValue(int)));
+    connect(ui->slider, SIGNAL(valueChanged(int)), ui->spinbox_l, SLOT(setValue(int)));
+
 
     // 左侧
     vtkNew<vtkGenericOpenGLRenderWindow> renderWindow_transverse;
@@ -70,8 +66,8 @@ void ReadIVUS::on_pushButton_clicked() {
 
     QString tmp_file;
     tmp_file =
-        QUIHelper::GetFileName("*.dcm *.*");
-
+        QFileDialog::getOpenFileName(
+            nullptr, "选择文件", QCoreApplication::applicationDirPath(), "*.dcm *.*");
     QFileInfo file_info(tmp_file);
     QString extension = file_info.path();
     using PixelType = float;
@@ -115,7 +111,7 @@ void ReadIVUS::on_pushButton_clicked() {
     imagedata_->SetSpacing(1.5, 1.5, 0.5);
     imagedata_->GetDimensions(imageDims);//获取长宽高
     ui->slider->setMaximum(imageDims[2]);
-
+    ui->spinbox_l->setMaximum(imageDims[2]);
 
 
 
@@ -130,8 +126,8 @@ void ReadIVUS::on_pushButton_clicked() {
     center[1] = origin[1] + spacing[1] * 0.5 * (extent[2] + extent[3]);
     center[2] = origin[2] + spacing[2] * 0.5 * (extent[4] + extent[5]);
     double axialElements[16] = {
-        cos(angle * 180 / 3.14),   0,   sin(angle * 180 / 3.14),   0,
-        sin(angle * 180 / 3.14),  0,   cos(angle * 180 / 3.14),   0,
+        cos(angle * 3.14 / 180),   0,   sin(angle * 3.14 / 180),   0,
+        sin(angle * 3.14 / 180),  0,   cos(angle * 3.14 / 180),   0,
         0,     -1,  0,     0,
         0,     0,   0,     1
     };
@@ -200,13 +196,15 @@ void ReadIVUS::SlotRightForward() {
     if (angle < 180) {
         angle += 1;
     }
+    ui->spinbox_r->setValue(angle);
     LeftChangeAngle();
 }
 
 void ReadIVUS::SlotRightBackword() {
-    if (angle > 2) {
+    if (angle > 1) {
         angle -= 1;
     }
+    ui->spinbox_r->setValue(angle);
     LeftChangeAngle();
 }
 
@@ -226,8 +224,8 @@ void ReadIVUS::LeftChangeAngle() {
     center[1] = origin[1] + spacing[1] * 0.5 * (extent[2] + extent[3]);
     center[2] = origin[2] + spacing[2] * 0.5 * (extent[4] + extent[5]);
     double axialElements[16] = {
-        cos(angle * 180 / 3.14),   0,   sin(angle * 180 / 3.14),   0,
-        sin(angle * 180 / 3.14),  0,   cos(angle * 180 / 3.14),   0,
+        cos(angle * 3.14 / 180),   0,   sin(angle * 3.14 / 180),   0,
+        sin(angle * 3.14 / 180),  0,   cos(angle * 3.14 / 180),   0,
         0,     -1,  0,     0,
         0,     0,   0,     1
     };
@@ -246,5 +244,58 @@ void ReadIVUS::LeftChangeAngle() {
 
 }
 
+void ReadIVUS::on_spinbox_r_editingFinished() {
+    angle = ui->spinbox_r->value();
+    LeftChangeAngle();
+}
+
+void ReadIVUS::on_pushButton_2_clicked() {
+    vtkNew<vtkWindowToImageFilter> filter_median_sagittal;
+    filter_median_sagittal->SetInputBufferTypeToRGBA();
+    filter_median_sagittal->ReadFrontBufferOff();
+    filter_median_sagittal->SetInput(ui->median_sagittal->GetRenderWindow());
+    filter_median_sagittal->Update();
+    QImage image_median_sagittal
+        = VtkImageDataToQImage(filter_median_sagittal->GetOutput());
+    QString median_sagittal = QString("median_sagittal%1.png")
+                              .arg(ui->spinbox_l->value());
+    image_median_sagittal.save(median_sagittal);
 
 
+    vtkNew<vtkWindowToImageFilter> filter_transverse;
+    filter_median_sagittal->SetInputBufferTypeToRGBA();
+    filter_median_sagittal->ReadFrontBufferOff();
+    filter_median_sagittal->SetInput(ui->transverse->GetRenderWindow());
+    filter_median_sagittal->Update();
+
+    QImage image_transverse = VtkImageDataToQImage(filter_median_sagittal->GetOutput());
+    QString transverse = QString("transverse%1.png")
+                         .arg(ui->spinbox_r->value());
+    image_median_sagittal.save(median_sagittal);
+    image_transverse.save(transverse);
+}
+
+QImage ReadIVUS::VtkImageDataToQImage(vtkSmartPointer<vtkImageData> imageData) {
+    if (!imageData) {
+        qWarning() << "image data is null";
+        return QImage();
+    }
+    /// \todo retrieve just the UpdateExtent
+    qint32 width = imageData->GetDimensions()[0];
+    qint32 height = imageData->GetDimensions()[1];
+    QImage image(width, height, QImage::Format_RGB32);
+    QRgb *rgbPtr = reinterpret_cast<QRgb *>(image.bits()) + width * (height - 1);
+    unsigned char *colorsPtr =
+        reinterpret_cast<unsigned char *>(imageData->GetScalarPointer());
+
+    // Loop over the vtkImageData contents.
+    for (qint32 row = 0; row < height; row++) {
+        for (qint32 col = 0; col < width; col++) {
+            // Swap the vtkImageData RGB values with an equivalent QColor
+            *(rgbPtr++) = QColor(colorsPtr[0], colorsPtr[1], colorsPtr[2]).rgb();
+            colorsPtr += imageData->GetNumberOfScalarComponents();
+        }
+        rgbPtr -= width * 2;
+    }
+    return image;
+}

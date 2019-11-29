@@ -55,7 +55,7 @@
         <enum>Qt::NoFocus</enum>
        </property>
        <property name="text">
-        <string>V0.3.0</string>
+        <string>V0.4.0</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignHCenter|Qt::AlignTop</set>

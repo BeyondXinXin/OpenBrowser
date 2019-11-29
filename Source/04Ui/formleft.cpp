@@ -7,6 +7,10 @@ FormLeft::FormLeft(QWidget *parent) :
     ui(new Ui::FormLeft) {
     ui->setupUi(this);
     initFrom();
+    InitMdoe();
+    InitImgae();
+    InitDcm();
+    InitImgaes();
 }
 
 FormLeft::~FormLeft() {
@@ -38,19 +42,26 @@ void FormLeft::initFrom() {
             this, &FormLeft::SlotLeftShowChangeIn);
     connect(ui->btn_mode, &QPushButton::clicked,
             this, &FormLeft::SlotLeftShowChangeIn);
-    // Mode 按钮逻辑
+}
+
+void FormLeft::InitMdoe() {
+    // Mode 逻辑
     QList<QPushButton *> btns = ui->widget_mode->findChildren<QPushButton *>();
     foreach (QPushButton *btn, btns) {
         qint32 tmp = btn->objectName().remove(0, 8).toInt();
         connect(btn, &QPushButton::clicked,
                 this, &FormLeft::SlotModeBrowserAllBtnEnabledFalse);
-        connect(btn, &QPushButton::clicked, this, [ = ] { // v自动提取连通域
+        connect(btn, &QPushButton::clicked, this, [ = ] {
             emit SignalsModeBrowserOut(tmp);
             emit SingalSliderBarMovtToOut(1);
             emit SingalSliderBarMovtToIn(1);
         });
     }
-    // Image
+}
+
+
+void FormLeft::InitImgae() {
+    // Image 逻辑
     image_handle = new FormImageHandle;
     connect(image_handle, &FormImageHandle::SingalImageMenuOut,
             this, &FormLeft::SingalImageBrowserOut);
@@ -73,6 +84,14 @@ void FormLeft::initFrom() {
         }
 
     }
+}
+
+void FormLeft::InitDcm() {
+
+}
+
+void FormLeft::InitImgaes() {
+
 }
 
 // 显示切换

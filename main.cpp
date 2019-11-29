@@ -55,24 +55,3 @@ int main(int argc, char *argv[]) {
 // C++ includes
 // CGAL includes
 // OPENCV includes
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

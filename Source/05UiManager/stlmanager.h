@@ -20,6 +20,7 @@
 #include "vtkthreadimagedataread.h"
 #include "vtkthreadpolydatawrite.h"
 #include "vtkthreadmarchingcubes.h"
+#include "vtkthreadform3dreconstruction.h"
 
 // 03 CGAL includes
 #include "cgalthreadfill.h"
@@ -37,7 +38,7 @@ class STLManager: public QObject {
     void OpenStlFile(const QString &file_path,
                      vtkSmartPointer<vtkImageData> value = nullptr);
   public slots:
-    void SlotPolyDataHandle(const int &operation);
+    void SlotPolyDataHandle(const int &operation, const QString text = "");
   Q_SIGNALS:
     void SingnalFinished();
     void SignalPromptInformationOut(const QString &text);
@@ -53,23 +54,20 @@ class STLManager: public QObject {
 
   private:
     QVTKOpenGLWidget &vtk_widget_; // qt窗口
-    QPointer< VtkThreadPolyDataRead > reade_; // stl 读取
-    QPointer< VtkThreadPolyDataWrite >write_;// stl 保存
-
+    QPointer<VtkThreadPolyDataRead>reade_; // stl 读取
+    QPointer<VtkThreadPolyDataWrite>write_;// stl 保存
     QList<vtkSmartPointer<vtkPolyData>> polydata_list_;// polydata数据
     QPointer<CustomVtkRenderer> renderer_;// 渲染器
     QPointer<CustomSurfaceViewer> viewer_;//模型
-
-    QPointer< VtkThreadMarchingCubes > marching_cubes_;//imagedata转polydata
-
-    QPointer<AutomaticDivision> surface_auto_division_;// 提取最大连通域
-    QPointer<LineSurfaceClipper> surface_line_clipper_;// 线性剪裁
-    QPointer<SmoothSurfaceSelector> surface_smooth_selector_;// 区域平滑和修剪
-    QPointer<VtkThreadSubdivision> surface_subdivision_;// vtk细分
-    QPointer<RefineSurface> surface_refine_;// vtk细化
-
-    QPointer<FillSurfaceSelector> fill_surface_selector_;// CGAL细分
-    QPointer<CGALThreadSubdivision> surface_cgal_subdivision_; // CGAL表面细分
+    QPointer<VtkThreadMarchingCubes> marching_cubes_;//imagedata转polydata
+    QPointer<AutomaticDivision> auto_division_;// 提取最大连通域
+    QPointer<LineSurfaceClipper> line_clipper_;// 线性剪裁
+    QPointer<SmoothSurfaceSelector> smooth_selector_;// 区域平滑和修剪
+    QPointer<VtkThreadSubdivision> subdivision_;// vtk细分
+    QPointer<RefineSurface> refine_;// vtk细化
+    QPointer<FillSurfaceSelector> cgal_selector_;// CGAL细分
+    QPointer<CGALThreadSubdivision> cgal_subdivision_; // CGAL表面细分
+    QPointer<VtkThreadForm3DReconstruction> form3dreconstruction_; // 三维重构
 
 };
 

@@ -33,9 +33,9 @@ bool openBrowserApplication::Run() {
             return true;
         }
         if( QUIConfig::cmd_option_.test_mode == true) {
-            //ReadIVUS *tmp = new ReadIVUS();
-            // tmp->show();
-            AnisotropicFiltering::run();
+            ReadIVUS *tmp = new ReadIVUS();
+            tmp->show();
+//            AnisotropicFiltering::run();
             return true;
         }
         if( QUIConfig::cmd_option_.relese_mode == true) {

@@ -20,6 +20,7 @@ find_package(Qt5
     Test
     Xml
     )
+
 find_package(Qt5LinguistTools)
 find_package(Qt5Network)
 find_package(Qt5SerialPort)
@@ -76,7 +77,6 @@ set(01Frame
     Source/01Frame/quiwidgetmove.cpp
     Source/01Frame/quilogmanager.h
     Source/01Frame/quilogmanager.cpp
-
     Source/01Frame/stable.h
     )
 
@@ -99,7 +99,6 @@ set(02CustomControl
     Source/02CustomControl/screenwidget.h
     Source/02CustomControl/sliderrange.cpp
     Source/02CustomControl/sliderrange.h
-
     Source/02CustomControl/NetCom/settingsdialog.h
     Source/02CustomControl/NetCom/settingsdialog.cpp
     Source/02CustomControl/NetCom/settingsdialog.ui
@@ -161,6 +160,8 @@ set(03VTK
     Source/03VTK/VTKThread/vtkthreadpolydatawrite.cpp
     Source/03VTK/VTKThread/vtkthreadsubdivision.h
     Source/03VTK/VTKThread/vtkthreadsubdivision.cpp
+    Source/03VTK/VTKThread/vtkthreadform3dreconstruction.h
+    Source/03VTK/VTKThread/vtkthreadform3dreconstruction.cpp
     )
 
 include_directories(Source/04Ui)
@@ -168,24 +169,34 @@ set(04Ui
     Source/04Ui/formmain.h
     Source/04Ui/formmain.cpp
     Source/04Ui/formmain.ui
+
     Source/04Ui/formtitle.h
     Source/04Ui/formtitle.cpp
     Source/04Ui/formtitle.ui
+
     Source/04Ui/formleft.h
     Source/04Ui/formleft.cpp
     Source/04Ui/formleft.ui
+
     Source/04Ui/formshow.h
     Source/04Ui/formshow.ui
     Source/04Ui/formshow.cpp
+
     Source/04Ui/aboutinfo.h
     Source/04Ui/aboutinfo.cpp
     Source/04Ui/aboutinfo.ui
+
     Source/04Ui/formmaskwidget.h
     Source/04Ui/formmaskwidget.cpp
     Source/04Ui/formmaskwidget.ui
+
     Source/04Ui/formimagehandle.h
     Source/04Ui/formimagehandle.cpp
     Source/04Ui/formimagehandle.ui
+
+    Source/04Ui/form3dreconstruction.cpp
+    Source/04Ui/form3dreconstruction.h
+    Source/04Ui/form3dreconstruction.ui
     )
 
 include_directories(Source/05UiManager)

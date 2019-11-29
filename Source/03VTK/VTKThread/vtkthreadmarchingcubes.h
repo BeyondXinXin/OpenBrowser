@@ -24,9 +24,9 @@ class VtkThreadMarchingCubes: public VtkThread {
     explicit VtkThreadMarchingCubes(QObject *parent = nullptr);
     virtual ~VtkThreadMarchingCubes() override;
     void SetInputImageData(const vtkSmartPointer<vtkImageData>value);
-    void Setnum(int num);
+    void Setnum(qint32 num);
     vtkSmartPointer<vtkMarchingCubes> Getmarchingcubes() ;
-    int marchcubes_num_;
+    qint32 marchcubes_num_;
 
 
 

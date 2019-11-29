@@ -4,6 +4,7 @@
 
 // 04 Ui includes
 #include "formmaskwidget.h"
+#include "form3dreconstruction.h"
 
 // VTK includes
 #include <vtkCamera.h>
@@ -26,15 +27,16 @@ STLManager::STLManager(QVTKOpenGLWidget &vtk_widget,
 }
 
 STLManager::~STLManager() {// 析构
+    form3dreconstruction_->deleteLater();
     reade_->deleteLater();
     write_->deleteLater();
-    surface_line_clipper_->deleteLater();
-    surface_auto_division_->deleteLater();
-    surface_refine_->deleteLater();
-    surface_smooth_selector_->deleteLater();
-    surface_subdivision_->deleteLater();
-    surface_cgal_subdivision_->deleteLater();
-    fill_surface_selector_->deleteLater();
+    line_clipper_->deleteLater();
+    auto_division_->deleteLater();
+    refine_->deleteLater();
+    smooth_selector_->deleteLater();
+    subdivision_->deleteLater();
+    cgal_subdivision_->deleteLater();
+    cgal_selector_->deleteLater();
 }
 
 void STLManager::Initial() {// 初始化
@@ -43,6 +45,14 @@ void STLManager::Initial() {// 初始化
     this->renderer_->Execute();
     this->viewer_ = new CustomSurfaceViewer();
     this->viewer_ ->SetVmtkRenderer(renderer_);
+    // 三维重构
+    this->form3dreconstruction_ = new VtkThreadForm3DReconstruction();
+    connect(this->form3dreconstruction_,
+            &VtkThreadForm3DReconstruction::finished,
+            this, &STLManager::SlotRunFinished);
+    connect(this->form3dreconstruction_,
+            &VtkThreadForm3DReconstruction::SignalVtkThreadProgressOut,
+            this, &STLManager::SignalVtkThreadProgressOut);
     // 读取
     this->reade_ = new VtkThreadPolyDataRead();
     connect(this->reade_,
@@ -63,43 +73,44 @@ void STLManager::Initial() {// 初始化
             &VtkThreadPolyDataWrite::SignalVtkThreadProgressOut,
             this, &STLManager::SignalVtkThreadProgressOut);
     // 自动提取连通域
-    this->surface_auto_division_ = new AutomaticDivision();
-    connect(surface_auto_division_,
+    this->auto_division_ = new AutomaticDivision();
+    connect(auto_division_,
             &AutomaticDivision::SignalClippedFinish,
             this, &STLManager::SlotRunFinished);
     // 线性剪裁
-    this->surface_line_clipper_ = new LineSurfaceClipper();
-    this->surface_line_clipper_->SetVmtkRenderer(renderer_);
-    connect(surface_line_clipper_,
+    this->line_clipper_ = new LineSurfaceClipper();
+    this->line_clipper_->SetVmtkRenderer(renderer_);
+    connect(line_clipper_,
             &LineSurfaceClipper::SignalClippedFinish,
             this, &STLManager::SlotRunFinished);
     // 区域平滑和修剪
-    this->surface_smooth_selector_ = new SmoothSurfaceSelector();
-    this->surface_smooth_selector_->SetVmtkRenderer(renderer_);
-    connect(surface_smooth_selector_,
+    this->smooth_selector_ = new SmoothSurfaceSelector();
+    this->smooth_selector_->SetVmtkRenderer(renderer_);
+    connect(smooth_selector_,
             &SmoothSurfaceSelector::SignalSelectorFinish,
             this, &STLManager::SlotRunFinished);
     // vtk细分
-    this->surface_subdivision_ = new VtkThreadSubdivision();
-    connect(this->surface_subdivision_,
+    this->subdivision_ = new VtkThreadSubdivision();
+    connect(this->subdivision_,
             &VtkThreadSubdivision::finished,
             this, &STLManager::SlotRunFinished);
-    connect(this->surface_subdivision_,
+    connect(this->subdivision_,
             &VtkThreadSubdivision::SignalVtkThreadProgressOut,
             this, &STLManager::SignalVtkThreadProgressOut);
     // 细化
-    this->surface_refine_ = new RefineSurface();
-    connect(surface_refine_, &RefineSurface::SignalClippedFinish,
+    this->refine_ = new RefineSurface();
+    connect(refine_, &RefineSurface::SignalClippedFinish,
             this, &STLManager::SlotRunFinished);
     // CGAL表面细分
-    this->surface_cgal_subdivision_ = new CGALThreadSubdivision();
-    connect(this->surface_cgal_subdivision_, &CGALThreadSubdivision::finished,
+    this->cgal_subdivision_ = new CGALThreadSubdivision();
+    connect(this->cgal_subdivision_, &CGALThreadSubdivision::finished,
             this, &STLManager::SlotRunFinished);
     // CGAL封闭
-    fill_surface_selector_ = new FillSurfaceSelector();
-    fill_surface_selector_->SetVmtkRenderer(renderer_);
-    connect(fill_surface_selector_, &FillSurfaceSelector::SignalFillFinish,
+    cgal_selector_ = new FillSurfaceSelector();
+    cgal_selector_->SetVmtkRenderer(renderer_);
+    connect(cgal_selector_, &FillSurfaceSelector::SignalFillFinish,
             this, &STLManager::SlotRunFinished);
+
 }
 
 void STLManager::SlotVTKThreadMaskWidgetIn(int value) {// 遮层罩
@@ -138,59 +149,65 @@ void STLManager::OpenStlFile(const QString &file_path,
     reade_->start();
 }
 
-void STLManager::SlotPolyDataHandle(const int &operation) {// polydata 处理
-    if (this->polydata_list_.size() == 0 && operation != 21) {
+void STLManager::SlotPolyDataHandle(const int &operation, const QString text) {// polydata 处理
+    Q_UNUSED(text);
+    if (this->polydata_list_.size() == 0
+            && operation != 21
+            && operation != 20) {
         emit SingnalFinished();
         emit SignalPromptInformationOut(QString("PolyData 数据错误"));
         return;
     }
     switch (operation) {
         case 1: {// 自动提取连通域
-                surface_auto_division_->SetSurface(this->polydata_list_.back());
-                surface_auto_division_->Execute();
+                auto_division_->SetSurface(this->polydata_list_.back());
+                auto_division_->Execute();
                 break;
             }
         case 2: {// 直线剪裁
-                surface_line_clipper_->SetSurface(this->polydata_list_.back());
-                surface_line_clipper_->Execute();
-                emit SignalPromptInformationOut(QString("左键：选取剪制区域\n"
-                                                        "空格：确认选取区域\n"
-                                                        " Q ：取消选区区域"));
+                line_clipper_->SetSurface(this->polydata_list_.back());
+                line_clipper_->Execute();
+                emit SignalPromptInformationOut(
+                    QString("左键：选取剪制区域\n"
+                            "空格：确认选取区域\n"
+                            " Q ：取消选区区域"));
                 break;
             }
         case 3: {// 修剪
-                this->surface_smooth_selector_->SetMethod(SmoothSurfaceSelector::CUT);
-                this->surface_smooth_selector_->SetSurface(this->polydata_list_.back());
-                this->surface_smooth_selector_->Execute();
-                emit SignalPromptInformationOut(QString("左键：选取修剪区域\n空格：确认选取区域\n"
-                                                        " Q ：取消选区区域\n"));
+                this->smooth_selector_->SetMethod(SmoothSurfaceSelector::CUT);
+                this->smooth_selector_->SetSurface(this->polydata_list_.back());
+                this->smooth_selector_->Execute();
+                emit SignalPromptInformationOut(
+                    QString("左键：选取修剪区域\n空格：确认选取区域\n"
+                            " Q ：取消选区区域\n"));
                 break;
             }
         case 4: {// 平滑
-                this->surface_smooth_selector_->SetMethod(SmoothSurfaceSelector::SMOOTH);
-                this->surface_smooth_selector_->SetSurface(this->polydata_list_.back());
-                this->surface_smooth_selector_->Execute();
-                emit SignalPromptInformationOut(QString("左键：选取平滑区域\n空格：确认选取区域\n"
-                                                        " Q ：取消选区区域\n"));
+                this->smooth_selector_->SetMethod(SmoothSurfaceSelector::SMOOTH);
+                this->smooth_selector_->SetSurface(this->polydata_list_.back());
+                this->smooth_selector_->Execute();
+                emit SignalPromptInformationOut(
+                    QString("左键：选取平滑区域\n空格：确认选取区域\n"
+                            " Q ：取消选区区域\n"));
                 break;
             }
         case 5: {// 细分
                 emit SignalPromptInformationOut(QString("正在细分模型"));
-                surface_subdivision_->SetSurface(this->polydata_list_.back());
-                surface_subdivision_->SetMethod(VtkThreadSubdivision::LINEAR);
+                subdivision_->SetSurface(this->polydata_list_.back());
+                subdivision_->SetMethod(VtkThreadSubdivision::LINEAR);
                 SlotVTKThreadMaskWidgetIn();
-                surface_subdivision_->start();
+                subdivision_->start();
                 break;
             }
         case 6: {// 表面细化
-                surface_refine_->SetSurface(this->polydata_list_.back());
-                surface_refine_->Execute();
+                refine_->SetSurface(this->polydata_list_.back());
+                refine_->Execute();
                 break;
             }
         case 11: {// CGAL细分
-                surface_cgal_subdivision_->SetSurface(this->polydata_list_.back());
+                cgal_subdivision_->SetSurface(this->polydata_list_.back());
                 SlotCGLAThreadMaskWidgetIn();
-                surface_cgal_subdivision_->start();
+                cgal_subdivision_->start();
                 break;
             }
         case 12: {// CGAL自相交检测
@@ -198,14 +215,29 @@ void STLManager::SlotPolyDataHandle(const int &operation) {// polydata 处理
                 break;
             }
         case 13: {// CGAL封闭
-                fill_surface_selector_->SetSurface(
+                cgal_selector_->SetSurface(
                     this->polydata_list_.back());
-                fill_surface_selector_->Execute();
+                cgal_selector_->Execute();
                 emit SignalPromptInformationOut(
-                    QString(QString("共有%1个未封闭区域"
-                                    "\n左键：选取封闭区域\n空格：确认选取区域\nEsc：取消选区区域"
-                                    "\n前处理完成请单击#选择主动脉入口#"))
-                    .arg(fill_surface_selector_->GetFillCount()));
+                    QString(
+                        QString("共有%1个未封闭区域"
+                                "\n左键：选取封闭区域\n空格：确认选取区域\nEsc：取消选区区域"
+                                "\n前处理完成请单击#选择主动脉入口#"))
+                    .arg(cgal_selector_->GetFillCount()));
+                break;
+            }
+        case 20: { // 三维重构
+                Form3DReconstruction *reconstruction = new Form3DReconstruction;
+                if (reconstruction->exec() == QDialog::Accepted) {
+                    form3dreconstruction_->SetForm3DReconstructionValue(
+                        reconstruction->GetForm3DReconstructionValue());
+                    form3dreconstruction_->start();
+                    SlotCGLAThreadMaskWidgetIn();
+                    delete reconstruction;
+                    emit SignalPromptInformationOut(QString("开始重构"));
+                } else {
+                    emit SingnalFinished();
+                }
                 break;
             }
         case 21: { // 打开文件
@@ -257,7 +289,14 @@ void STLManager::SlotPolyDataHandle(const int &operation) {// polydata 处理
 
 void STLManager::SlotRunFinished() {// Handle PolyData操作完成
     emit SingnalFinished();
-    if (QObject::sender() == reade_) {// 读取stl
+    if (QObject::sender() == form3dreconstruction_) {// 三维重构
+        if (!form3dreconstruction_->GetThreadResult()) {
+            emit SignalPromptInformationOut(QString("三维重构失败"));
+            return;
+        }
+        OpenStlFile(form3dreconstruction_->GetForm3DReconstructionValue());
+        emit SignalPromptInformationOut(QString("三维重构成功"));
+    } else if (QObject::sender() == reade_) { // 读取stl
         if (!reade_->GetThreadResult()) {
             emit SignalPromptInformationOut(QString("stl模型载入失败"));
             return;
@@ -289,48 +328,48 @@ void STLManager::SlotRunFinished() {// Handle PolyData操作完成
             return;
         }
         emit SignalPromptInformationOut(QString("stl模型保存成功"));
-    } else if (QObject::sender() == surface_auto_division_) { // 提取最大连通域
-        this->polydata_list_.push_back(this->surface_auto_division_->GetSurface());
+    } else if (QObject::sender() == auto_division_) { // 提取最大连通域
+        this->polydata_list_.push_back(this->auto_division_->GetSurface());
         this->viewer_->SetSurface(this->polydata_list_.back());
         this->viewer_ ->Execute();
         emit SignalPromptInformationOut(QString("自动分割完毕"));
-    } else if (QObject::sender() == surface_line_clipper_) { // 线性剪裁
-        this->polydata_list_.push_back(this->surface_line_clipper_->GetSurface());
+    } else if (QObject::sender() == line_clipper_) { // 线性剪裁
+        this->polydata_list_.push_back(this->line_clipper_->GetSurface());
         this->viewer_->SetSurface(this->polydata_list_.back());
         this->viewer_ ->Execute();
         emit SignalPromptInformationOut(QString("手动剪裁完毕"));
-    } else if (QObject::sender() == surface_smooth_selector_) { // 修剪 平滑
-        this->polydata_list_.push_back(this->surface_smooth_selector_->GetSurface());
+    } else if (QObject::sender() == smooth_selector_) { // 修剪 平滑
+        this->polydata_list_.push_back(this->smooth_selector_->GetSurface());
         this->viewer_->SetSurface(this->polydata_list_.back());
         this->viewer_ ->Execute();
         emit SignalPromptInformationOut(QString("手动修剪 平滑完毕"));
-    } else if (QObject::sender() == surface_subdivision_) { // 细分
-        if (!surface_subdivision_->GetThreadResult()) {
+    } else if (QObject::sender() == subdivision_) { // 细分
+        if (!subdivision_->GetThreadResult()) {
             emit SignalPromptInformationOut(QString("模型细化失败"));
             return;
         }
-        this->polydata_list_.push_back(this->surface_subdivision_->GetSurface());
+        this->polydata_list_.push_back(this->subdivision_->GetSurface());
         this->viewer_->SetSurface(this->polydata_list_.back());
         this->viewer_ ->Execute();
         emit SignalPromptInformationOut(QString("自动细分完毕"));
-    }  else if (QObject::sender() == surface_refine_) { // 表面细分
-        this->polydata_list_.push_back(this->surface_refine_->GetSurface());
+    }  else if (QObject::sender() == refine_) { // 表面细分
+        this->polydata_list_.push_back(this->refine_->GetSurface());
         this->viewer_->SetSurface(this->polydata_list_.back());
         this->viewer_ ->Execute();
         emit SignalPromptInformationOut(QString("自动细分完毕"));
-    } else if (QObject::sender() == surface_cgal_subdivision_) { // CGAL表面细分
-        if (!surface_cgal_subdivision_->GetThreadResult()) {
+    } else if (QObject::sender() == cgal_subdivision_) { // CGAL表面细分
+        if (!cgal_subdivision_->GetThreadResult()) {
             emit SignalPromptInformationOut(QString("CGAL表面细分失败"));
             return;
         }
         this->polydata_list_.push_back(
-            this->surface_cgal_subdivision_->GetSurface());
+            this->cgal_subdivision_->GetSurface());
         this->viewer_->SetSurface(this->polydata_list_.back());
         this->viewer_ ->Execute();
         emit SignalPromptInformationOut(QString("CGAL表面细分成功"));
-    } else if (QObject::sender() == fill_surface_selector_) { // CGAL 封闭
+    } else if (QObject::sender() == cgal_selector_) { // CGAL 封闭
         this->polydata_list_.push_back(
-            this->fill_surface_selector_->GetSurface());
+            this->cgal_selector_->GetSurface());
         this->viewer_->SetSurface(this->polydata_list_.back());
         this->viewer_ ->Execute();
         emit SignalPromptInformationOut(QString("CGAL表面封闭成功"));

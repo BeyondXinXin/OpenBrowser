@@ -28,6 +28,7 @@ void FormMain::initFrom() {
             ui->left_form, &FormLeft::SlotPromptInformation);
     connect(this->mode_manager_, &STLManager::SingnalFinished,// Handle操作完成
             ui->left_form, &FormLeft::SlotModeBrowserBtnEnabledTrue);
+
     // Image 初始化
     image_manager_ = new ImageBrowserManager(*ui->image_window, this);
     connect(ui->left_form, &FormLeft::SingalImageBrowserOut, // Image Handle操作
@@ -47,6 +48,14 @@ void FormMain::initFrom() {
         connect(btn, &QPushButton::toggled,
                 dcm_manager_, &DcmManager::SlotViewMaximization);
     }
+
+    // images 初始化
+    images_manager_ = new ImagesBrowerManager(this);
+    ui->images_layout1->addWidget(images_manager_->GetImagesView1());
+    ui->images_layout2->addWidget(images_manager_->GetImagesView2());
+    connect(ui->left_form, &FormLeft::SignalImagesBrowserOut, // Image Handle操作
+            this->images_manager_, &ImagesBrowerManager::SlotImgProcess);
+
     // ui界面初始化
     connect(ui->left_form, &FormLeft::SingalSliderBarMovtToOut,
             this, &FormMain::SlotSetMainWindos);

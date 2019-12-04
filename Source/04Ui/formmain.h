@@ -13,6 +13,7 @@
 #include "stlmanager.h"
 #include "dcmmanager.h"
 #include "imagebrowsermanager.h"
+#include "imagesbrowermanager.h"
 
 namespace Ui {
     class FormMain;
@@ -36,12 +37,12 @@ class FormMain : public QWidget {
   private:
     Ui::FormMain *ui;
     QUIMenu *I_menubar;
-    // image manager
-    QPointer<ImageBrowserManager> image_manager_;
-    // mode manager
-    QPointer<STLManager> mode_manager_;
-    // dcm manager
-    QPointer<DcmManager> dcm_manager_;
+
+    QPointer<ImageBrowserManager> image_manager_;// image manager
+    QPointer<STLManager> mode_manager_;// mode manager
+    QPointer<DcmManager> dcm_manager_;// dcm manager
+    QPointer<ImagesBrowerManager> images_manager_;// images manager
+
 };
 
 #endif // FORMMAIN_H

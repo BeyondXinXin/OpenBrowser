@@ -42,16 +42,3 @@ int main(int argc, char *argv[]) {
     return a.exec();
 }
 
-
-// 01 Frame includes
-// 02 CustomControl includes
-// 03 VTK includes
-// 03 OPENCV includes
-// 03 CGAL includes
-// 04 Ui includes
-// 05 UiManager includes
-// 06 Test includes
-// VTK includes
-// C++ includes
-// CGAL includes
-// OPENCV includes

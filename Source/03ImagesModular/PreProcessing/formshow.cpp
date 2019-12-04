@@ -13,29 +13,21 @@ FormShow::FormShow(QWidget *parent) :
 FormShow::~FormShow() {
     delete ui;
 }
-bool FormShow::eventFilter(QObject *watched, QEvent *event) {
-    if (event->type() == QEvent::MouseButtonDblClick) {
-        QLabel *widget = static_cast<QLabel *>(watched);
-        if (!video_max_) {
-            video_max_ = true;
-            HideVideoAll();
-            ui->formshow_gridLayout->addWidget(widget, 0, 0);
-            widget->setVisible(true);
-        } else {
-            video_max_ = false;
-            ShowVideoAll();
-        }
-    } else if (event->type() == QEvent::MouseButtonPress) {
-        if (qApp->mouseButtons() == Qt::RightButton) {
-            video_menu_->exec(QCursor::pos());
-        }
-    }
-    return QWidget::eventFilter(watched, event);
-}
-void FormShow::Initial() {
-    video_max_ = false;
-    video_count_ = 16;
-    video_type_ = "1_16";
+
+void FormShow::Initialization() {
+
+    connect(ui->frmshowpushButton_8, &QPushButton::clicked,
+            this, &FormShow::SlotPushButtonClicked);
+    connect(ui->frmshowpushButton_9, &QPushButton::clicked,
+            this, &FormShow::SlotPushButtonClicked);
+    connect(ui->frmshowpushButton_10, &QPushButton::clicked,
+            this, &FormShow::SlotPushButtonClicked);
+    connect(ui->frmshowpushButton_11, &QPushButton::clicked,
+            this, &FormShow::SlotPushButtonClicked);
+    connect(ui->frmshowpushButton_12, &QPushButton::clicked,
+            this, &FormShow::SlotPushButtonClicked);
+
+
     for (int i = 0; i < video_count_; i++) {
         QLabel *lab = new QLabel;
         lab->setProperty("formshow", "lab");
@@ -65,6 +57,85 @@ void FormShow::Initial() {
     menu9->addAction("通道8-通道16", this, SLOT(ShowVideo9()));
     video_menu_->addAction("切换到16画面", this, SLOT(ShowVideo16()));
     this->ShowVideoAll();
+}
+
+void FormShow::ShowImages(const QStringList filenames) {
+    for (int i = 0; (i < filenames.size()) && (i < 16); ++i) {
+        QString path = filenames.at(i);
+        if (!path.isEmpty()) {
+            QImage *img = new QImage(path);
+            if ((img->isNull())) {
+                QUIHelper::ShowMessageBoxError("打开图片错误！");
+                delete img;
+                return;
+            }
+            QLabel *lab = widgets_.at(i);
+            lab->setPixmap(QPixmap::fromImage(*img));
+            lab->setScaledContents(true);
+        }
+    }
+}
+bool FormShow::eventFilter(QObject *watched, QEvent *event) {
+    if (event->type() == QEvent::MouseButtonDblClick) {
+        QLabel *widget = static_cast<QLabel *>(watched);
+        if (!video_max_) {
+            video_max_ = true;
+            HideVideoAll();
+            ui->formshow_gridLayout->addWidget(widget, 0, 0);
+            widget->setVisible(true);
+        } else {
+            video_max_ = false;
+            ShowVideoAll();
+        }
+    } else if (event->type() == QEvent::MouseButtonPress) {
+        if (qApp->mouseButtons() == Qt::RightButton) {
+            video_menu_->exec(QCursor::pos());
+        }
+    }
+    return QWidget::eventFilter(watched, event);
+}
+void FormShow::Initial() {
+    video_max_ = false;
+    video_count_ = 16;
+    video_type_ = "1_16";
+}
+
+void FormShow::SlotPushButtonClicked() {
+    video_max_ = false;
+    QString videoType;
+    int index = 0;
+    index = 0;
+    if (QObject::sender() == ui->frmshowpushButton_8) {
+        videoType = "1_4";
+        if (this->video_type_ != videoType) {
+            this->video_type_ = videoType;
+            ChangeVideo4(index);
+        }
+    } else if(QObject::sender() == ui->frmshowpushButton_9) {
+        videoType = "1_6";
+        if (this->video_type_ != videoType) {
+            this->video_type_ = videoType;
+            ChangeVideo6(index);
+        }
+    } else if(QObject::sender() == ui->frmshowpushButton_10) {
+        videoType = "1_8";
+        if (this->video_type_ != videoType) {
+            this->video_type_ = videoType;
+            ChangeVideo8(index);
+        }
+    } else if(QObject::sender() == ui->frmshowpushButton_11) {
+        videoType = "1_9";
+        if (this->video_type_ != videoType) {
+            this->video_type_ = videoType;
+            ChangeVideo9(index);
+        }
+    } else if(QObject::sender() == ui->frmshowpushButton_12) {
+        videoType = "1_16";
+        if (this->video_type_ != videoType) {
+            this->video_type_ = videoType;
+            ChangeVideo16(index);
+        }
+    }
 }
 
 
@@ -291,80 +362,3 @@ void FormShow::ChangeVideo16(const qint32 index) {
     ChangeVideo(index, 4);
 }
 
-void FormShow::on_frmshowpushButton_8_clicked() {
-    video_max_ = false;
-    QString videoType;
-    int index = 0;
-    index = 0;
-    videoType = "1_4";
-    if (this->video_type_ != videoType) {
-        this->video_type_ = videoType;
-        ChangeVideo4(index);
-    }
-}
-void FormShow::on_frmshowpushButton_9_clicked() {
-    video_max_ = false;
-    QString videoType;
-    int index = 0;
-    index = 0;
-    videoType = "1_6";
-    if (this->video_type_ != videoType) {
-        this->video_type_ = videoType;
-        ChangeVideo6(index);
-    }
-}
-void FormShow::on_frmshowpushButton_10_clicked() {
-    video_max_ = false;
-    QString videoType;
-    int index = 0;
-    index = 0;
-    videoType = "1_8";
-    if (this->video_type_ != videoType) {
-        this->video_type_ = videoType;
-        ChangeVideo8(index);
-    }
-}
-void FormShow::on_frmshowpushButton_11_clicked() {
-    video_max_ = false;
-    QString videoType;
-    int index = 0;
-    index = 0;
-    videoType = "1_9";
-    if (this->video_type_ != videoType) {
-        this->video_type_ = videoType;
-        ChangeVideo9(index);
-    }
-}
-void FormShow::on_frmshowpushButton_12_clicked() {
-    video_max_ = false;
-    QString videoType;
-    int index = 0;
-    index = 0;
-    videoType = "1_16";
-    if (this->video_type_ != videoType) {
-        this->video_type_ = videoType;
-        ChangeVideo16(index);
-    }
-}
-void FormShow::on_frmshowpushButton_clicked() {
-    QStringList filenames = QFileDialog::getOpenFileNames(
-                                this, tr("open image file"),
-                                "./", tr("Image files(*.bmp *.jpg *.pbm "
-                                         "*.pgm *.png *.ppm *.xbm *.xpm);;"
-                                         "All files (*.*)"));
-    for (int i = 0; (i < filenames.size()) && (i < 16); ++i) {
-        QString path = filenames.at(i);
-        if (!path.isEmpty()) {
-            QImage *img = new QImage(path);
-            if ((img->isNull())) {
-                QUIHelper::ShowMessageBoxError("打开图片错误！");
-                delete img;
-                return;
-            }
-            QLabel *lab = widgets_.at(i);
-            QSize laSize = lab->size();
-            QImage img1 = img->scaled(laSize - QSize(5, 5), Qt::IgnoreAspectRatio);
-            lab->setPixmap(QPixmap::fromImage(img1));
-        }
-    }
-}

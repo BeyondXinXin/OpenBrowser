@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>250</width>
-    <height>1574</height>
+    <height>754</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -139,7 +139,7 @@
         <cursorShape>ArrowCursor</cursorShape>
        </property>
        <property name="text">
-        <string>Image  前处理   </string>
+        <string>Image  Browser   </string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -388,7 +388,7 @@
         </size>
        </property>
        <property name="text">
-        <string>Mode  前处理   </string>
+        <string>Mode  Browser   </string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -658,7 +658,7 @@
         </size>
        </property>
        <property name="text">
-        <string>Dcm  前处理   </string>
+        <string>Dcm  Browser   </string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -753,7 +753,7 @@
         </size>
        </property>
        <property name="text">
-        <string>Images  前处理   </string>
+        <string>Images  Browser   </string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -781,6 +781,26 @@
          <height>50</height>
         </size>
        </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QPushButton" name="btn_images1">
+            <property name="text">
+             <string>左侧图片读取</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_images2">
+            <property name="text">
+             <string>右侧图片读取</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
      </item>
     </layout>

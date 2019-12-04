@@ -31,8 +31,14 @@ class FormLeft : public QWidget {
     void SlotModeBrowserBtnEnabledTrue();
 
   Q_SIGNALS:
-    void SignalsModeBrowserOut(const int &operation, const QString &text = "");// Mode 信号处理
-    void SingalImageBrowserOut(const int &operation, const QString &text = ""); // Image 信号处理
+    void SignalsModeBrowserOut(
+        const int &operation, const QString &text = "");// Mode 信号处理
+    void SingalImageBrowserOut(
+        const int &operation, const QString &text = ""); // Image 信号处理
+    void SignalImagesBrowserOut(
+        const int &operation, const QString &text = "");// Images 信号处理
+
+
     void SingalSliderBarMovtToIn(const int);// 界面切换信号
     void SingalSliderBarMovtToOut(const int);// 界面切换信号
 

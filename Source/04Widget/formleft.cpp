@@ -66,6 +66,7 @@ void FormLeft::InitImgae() {
     connect(image_handle, &FormImageHandle::SingalImageMenuOut,
             this, &FormLeft::SingalImageBrowserOut);
     image_handle->hide();
+
     QList<QPushButton *> imgbtns = ui->widget_image->findChildren<QPushButton *>();
     foreach (QPushButton *btn, imgbtns) {
 
@@ -91,7 +92,15 @@ void FormLeft::InitDcm() {
 }
 
 void FormLeft::InitImgaes() {
-
+    // images 逻辑
+    QList<QPushButton *> btns = ui->widget_images->findChildren<QPushButton *>();
+    foreach (QPushButton *btn, btns) {
+        qint32 tmp = btn->objectName().remove(0, 10).toInt();
+        connect(btn, &QPushButton::clicked, this, [ = ] {
+            emit SingalSliderBarMovtToOut(3);
+            emit SignalImagesBrowserOut(tmp);
+        });
+    }
 }
 
 // 显示切换

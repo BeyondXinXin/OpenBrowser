@@ -50,10 +50,6 @@ option(USE_SYSTEM_ITK "" ON)
 
 include_directories(Source/01Frame)
 set(01Frame
-    Source/01Frame/Resources/style.qrc
-    Source/01Frame/Resources/Image.qrc
-
-
     Source/01Frame/openbrowserapplication.h
     Source/01Frame/openbrowserapplication.cpp
     Source/01Frame/commandlinemanager.h
@@ -80,133 +76,148 @@ set(01Frame
     Source/01Frame/stable.h
     )
 
-include_directories(Source/02CustomControl)
-include_directories(Source/02CustomControl/NetCom)
-set(02CustomControl
-    Source/02CustomControl/setupini.cpp
-    Source/02CustomControl/setupini.h
-    Source/02CustomControl/cpumemorylabel.cpp
-    Source/02CustomControl/cpumemorylabel.h
-    Source/02CustomControl/maskwidget.cpp
-    Source/02CustomControl/maskwidget.h
-    Source/02CustomControl/progressbarwait.cpp
-    Source/02CustomControl/progressbarwait.h
-    Source/02CustomControl/progressbarcolor.cpp
-    Source/02CustomControl/progressbarcolor.h
-    Source/02CustomControl/sliderbar.cpp
-    Source/02CustomControl/sliderbar.h
-    Source/02CustomControl/screenwidget.cpp
-    Source/02CustomControl/screenwidget.h
-    Source/02CustomControl/sliderrange.cpp
-    Source/02CustomControl/sliderrange.h
-    Source/02CustomControl/NetCom/settingsdialog.h
-    Source/02CustomControl/NetCom/settingsdialog.cpp
-    Source/02CustomControl/NetCom/settingsdialog.ui
-    Source/02CustomControl/NetCom/frmtcpclient.h
-    Source/02CustomControl/NetCom/frmtcpclient.cpp
-    Source/02CustomControl/NetCom/frmtcpclient.ui
-    Source/02CustomControl/NetCom/frmtcpserver.h
-    Source/02CustomControl/NetCom/frmtcpserver.cpp
-    Source/02CustomControl/NetCom/frmtcpserver.ui
-    Source/02CustomControl/NetCom/frmudpserver.h
-    Source/02CustomControl/NetCom/frmudpserver.cpp
-    Source/02CustomControl/NetCom/frmudpserver.ui
+include_directories(Source/02Resources)
+set(02Resources
+    Source/02Resources/style.qrc
+    Source/02Resources/Image.qrc
     )
 
-include_directories(Source/03Opencv)
-set(03Opencv
-    Source/03Opencv/qopencvprocessing.cpp
-    Source/03Opencv/qopencvprocessing.h
-    Source/03Opencv/qopencvwidget.h
-    Source/03Opencv/qopencvwidget.cpp
+# image modular
+include_directories(Source/03ImageModular)
+include_directories(Source/03ImageModular/PreProcessing)
+set(03ImageMode
+    Source/03ImageModular/imagebrowsermanager.h
+    Source/03ImageModular/imagebrowsermanager.cpp
+    Source/03ImageModular/PreProcessing/qopencvprocessing.cpp
+    Source/03ImageModular/PreProcessing/qopencvprocessing.h
+    Source/03ImageModular/PreProcessing/qopencvwidget.h
+    Source/03ImageModular/PreProcessing/qopencvwidget.cpp
+    Source/03ImageModular/PreProcessing/formimagehandle.h
+    Source/03ImageModular/PreProcessing/formimagehandle.cpp
+    Source/03ImageModular/PreProcessing/formimagehandle.ui
     )
 
-include_directories(Source/03CGAL)
-include_directories(Source/03CGAL/CGALThread)
-set(03CGAL
-    Source/03CGAL/CGALThread/cgalthread.h
-    Source/03CGAL/CGALThread/cgalthread.cpp
-    Source/03CGAL/CGALThread/cgalthreadsubdivision.h
-    Source/03CGAL/CGALThread/cgalthreadsubdivision.cpp
-    Source/03CGAL/CGALThread/cgalthreadfill.h
-    Source/03CGAL/CGALThread/cgalthreadfill.cpp
+# model modular
+include_directories(Source/03ModelModular)
+include_directories(Source/03ModelModular/PreProcessing)
+include_directories(Source/03ModelModular/PreProcessing/VTKThread)
+include_directories(Source/03ModelModular/PreProcessing/CGALThread)
+set(03ModelModular
+    Source/03ModelModular/stlmanager.h
+    Source/03ModelModular/stlmanager.cpp
+
+    Source/03ModelModular/PreProcessing/customsurfaceviewer.h
+    Source/03ModelModular/PreProcessing/customsurfaceviewer.cpp
+    Source/03ModelModular/PreProcessing/customvtkrenderer.h
+    Source/03ModelModular/PreProcessing/customvtkrenderer.cpp
+    Source/03ModelModular/PreProcessing/linesurfaceclipper.h
+    Source/03ModelModular/PreProcessing/linesurfaceclipper.cpp
+    Source/03ModelModular/PreProcessing/automaticdivision.h
+    Source/03ModelModular/PreProcessing/automaticdivision.cpp
+    Source/03ModelModular/PreProcessing/smoothsurfaceselector.h
+    Source/03ModelModular/PreProcessing/smoothsurfaceselector.cpp
+    Source/03ModelModular/PreProcessing/refinesurface.cpp
+    Source/03ModelModular/PreProcessing/refinesurface.h
+    Source/03ModelModular/PreProcessing/form3dreconstruction.cpp
+    Source/03ModelModular/PreProcessing/form3dreconstruction.h
+    Source/03ModelModular/PreProcessing/form3dreconstruction.ui
+
+    Source/03ModelModular/PreProcessing/VTKThread/vtkthread.h
+    Source/03ModelModular/PreProcessing/VTKThread/vtkthread.cpp
+    Source/03ModelModular/PreProcessing/VTKThread/vtkthreadimagedataread.h
+    Source/03ModelModular/PreProcessing/VTKThread/vtkthreadimagedataread.cpp
+    Source/03ModelModular/PreProcessing/VTKThread/vtkthreadpolydataread.h
+    Source/03ModelModular/PreProcessing/VTKThread/vtkthreadpolydataread.cpp
+    Source/03ModelModular/PreProcessing/VTKThread/vtkthreadmarchingcubes.h
+    Source/03ModelModular/PreProcessing/VTKThread/vtkthreadmarchingcubes.cpp
+    Source/03ModelModular/PreProcessing/VTKThread/vtkthreadpolydatawrite.h
+    Source/03ModelModular/PreProcessing/VTKThread/vtkthreadpolydatawrite.cpp
+    Source/03ModelModular/PreProcessing/VTKThread/vtkthreadsubdivision.h
+    Source/03ModelModular/PreProcessing/VTKThread/vtkthreadsubdivision.cpp
+    Source/03ModelModular/PreProcessing/VTKThread/vtkthreadform3dreconstruction.h
+    Source/03ModelModular/PreProcessing/VTKThread/vtkthreadform3dreconstruction.cpp
+
+    Source/03ModelModular/PreProcessing/CGALThread/cgalthread.h
+    Source/03ModelModular/PreProcessing/CGALThread/cgalthread.cpp
+    Source/03ModelModular/PreProcessing/CGALThread/cgalthreadsubdivision.h
+    Source/03ModelModular/PreProcessing/CGALThread/cgalthreadsubdivision.cpp
+    Source/03ModelModular/PreProcessing/CGALThread/cgalthreadfill.h
+    Source/03ModelModular/PreProcessing/CGALThread/cgalthreadfill.cpp
+
     )
 
-include_directories(Source/03VTK)
-include_directories(Source/03VTK/VTKThread)
-set(03VTK
-    Source/03VTK/customsurfaceviewer.h
-    Source/03VTK/customsurfaceviewer.cpp
-    Source/03VTK/customvtkrenderer.h
-    Source/03VTK/customvtkrenderer.cpp
-    Source/03VTK/linesurfaceclipper.h
-    Source/03VTK/linesurfaceclipper.cpp
-    Source/03VTK/automaticdivision.h
-    Source/03VTK/automaticdivision.cpp
-    Source/03VTK/smoothsurfaceselector.h
-    Source/03VTK/smoothsurfaceselector.cpp
-    Source/03VTK/refinesurface.cpp
-    Source/03VTK/refinesurface.h
-
-    Source/03VTK/VTKThread/vtkthread.h
-    Source/03VTK/VTKThread/vtkthread.cpp
-    Source/03VTK/VTKThread/vtkthreadimagedataread.h
-    Source/03VTK/VTKThread/vtkthreadimagedataread.cpp
-    Source/03VTK/VTKThread/vtkthreadpolydataread.h
-    Source/03VTK/VTKThread/vtkthreadpolydataread.cpp
-    Source/03VTK/VTKThread/vtkthreadmarchingcubes.h
-    Source/03VTK/VTKThread/vtkthreadmarchingcubes.cpp
-    Source/03VTK/VTKThread/vtkthreadpolydatawrite.h
-    Source/03VTK/VTKThread/vtkthreadpolydatawrite.cpp
-    Source/03VTK/VTKThread/vtkthreadsubdivision.h
-    Source/03VTK/VTKThread/vtkthreadsubdivision.cpp
-    Source/03VTK/VTKThread/vtkthreadform3dreconstruction.h
-    Source/03VTK/VTKThread/vtkthreadform3dreconstruction.cpp
+# Dcm Modular
+include_directories(Source/03DcmModular)
+include_directories(Source/03DcmModular/PreProcessing)
+set(03DcmModular
+    Source/03DcmModular/dcmmanager.h
+    Source/03DcmModular/dcmmanager.cpp
     )
+
+# Images Modular
+include_directories(Source/03ImagesModular)
+include_directories(Source/03ImagesModular/PreProcessing)
+set(03ImagesModular
+    Source/03ImagesModular/imagesbrowermanager.cpp
+    Source/03ImagesModular/imagesbrowermanager.h
+    Source/03ImagesModular/PreProcessing/formshow.h
+    Source/03ImagesModular/PreProcessing/formshow.ui
+    Source/03ImagesModular/PreProcessing/formshow.cpp
+    )
+
 
 include_directories(Source/04Ui)
 set(04Ui
     Source/04Ui/formmain.h
     Source/04Ui/formmain.cpp
     Source/04Ui/formmain.ui
-
     Source/04Ui/formtitle.h
     Source/04Ui/formtitle.cpp
     Source/04Ui/formtitle.ui
-
-    Source/04Ui/formleft.h
-    Source/04Ui/formleft.cpp
-    Source/04Ui/formleft.ui
-
-    Source/04Ui/formshow.h
-    Source/04Ui/formshow.ui
-    Source/04Ui/formshow.cpp
-
-    Source/04Ui/aboutinfo.h
-    Source/04Ui/aboutinfo.cpp
-    Source/04Ui/aboutinfo.ui
-
-    Source/04Ui/formmaskwidget.h
-    Source/04Ui/formmaskwidget.cpp
-    Source/04Ui/formmaskwidget.ui
-
-    Source/04Ui/formimagehandle.h
-    Source/04Ui/formimagehandle.cpp
-    Source/04Ui/formimagehandle.ui
-
-    Source/04Ui/form3dreconstruction.cpp
-    Source/04Ui/form3dreconstruction.h
-    Source/04Ui/form3dreconstruction.ui
     )
 
-include_directories(Source/05UiManager)
-set(05UiManager
-    Source/05UiManager/stlmanager.h
-    Source/05UiManager/stlmanager.cpp
-    Source/05UiManager/dcmmanager.h
-    Source/05UiManager/dcmmanager.cpp
-    Source/05UiManager/imagebrowsermanager.h
-    Source/05UiManager/imagebrowsermanager.cpp
+include_directories(Source/04Widget)
+include_directories(Source/04Widget/CustomControl)
+include_directories(Source/04Widget/CustomControl/NetCom)
+set(04Widget
+    Source/04Widget/formleft.h
+    Source/04Widget/formleft.cpp
+    Source/04Widget/formleft.ui
+    Source/04Widget/aboutinfo.h
+    Source/04Widget/aboutinfo.cpp
+    Source/04Widget/aboutinfo.ui
+    Source/04Widget/formmaskwidget.h
+    Source/04Widget/formmaskwidget.cpp
+    Source/04Widget/formmaskwidget.ui
+
+    Source/04Widget/CustomControl/setupini.cpp
+    Source/04Widget/CustomControl/setupini.h
+    Source/04Widget/CustomControl/cpumemorylabel.cpp
+    Source/04Widget/CustomControl/cpumemorylabel.h
+    Source/04Widget/CustomControl/maskwidget.cpp
+    Source/04Widget/CustomControl/maskwidget.h
+    Source/04Widget/CustomControl/progressbarwait.cpp
+    Source/04Widget/CustomControl/progressbarwait.h
+    Source/04Widget/CustomControl/progressbarcolor.cpp
+    Source/04Widget/CustomControl/progressbarcolor.h
+    Source/04Widget/CustomControl/sliderbar.cpp
+    Source/04Widget/CustomControl/sliderbar.h
+    Source/04Widget/CustomControl/screenwidget.cpp
+    Source/04Widget/CustomControl/screenwidget.h
+    Source/04Widget/CustomControl/sliderrange.cpp
+    Source/04Widget/CustomControl/sliderrange.h
+    Source/04Widget/CustomControl/NetCom/settingsdialog.h
+    Source/04Widget/CustomControl/NetCom/settingsdialog.cpp
+    Source/04Widget/CustomControl/NetCom/settingsdialog.ui
+    Source/04Widget/CustomControl/NetCom/frmtcpclient.h
+    Source/04Widget/CustomControl/NetCom/frmtcpclient.cpp
+    Source/04Widget/CustomControl/NetCom/frmtcpclient.ui
+    Source/04Widget/CustomControl/NetCom/frmtcpserver.h
+    Source/04Widget/CustomControl/NetCom/frmtcpserver.cpp
+    Source/04Widget/CustomControl/NetCom/frmtcpserver.ui
+    Source/04Widget/CustomControl/NetCom/frmudpserver.h
+    Source/04Widget/CustomControl/NetCom/frmudpserver.cpp
+    Source/04Widget/CustomControl/NetCom/frmudpserver.ui
     )
 
 include_directories(Source/06Test)
@@ -237,12 +248,13 @@ set(Source
 add_executable(${PROJECT_NAME}
     ${Source}
     ${01Frame}
-    ${02CustomControl}
-    ${03Opencv}
-    ${03CGAL}
-    ${03VTK}
-    ${04Ui}
-    ${05UiManager}
+    ${02Resources}
+    ${03ImageMode}
+    ${03ModelModular}
+    ${03DcmModular}
+    ${03ImagesModular}
+    ${04Ui}    
+    ${04Widget}
     ${06Test}
     )
 

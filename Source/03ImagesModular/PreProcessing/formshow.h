@@ -17,12 +17,15 @@ class FormShow : public QWidget {
   public:
     explicit FormShow(QWidget *parent = nullptr);
     ~FormShow();
-
+    void Initialization();
+  public slots:
+    void ShowImages(const QStringList filenames);
   protected:
     bool eventFilter(QObject *watched, QEvent *event);
   private:
     void Initial();
   private slots:
+    void SlotPushButtonClicked();
     void ShowVideoAll();
     void ShowVideo4();
     void ShowVideo6();
@@ -36,12 +39,7 @@ class FormShow : public QWidget {
     void ChangeVideo8(const qint32 index);
     void ChangeVideo9(const qint32 index);
     void ChangeVideo16(const qint32 index);
-    void on_frmshowpushButton_8_clicked();
-    void on_frmshowpushButton_9_clicked();
-    void on_frmshowpushButton_10_clicked();
-    void on_frmshowpushButton_11_clicked();
-    void on_frmshowpushButton_12_clicked();
-    void on_frmshowpushButton_clicked();
+
   private:
     Ui::FormShow *ui;
     bool video_max_;

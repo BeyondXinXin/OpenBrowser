@@ -29,7 +29,6 @@ class ImageBrowserManager: public QObject {
     void UnDo();
     void ReDo();
     void UpDataImage(const QImage);
-
   private:
     QOpencvWidget &widget_;
     QVector<QImage> img_vector_;	                // 存储图像的Vector容器

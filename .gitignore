@@ -4,3 +4,7 @@ bin/
 bulid/
 
 CMakeLists.txt.user
+
+\.vscode/
+
+build/

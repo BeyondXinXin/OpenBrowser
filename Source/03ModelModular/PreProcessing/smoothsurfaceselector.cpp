@@ -14,6 +14,7 @@
 #include <vtkUnstructuredGrid.h>
 #include <vtkParametricSpline.h>
 #include <vtkSeedRepresentation.h>
+#include <vtkSmoothPolyDataFilter.h>
 #include <vtkDataSetSurfaceFilter.h>
 #include <vtkLinearExtrusionFilter.h>
 #include <vtkExtractPolyDataGeometry.h>
@@ -194,8 +195,14 @@ void SmoothSurfaceSelector::SmoothCallback() {
     clean_poly_data->SetInputData(tri1->GetOutput());
     clean_poly_data->Update();
 
+    vtkNew<vtkSmoothPolyDataFilter> smoothfilter;
+    smoothfilter->SetInputData(surface_out->GetOutput());
+    smoothfilter->SetNumberOfIterations(3000);
+    smoothfilter->BoundarySmoothingOff();
+    smoothfilter->Update();
+
     vtkNew<vtkTriangleFilter> tri2;
-    tri2->SetInputData(surface_out->GetOutput());
+    tri2->SetInputData(smoothfilter->GetOutput());
     tri2->Update();
 
     vtkNew<vtkCleanPolyData> clean_poly_data_out;

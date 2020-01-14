@@ -71,25 +71,30 @@ void FormMain::SlotOpenFileIn(QString tmp_file) {
     if (tmp_file.isEmpty()) {
         tmp_file =
             QUIHelper::GetFileName("*.dcm "
-                                   "*.stl "
-                                   "*.bmp *.jpg *.pbm *.pgm *.png *.ppm *.xbm *.xpm ");
+                                   "*.stl *.ply *.vtkxml *.vtp *.vtk "
+                                   "*.bmp *.jpg *.pbm *.pgm "
+                                   "*.png *.ppm *.xbm *.xpm ");
     }
     QFileInfo file_info(tmp_file);
-    QString extension = file_info.suffix();
-    if (extension == "dcm") {
+    QString types = file_info.suffix();
+    if (types == "dcm") {
         dcm_manager_->OpenStlFile(tmp_file);
         SlotSetMainWindos(2);
-    } else if (extension == "stl") {
-        mode_manager_->OpenStlFile(tmp_file);
+    } else if (types == "stl" ||
+               types == "ply" ||
+               types == "vtkxml" ||
+               types == "vtp" ||
+               types == "vtk"  ) {
+        mode_manager_->OpenModelFile(tmp_file);
         SlotSetMainWindos(1);
-    } else if (extension == "bmp" ||
-               extension == "jpg" ||
-               extension == "pbm" ||
-               extension == "pgm" ||
-               extension == "png" ||
-               extension == "ppm" ||
-               extension == "xbm" ||
-               extension == "xpm") {
+    } else if (types == "bmp" ||
+               types == "jpg" ||
+               types == "pbm" ||
+               types == "pgm" ||
+               types == "png" ||
+               types == "ppm" ||
+               types == "xbm" ||
+               types == "xpm") {
         image_manager_->OpenStlFile(tmp_file);
         SlotSetMainWindos(0);
     }

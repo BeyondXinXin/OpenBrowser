@@ -4,10 +4,13 @@
 // VTK includes
 #include <vtkCommand.h>
 #include <vtkSTLReader.h>
+#include <vtkPLYReader.h>
 #include <vtkMarchingCubes.h>
+#include <vtkMassProperties.h>
 #include <vtkTriangleFilter.h>
 #include <vtkPolyDataNormals.h>
-#include <vtkMassProperties.h>
+#include <vtkXMLPolyDataReader.h>
+#include <vtkPolyDataReader.h>
 
 VtkThreadPolyDataRead::VtkThreadPolyDataRead(QObject *parent) :
     VtkThread(parent) {
@@ -71,29 +74,81 @@ bool VtkThreadPolyDataRead::ReadStlSurfaceFile() {
     return true;
 }
 
+bool VtkThreadPolyDataRead::ReadVTPSurfaceFile() {
+    if (this->input_file_name_.isEmpty()) {
+        qWarning() << "no InputFileName";
+        return false;
+    }
+    emit SignalVtkThreadProgressOut("正在打开模型", -1);
+    vtkNew<vtkXMLPolyDataReader> reader;
+    reader->SetFileName(this->input_file_name_.toLocal8Bit().data());
+    reader->AddObserver(vtkCommand::ProgressEvent,
+                        this, &VtkThreadPolyDataRead::PrintProgress);
+    reader->Update();
+    this->surface_ = reader->GetOutput();
+    return true;
+}
+
+bool VtkThreadPolyDataRead::ReadVTKSurfaceFile() {
+    if (this->input_file_name_.isEmpty()) {
+        qWarning() << "no InputFileName";
+        return false;
+    }
+    emit SignalVtkThreadProgressOut("正在打开模型", -1);
+    vtkNew< vtkPolyDataReader > reader;
+    reader->SetFileName(this->input_file_name_.toLocal8Bit().data());
+    reader->AddObserver(vtkCommand::ProgressEvent,
+                        this, &VtkThreadPolyDataRead::PrintProgress);
+    reader->Update();
+    this->surface_ = reader->GetOutput();
+    return true;
+}
+
+bool VtkThreadPolyDataRead::ReadPLYSurfaceFile() {
+    if (this->input_file_name_.isEmpty()) {
+        qWarning() << "no InputFileName";
+        return false;
+    }
+    vtkNew<vtkPLYReader> reader;
+    reader->SetFileName (this->input_file_name_.toLocal8Bit().data());
+    reader->Update();
+    this->surface_ = reader->GetOutput();
+    return true;
+}
+
 void VtkThreadPolyDataRead::Execute() {
     QFileInfo file_info(input_file_name_);
     QString extension = file_info.suffix();
     if (extension == "vtp") {
         this->format_ = Format::VTKXML;
+        if (!this->ReadVTPSurfaceFile()) {
+            return ;
+        }
     } else if (extension == "vtkxml") {
         this->format_ = Format::VTKXML;
+        if (!this->ReadVTPSurfaceFile()) {
+            return ;
+        }
     } else if (extension == "vtk") {
         this->format_ = Format::VTK;
+        if (!this->ReadVTKSurfaceFile()) {
+            return ;
+        }
     } else if (extension == "stl") {
         this->format_ = Format::STL;
-    } else if (extension == "ply") {
-        this->format_ = Format::PLY;
-    } else if (extension == "tec") {
-        this->format_ = Format::TECPLOT;
-    } else {
-        this->format_ = Format::UNKNOW;
-    }
-    if (this->format_ == STL) {
         if (!this->ReadStlSurfaceFile()) {
             return ;
         }
+    } else if (extension == "ply") {
+        this->format_ = Format::PLY;
+        if (!this->ReadPLYSurfaceFile()) {
+            return ;
+        }
+    }  else {
+        this->format_ = Format::UNKNOW;
+        this->SetResult(false);
     }
+
     this->output_ = this->surface_;
     this->SetResult(true);
 }

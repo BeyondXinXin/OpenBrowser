@@ -20,8 +20,7 @@ class VtkThreadPolyDataRead  : public VtkThread {
         VTKXML,
         VTK,
         STL,
-        PLY,
-        TECPLOT
+        PLY
     };
 
   public:
@@ -37,6 +36,9 @@ class VtkThreadPolyDataRead  : public VtkThread {
   private:
     void Initial();
     bool ReadStlSurfaceFile();
+    bool ReadVTPSurfaceFile();
+    bool ReadVTKSurfaceFile();
+    bool ReadPLYSurfaceFile();
     void Execute();
 
   private:

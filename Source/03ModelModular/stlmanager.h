@@ -35,8 +35,8 @@ class STLManager: public QObject {
     explicit STLManager(QVTKOpenGLWidget &vtk_widget,
                         QObject *parent = nullptr);
     virtual ~STLManager() override;
-    void OpenStlFile(const QString &file_path,
-                     vtkSmartPointer<vtkImageData> value = nullptr);
+    void OpenModelFile(const QString &file_path,
+                       vtkSmartPointer<vtkImageData> value = nullptr);
   public slots:
     void SlotPolyDataHandle(const int &operation, const QString text = "");
   Q_SIGNALS:

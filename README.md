@@ -6,10 +6,9 @@
 基于QT      一个开源的文件浏览器  
 目前支持  
 .dcm .mha .mhd 
-.stl .off .vtk  .vtu  
+.stl *.ply *.vtkxml *.vtp *.vtk
 .bmp .jpg .pbm .pgm .png .ppm .xbm .xpm  
 等文件的浏览和前处理  
-(off mha mhd vtk vtu格式文件目前需要自己更改下源码,下一个版本直接增加打开选项)
 
 
 ## 特性

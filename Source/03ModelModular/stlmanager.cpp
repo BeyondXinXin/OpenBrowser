@@ -63,7 +63,7 @@ void STLManager::Initial() {// 初始化
             this, &STLManager::SignalVtkThreadProgressOut);
     // 等值面提取
     marching_cubes_ = new VtkThreadMarchingCubes();
-    connect(marching_cubes_, &VtkThreadImageDataRead::finished,
+    connect(marching_cubes_, &VtkThreadMarchingCubes::finished,
             this, &STLManager::SlotRunFinished);
     // 保存
     this->write_ = new VtkThreadPolyDataWrite();
@@ -137,8 +137,8 @@ void STLManager::SlotCGLAThreadMaskWidgetIn() {// 遮层罩
     QThread::msleep(100);
 }
 
-void STLManager::OpenStlFile(const QString &file_path,
-                             vtkSmartPointer<vtkImageData> value) {// 打开文件
+void STLManager::OpenModelFile(const QString &file_path,
+                               vtkSmartPointer<vtkImageData> value) {// 打开文件
     if (nullptr != value) {
         marching_cubes_->Setnum(500);
         marching_cubes_->SetInputImageData(value);
@@ -149,7 +149,8 @@ void STLManager::OpenStlFile(const QString &file_path,
     reade_->start();
 }
 
-void STLManager::SlotPolyDataHandle(const int &operation, const QString text) {// polydata 处理
+void STLManager::SlotPolyDataHandle(const int &operation, const QString text) {
+    // polydata 处理
     Q_UNUSED(text);
     if (this->polydata_list_.size() == 0
             && operation != 21
@@ -248,7 +249,7 @@ void STLManager::SlotPolyDataHandle(const int &operation, const QString text) {/
                 }
                 QFileInfo file_info(tmp_file);
                 if (file_info.suffix() == "stl") {
-                    OpenStlFile(tmp_file);
+                    OpenModelFile(tmp_file);
                 } else {
                     emit SignalPromptInformationOut(QString("文件错误"));
                 }
@@ -294,7 +295,7 @@ void STLManager::SlotRunFinished() {// Handle PolyData操作完成
             emit SignalPromptInformationOut(QString("三维重构失败"));
             return;
         }
-        OpenStlFile(form3dreconstruction_->GetForm3DReconstructionValue());
+        OpenModelFile(form3dreconstruction_->GetForm3DReconstructionValue());
         emit SignalPromptInformationOut(QString("三维重构成功"));
     } else if (QObject::sender() == reade_) { // 读取stl
         if (!reade_->GetThreadResult()) {

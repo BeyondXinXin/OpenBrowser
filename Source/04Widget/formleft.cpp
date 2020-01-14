@@ -22,7 +22,7 @@ void FormLeft::initFrom() {
     ui->label_cpu->Start(1000);
     // 滑动导航条控件
     ui->slider_bar->setItems("Image      Brower;"
-                             "Mode        Brower;"
+                             "Model        Brower;"
                              "Dcm          Brower;"
                              "Images    Brower");
     connect(ui->slider_bar, &SliderBar::currentItemChanged,

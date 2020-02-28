@@ -34,7 +34,7 @@
         </font>
        </property>
        <property name="text">
-        <string>openBrowser</string>
+        <string>%1</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignBottom|Qt::AlignHCenter</set>
@@ -55,7 +55,7 @@
         <enum>Qt::NoFocus</enum>
        </property>
        <property name="text">
-        <string>V0.4.0</string>
+        <string>V%2</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignHCenter|Qt::AlignTop</set>

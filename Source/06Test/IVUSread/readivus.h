@@ -42,7 +42,6 @@
 #include "itkImageSeriesReader.h"
 #include "itkGDCMSeriesFileNames.h"
 #include <itkImageToVTKImageFilter.h>
-#include "itkImageToVTKImageFilter.h"
 #include <vtkSmartPointer.h>
 #include <vtkObjectFactory.h>
 #include <vtkRenderWindow.h>
@@ -60,8 +59,6 @@
 #include "itkGDCMImageIO.h"
 #include "itkImageSeriesReader.h"
 #include "itkGDCMSeriesFileNames.h"
-#include <itkImageToVTKImageFilter.h>
-#include "itkImageToVTKImageFilter.h"
 #include <vtkImageData.h>
 #include <vtkSmartPointer.h>
 #include <vtkAlgorithmOutput.h>

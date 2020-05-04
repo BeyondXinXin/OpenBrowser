@@ -1,3 +1,4 @@
+﻿#pragma execution_character_set("utf-8")
 // 01 Frame includes
 #include "qopencvwidget.h"
 
@@ -7,7 +8,6 @@ QOpencvWidget::QOpencvWidget(QWidget *parent) :
 }
 
 QOpencvWidget::~QOpencvWidget() {
-
 }
 
 void QOpencvWidget::SetSurface(const QImage value) {
@@ -45,7 +45,6 @@ QOpencvPixmapItem::QOpencvPixmapItem(QGraphicsPixmapItem *parent):
 }
 
 QOpencvPixmapItem::~QOpencvPixmapItem() {
-
 }
 QOpencvScene::QOpencvScene(QGraphicsScene *parent):
     QGraphicsScene(parent) {

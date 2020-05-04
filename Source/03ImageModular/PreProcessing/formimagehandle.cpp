@@ -1,3 +1,4 @@
+﻿
 // 01 Frame includes
 #include "formimagehandle.h"
 #include "ui_formimagehandle.h"
@@ -47,7 +48,6 @@ void FormImageHandle::WinGeom() {// 几何变换
     line_W = new QLineEdit("512");
     line_W->setValidator(new QIntValidator(1, 10000));
     line_W->setAlignment(Qt::AlignCenter);
-
     // 图像缩放
     QLabel *label_size = new QLabel(QString("图像缩放"));
     QLabel *label_times = new QLabel(QString("缩放倍数:"));
@@ -57,7 +57,6 @@ void FormImageHandle::WinGeom() {// 几何变换
     line_times->setAlignment(Qt::AlignCenter);
     line_times->setRange(-10, 10);
     line_times->setValue(0);
-
     // 图像旋转
     QLabel *label_rotate = new QLabel(QString("图像旋转"));
     QLabel *label_degree = new QLabel(QString("旋转角度:"));
@@ -84,14 +83,10 @@ void FormImageHandle::WinGeom() {// 几何变换
     line_leanY->setAlignment(Qt::AlignCenter);
     line_leanY->setRange(0, 89);
     line_leanY->setValue(0);
-
     // 图像翻转
     QLabel *label_reverse = new QLabel(QString("图像翻转"));
     QPushButton *button_H = new QPushButton(QString("水平翻转"));
     QPushButton *button_V = new QPushButton(QString("垂直翻转"));
-
-
-
     connect(buttonDefault, &QPushButton::clicked, this, [ = ] {// 图像自适应大小
         emit SingalImageMenuOut(101, QString(""));
     });
@@ -128,22 +123,14 @@ void FormImageHandle::WinGeom() {// 几何变换
     connect(button_V, &QPushButton::clicked, this, [ = ] {// 垂直镜像
         emit SingalImageMenuOut(107, QString(""));
     });
-
-
-
-
-
-
     // 预览按钮组
 //    preButtonGroup->addButton(buttonPre_size, 0);
 //    preButtonGroup->addButton(buttonPre_rotate, 1);
 //    preButtonGroup->addButton(buttonPre_lean, 2);
-
     // 格栅布局
     QGridLayout *geomLayout = new QGridLayout();
     geomLayout->setAlignment(Qt::AlignTop);
     geomLayout->setMargin(30);
-
     geomLayout->addWidget(label_area, 0, 0, 1, 1);// 图像大小
     geomLayout->addWidget(labelL, 1, 1, 1, 1);
     geomLayout->addWidget(line_L, 1, 2, 1, 1);
@@ -151,7 +138,6 @@ void FormImageHandle::WinGeom() {// 几何变换
     geomLayout->addWidget(line_W, 2, 2, 1, 1);
     geomLayout->addWidget(buttonOK, 1, 3, 1, 1);
     geomLayout->addWidget(buttonDefault, 1, 4, 1, 1);
-
     geomLayout->addWidget(null, 10, 0, 1, 1);// 图像缩放
     geomLayout->addWidget(label_size, 11, 0, 1, 1);
     geomLayout->addWidget(label_times, 12, 1, 1, 1);
@@ -159,7 +145,6 @@ void FormImageHandle::WinGeom() {// 几何变换
     geomLayout->addWidget(button_size, 12, 3, 1, 1);
     geomLayout->addWidget(buttonPre_size, 12, 4, 1, 1);
     geomLayout->addWidget(null, 14, 0, 1, 1);
-
     geomLayout->addWidget(null, 20, 0, 1, 1);// 图像旋转
     geomLayout->addWidget(label_rotate, 21, 0, 1, 1);
     geomLayout->addWidget(label_degree, 22, 1, 1, 1);
@@ -169,7 +154,6 @@ void FormImageHandle::WinGeom() {// 几何变换
     geomLayout->addWidget(button_180, 23, 2, 1, 1);
     geomLayout->addWidget(button_left, 23, 3, 1, 1);
     geomLayout->addWidget(button_right, 23, 4, 1, 1);
-
     geomLayout->addWidget(null, 30, 0, 1, 1);// 图像倾斜
     geomLayout->addWidget(label_lean, 31, 0, 1, 1);
     geomLayout->addWidget(label_leanX, 32, 1, 1, 1);
@@ -178,12 +162,10 @@ void FormImageHandle::WinGeom() {// 几何变换
     geomLayout->addWidget(line_leanY, 33, 2, 1, 1);
     geomLayout->addWidget(button_lean, 32, 3, 1, 1);
     geomLayout->addWidget(buttonPre_lean, 32, 4, 1, 1);
-
     geomLayout->addWidget(null, 40, 0, 1, 1);// 图像翻转
     geomLayout->addWidget(label_reverse, 41, 0, 1, 1);
     geomLayout->addWidget(button_H, 42, 1, 1, 2);
     geomLayout->addWidget(button_V, 42, 3, 1, 2);
-
     dock_Geom->setFixedWidth(420);
     dock_Geom->setLayout(geomLayout);
     QScrollArea *scrollArea = new QScrollArea();
@@ -201,7 +183,6 @@ void FormImageHandle::WinGray() {// 灰度变换窗口
     QSpinBox *line_bin;
     QSpinBox *line_alpha, *line_beta;
     QSpinBox *line_gamma, *line_c;
-
     QLabel *label_linear = new QLabel(QString("线性变换"));
     QLabel *label_alpha = new QLabel(QString("Alpha:"));
     QLabel *label_beta = new QLabel(QString(" Beta:"));
@@ -215,7 +196,6 @@ void FormImageHandle::WinGray() {// 灰度变换窗口
     line_beta->setAlignment(Qt::AlignCenter);
     line_beta->setRange(0, 200);
     line_beta->setValue(100);
-
     QLabel *label_log = new QLabel(QString("对数变换"));
     QLabel *label_c = new QLabel(QString("  Log:"));
     QPushButton *button_log = new QPushButton(QString("确认"));
@@ -224,7 +204,6 @@ void FormImageHandle::WinGray() {// 灰度变换窗口
     line_c->setAlignment(Qt::AlignCenter);
     line_c->setRange(0, 200);
     line_c->setValue(100);
-
     QLabel *label_gamma = new QLabel(QString("伽马变换"));
     QLabel *label_gam = new QLabel(QString("Gamma:"));
     QPushButton *button_gamma = new QPushButton(QString("确认"));
@@ -233,7 +212,6 @@ void FormImageHandle::WinGray() {// 灰度变换窗口
     line_gamma->setAlignment(Qt::AlignCenter);
     line_gamma->setRange(0, 200);
     line_gamma->setValue(100);
-
     // 二值图像
     QLabel *null = new QLabel(QString("	"));
     QLabel *label_bin = new QLabel(QString("二值图像"));
@@ -244,23 +222,18 @@ void FormImageHandle::WinGray() {// 灰度变换窗口
     line_bin->setAlignment(Qt::AlignCenter);
     line_bin->setRange(0, 255);
     line_bin->setValue(100);
-
     QLabel *label_graylevel = new QLabel(QString("灰度图像"));
     QPushButton *button_graylevel = new QPushButton(QString("灰度图像"));
-
     QLabel *label_reverse = new QLabel(QString("反转变换"));
     QPushButton *button_reverse = new QPushButton(QString("图像反转"));
-
     QLabel *label_histeq = new QLabel();
     label_histeq->setText(QString("直方图"));
     QPushButton *button_histeq = new QPushButton();
     button_histeq->setText(QString("灰度直方图均衡化"));
-
 //    preButtonGroup->addButton(buttonPre_bin, 3);
 //    preButtonGroup->addButton(buttonPre_linear, 4);
 //    preButtonGroup->addButton(buttonPre_gamma, 5);
 //    preButtonGroup->addButton(buttonPre_log, 6);
-
     connect(button_bin, &QPushButton::clicked, this, [ = ] {// 二值图像
         emit SingalImageMenuOut(201, QString("%1|")
                                 .arg(line_bin->text().toInt()));
@@ -287,12 +260,10 @@ void FormImageHandle::WinGray() {// 灰度变换窗口
     connect(button_histeq, &QPushButton::clicked, this, [ = ] {// 直方图均衡化
         emit SingalImageMenuOut(207);
     });
-
     // 格栅布局
     QGridLayout *grayLayout = new QGridLayout();
     grayLayout->setAlignment(Qt::AlignTop);
     grayLayout->setMargin(30);
-
     grayLayout->addWidget(label_linear, 16, 0, 1, 1);
     grayLayout->addWidget(label_alpha, 17, 1, 1, 1);
     grayLayout->addWidget(line_alpha, 17, 2, 1, 1);
@@ -300,47 +271,39 @@ void FormImageHandle::WinGray() {// 灰度变换窗口
     grayLayout->addWidget(line_beta, 18, 2, 1, 1);
     grayLayout->addWidget(button_linear, 17, 3, 1, 1);
     grayLayout->addWidget(buttonPre_linear, 17, 4, 1, 1);
-
     grayLayout->addWidget(null, 20, 0, 1, 1);
     grayLayout->addWidget(label_log, 21, 0, 1, 1);
     grayLayout->addWidget(label_c, 22, 1, 1, 1);
     grayLayout->addWidget(line_c, 22, 2, 1, 1);
     grayLayout->addWidget(button_log, 22, 3, 1, 1);
     grayLayout->addWidget(buttonPre_log, 22, 4, 1, 1);
-
     grayLayout->addWidget(null, 25, 0, 1, 1);
     grayLayout->addWidget(label_gamma, 26, 0, 1, 1);
     grayLayout->addWidget(label_gam, 27, 1, 1, 1);
     grayLayout->addWidget(line_gamma, 27, 2, 1, 1);
     grayLayout->addWidget(button_gamma, 27, 3, 1, 1);
     grayLayout->addWidget(buttonPre_gamma, 27, 4, 1, 1);
-
     grayLayout->addWidget(null, 30, 0, 1, 1);
     grayLayout->addWidget(label_bin, 31, 0, 1, 1);
     grayLayout->addWidget(label_threshold, 32, 1, 1, 1);
     grayLayout->addWidget(line_bin, 32, 2, 1, 1);
     grayLayout->addWidget(button_bin, 32, 3, 1, 1);
     grayLayout->addWidget(buttonPre_bin, 32, 4, 1, 1);
-
     grayLayout->addWidget(null, 35, 0, 1, 1);
     grayLayout->addWidget(label_graylevel, 36, 0, 1, 1);
     grayLayout->addWidget(button_graylevel, 37, 1, 1, 4);
-
     grayLayout->addWidget(null, 40, 0, 1, 1);
     grayLayout->addWidget(label_reverse, 41, 0, 1, 1);
     grayLayout->addWidget(button_reverse, 42, 1, 1, 4);
-
     grayLayout->addWidget(null, 45, 0, 1, 1);
     grayLayout->addWidget(label_histeq, 46, 0, 1, 1);
     grayLayout->addWidget(button_histeq, 47, 1, 1, 4);
-
     dock_Gray->setFixedWidth(420);
     dock_Gray->setLayout(grayLayout);
     QScrollArea *scrollArea = new QScrollArea();
     scrollArea->setAlignment(Qt::AlignLeft);
     scrollArea->setWidget(dock_Gray);
     ui->image_stackedwidget->addWidget(scrollArea);
-
 }
 
 void FormImageHandle::WinEnhance() {// 图像增强窗口
@@ -350,7 +313,6 @@ void FormImageHandle::WinEnhance() {// 图像增强窗口
     QSpinBox *spinbox_lineThreshold, *spinbox_minLineLength, *spinbox_maxLineGap;// Line
     QSpinBox *spinbox_minRadius, *spinbox_maxRadius;	// circle
     QComboBox *combo_smooth, *combo_sharpen;	// 下拉选择框
-
     QLabel *label_smooth = new QLabel(QString("图像平滑"));
     QLabel *label_coreSmooth = new QLabel(QString("模板大小"));
     QPushButton *button_Normalized = new QPushButton(QString("简单滤波"));
@@ -406,7 +368,6 @@ void FormImageHandle::WinEnhance() {// 图像增强窗口
     slider_canny->setValue(20);
     connect(spinbox_canny, SIGNAL(valueChanged(int)), slider_canny, SLOT(setValue(int)));
     connect(slider_canny, SIGNAL(valueChanged(int)), spinbox_canny, SLOT(setValue(int)));
-
     connect(button_sobel, &QPushButton::clicked, this, [ = ] {// sobel边缘检测
         emit SingalImageMenuOut(304, QString("%1|")
                                 .arg(2 * (combo_smooth->currentIndex()) + 3));
@@ -420,8 +381,6 @@ void FormImageHandle::WinEnhance() {// 图像增强窗口
                                 .arg(2 * (combo_smooth->currentIndex()) + 3)
                                 .arg(spinbox_canny->text().toInt()));
     });
-
-
     QLabel *label_lineThreshold = new QLabel(QString("线检测阈值"));
     spinbox_lineThreshold = new QSpinBox;						// HoughLine
     spinbox_lineThreshold->setRange(0, 500);
@@ -477,7 +436,6 @@ void FormImageHandle::WinEnhance() {// 图像增强窗口
             slider_maxRadius, SLOT(setValue(int)));
     connect(slider_maxRadius, SIGNAL(valueChanged(int)),
             spinbox_maxRadius, SLOT(setValue(int)));
-
     connect(button_line, &QPushButton::clicked, this, [ = ] {// line检测
         emit SingalImageMenuOut(307, QString("%1|%2|%3")
                                 .arg(spinbox_lineThreshold->text().toInt())
@@ -492,52 +450,42 @@ void FormImageHandle::WinEnhance() {// 图像增强窗口
                                 .arg(spinbox_minRadius->text().toInt())
                                 .arg(spinbox_maxRadius->text().toInt()));
     });
-
     // 格栅布局
     QGridLayout *enhanceLayout = new QGridLayout();
     enhanceLayout->setAlignment(Qt::AlignTop);
     enhanceLayout->setMargin(30);
-
     enhanceLayout->addWidget(label_smooth, 0, 0, 1, 1);
     enhanceLayout->addWidget(label_coreSmooth, 1, 1, 1, 1);
     enhanceLayout->addWidget(combo_smooth, 1, 2, 1, 1);
     enhanceLayout->addWidget(button_Normalized, 2, 2, 1, 1);
     enhanceLayout->addWidget(button_Gaussian, 3, 2, 1, 1);
     enhanceLayout->addWidget(button_Median, 4, 2, 1, 1);
-
     enhanceLayout->addWidget(label_sharpen, 5, 0, 1, 1);
     enhanceLayout->addWidget(label_coreSharpen, 6, 1, 1, 1);
     enhanceLayout->addWidget(combo_sharpen, 6, 2, 1, 1);
     enhanceLayout->addWidget(button_sobel, 7, 2, 1, 1);
     enhanceLayout->addWidget(button_laplacian, 8, 2, 1, 1);
     enhanceLayout->addWidget(button_canny, 9, 2, 1, 1);
-
     enhanceLayout->addWidget(label_canny, 10, 1, 1, 1);
     enhanceLayout->addWidget(slider_canny, 10, 2, 1, 1);
     enhanceLayout->addWidget(spinbox_canny, 10, 3, 1, 1);
-
     enhanceLayout->addWidget(button_line, 11, 2, 1, 1);
     enhanceLayout->addWidget(label_lineThreshold, 12, 1, 1, 1);
     enhanceLayout->addWidget(slider_lineThreshold, 12, 2, 1, 1);
     enhanceLayout->addWidget(spinbox_lineThreshold, 12, 3, 1, 1);
-
     enhanceLayout->addWidget(label_minLineLength, 13, 1, 1, 1);
     enhanceLayout->addWidget(slider_minLineLength, 13, 2, 1, 1);
     enhanceLayout->addWidget(spinbox_minLineLength, 13, 3, 1, 1);
-
     enhanceLayout->addWidget(label_maxLineGap, 14, 1, 1, 1);
     enhanceLayout->addWidget(slider_maxLineGap, 14, 2, 1, 1);
     enhanceLayout->addWidget(spinbox_maxLineGap, 14, 3, 1, 1);
-
     enhanceLayout->addWidget(button_circle, 15, 2, 1, 1);
     enhanceLayout->addWidget(label_minRadius, 16, 1, 1, 1);
     enhanceLayout->addWidget(slider_minRadius, 16, 2, 1, 1);
     enhanceLayout->addWidget(spinbox_minRadius, 16, 3, 1, 1);
-
     enhanceLayout->addWidget(label_maxRadius, 17, 1, 1, 1);
     enhanceLayout->addWidget(slider_maxRadius, 17, 2, 1, 1);
     enhanceLayout->addWidget(spinbox_maxRadius, 17, 3, 1, 1);
-
     dock_Enhance->setFixedWidth(420);
     dock_Enhance->setLayout(enhanceLayout);
     QScrollArea *scrollArea = new QScrollArea();
@@ -552,8 +500,6 @@ void FormImageHandle::WinMorp() {// 形态学处理窗口
     QSpinBox *spinbox_erode, *spinbox_dilate;
     QSpinBox *spinbox_open, *spinbox_close;
     QComboBox *combo_kernel, *combo_elem;
-
-
     QLabel *label_kernel = new QLabel();
     label_kernel->setText(QString("模板大小"));
     combo_kernel = new QComboBox();
@@ -567,14 +513,12 @@ void FormImageHandle::WinMorp() {// 形态学处理窗口
     combo_kernel->addItem(QString("17×17"));
     combo_kernel->addItem(QString("19×19"));
     combo_kernel->addItem(QString("21×21"));
-
     QLabel *label_elem = new QLabel();
     label_elem->setText(QString("结构元素"));
     combo_elem = new QComboBox();
     combo_elem->addItem(QString("矩形"));
     combo_elem->addItem(QString("十字形"));
     combo_elem->addItem(QString("椭圆形"));
-
     QLabel *label_erode = new QLabel();
     label_erode->setText(QString("腐蚀"));
     QLabel *label_erodeCount = new QLabel();
@@ -584,7 +528,6 @@ void FormImageHandle::WinMorp() {// 形态学处理窗口
     spinbox_erode->setValue(1);
     QPushButton *button_erode = new QPushButton();
     button_erode->setText(QString("腐蚀"));
-
     QLabel *label_dilate = new QLabel();
     label_dilate->setText(QString("膨胀"));
     QLabel *label_dilateCount = new QLabel();
@@ -594,7 +537,6 @@ void FormImageHandle::WinMorp() {// 形态学处理窗口
     spinbox_dilate->setValue(1);
     QPushButton *button_dilate = new QPushButton();
     button_dilate->setText(QString("膨胀"));
-
     QLabel *label_open = new QLabel();
     label_open->setText(QString("开运算"));
     QLabel *label_openCount = new QLabel();
@@ -604,7 +546,6 @@ void FormImageHandle::WinMorp() {// 形态学处理窗口
     spinbox_open->setValue(1);
     QPushButton *button_open = new QPushButton();
     button_open->setText(QString("开运算"));
-
     QLabel *label_close = new QLabel();
     label_close->setText(QString("闭运算"));
     QLabel *label_closeCount = new QLabel();
@@ -614,22 +555,18 @@ void FormImageHandle::WinMorp() {// 形态学处理窗口
     spinbox_close->setValue(1);
     QPushButton *button_close = new QPushButton();
     button_close->setText(QString("闭运算"));
-
     QLabel *label_grad = new QLabel();
     label_grad->setText(QString("形态学梯度"));
     QPushButton *button_grad = new QPushButton();
     button_grad->setText(QString("形态学梯度"));
-
     QLabel *label_tophat = new QLabel();
     label_tophat->setText(QString("顶帽操作"));
     QPushButton *button_tophat = new QPushButton();
     button_tophat->setText(QString("顶帽操作"));
-
     QLabel *label_blackhat = new QLabel();
     label_blackhat->setText(QString("黑帽操作"));
     QPushButton *button_blackhat = new QPushButton();
     button_blackhat->setText(QString("黑帽操作"));
-
     connect(button_erode, &QPushButton::clicked, this, [ = ] {// 腐蚀
         emit SingalImageMenuOut(401, QString("%1|%2|%3")
                                 .arg(combo_elem->currentIndex())
@@ -669,43 +606,35 @@ void FormImageHandle::WinMorp() {// 形态学处理窗口
                                 .arg(combo_elem->currentIndex())
                                 .arg(combo_kernel->currentIndex()));
     });
-
     QGridLayout *morpLayout = new QGridLayout();
     morpLayout->setAlignment(Qt::AlignTop);
     morpLayout->setMargin(30);
-
     morpLayout->addWidget(label_kernel, 0, 1, 1, 1);
     morpLayout->addWidget(combo_kernel, 0, 2, 1, 1);
     morpLayout->addWidget(label_elem, 1, 1, 1, 1);
     morpLayout->addWidget(combo_elem, 1, 2, 1, 1);
-
     morpLayout->addWidget(label_erode, 2, 0, 1, 1);
     morpLayout->addWidget(button_erode, 3, 1, 1, 1);
     morpLayout->addWidget(spinbox_erode, 3, 2, 1, 1);
     morpLayout->addWidget(label_erodeCount, 3, 3, 1, 1);
-
     morpLayout->addWidget(label_dilate, 4, 0, 1, 1);
     morpLayout->addWidget(button_dilate, 5, 1, 1, 1);
     morpLayout->addWidget(spinbox_dilate, 5, 2, 1, 1);
     morpLayout->addWidget(label_dilateCount, 5, 3, 1, 1);
-
     morpLayout->addWidget(label_open, 6, 0, 1, 1);
     morpLayout->addWidget(button_open, 7, 1, 1, 1);
     morpLayout->addWidget(spinbox_open, 7, 2, 1, 1);
     morpLayout->addWidget(label_openCount, 7, 3, 1, 1);
-
     morpLayout->addWidget(label_close, 8, 0, 1, 1);
     morpLayout->addWidget(button_close, 9, 1, 1, 1);
     morpLayout->addWidget(spinbox_close, 9, 2, 1, 1);
     morpLayout->addWidget(label_closeCount, 9, 3, 1, 1);
-
     morpLayout->addWidget(label_tophat, 10, 0, 1, 1);
     morpLayout->addWidget(button_tophat, 11, 1, 1, 1);
     morpLayout->addWidget(label_blackhat, 12, 0, 1, 1);
     morpLayout->addWidget(button_blackhat, 13, 1, 1, 1);
     morpLayout->addWidget(label_grad, 14, 0, 1, 1);
     morpLayout->addWidget(button_grad, 15, 1, 1, 1);
-
     dock_Morp->setFixedWidth(420);
     dock_Morp->setLayout(morpLayout);
     QScrollArea *scrollArea = new QScrollArea();
@@ -716,7 +645,6 @@ void FormImageHandle::WinMorp() {// 形态学处理窗口
 
 void FormImageHandle::WinColor() {// 颜色模型窗口
     dock_Color = new QWidget(this);
-
     QLabel *null = new QLabel(QString("	"));
     QLabel *label_RGB = new QLabel(QString("RGB模型"));
     QPushButton *button_R = new QPushButton(QString("R分量图"));
@@ -734,13 +662,10 @@ void FormImageHandle::WinColor() {// 颜色模型窗口
     this, [ = ] {
         emit SingalImageMenuOut(501, "RGB|2");
     });
-
-
     QLabel *label_HSV = new QLabel(QString("HSV模型"));
     QPushButton *button1_H = new QPushButton(QString("H分量图"));
     QPushButton *button1_S = new QPushButton(QString("S分量图"));
     QPushButton *button1_V = new QPushButton(QString("V分量图"));
-
     connect(button1_H, &QPushButton::clicked,
     this, [ = ] {
         emit SingalImageMenuOut(501, "HSV|0");
@@ -753,12 +678,10 @@ void FormImageHandle::WinColor() {// 颜色模型窗口
     this, [ = ] {
         emit SingalImageMenuOut(501, "HSV|2");
     });
-
     QLabel *label_YUV = new QLabel(QString("YUV模型"));
     QPushButton *button2_Y = new QPushButton(QString("Y分量图"));
     QPushButton *button2_U = new QPushButton(QString("U分量图"));
     QPushButton *button2_V = new QPushButton(QString("V分量图"));
-
     connect(button2_Y, &QPushButton::clicked,
     this, [ = ] {
         emit SingalImageMenuOut(501, "YUV|0");
@@ -775,7 +698,6 @@ void FormImageHandle::WinColor() {// 颜色模型窗口
     QPushButton *button3_H = new QPushButton(QString("H分量图"));
     QPushButton *button3_L = new QPushButton(QString("L分量图"));
     QPushButton *button3_S = new QPushButton(QString("S分量图"));
-
     connect(button3_H, &QPushButton::clicked,
     this, [ = ] {
         emit SingalImageMenuOut(501, "HLS|0");
@@ -788,34 +710,28 @@ void FormImageHandle::WinColor() {// 颜色模型窗口
     this, [ = ] {
         emit SingalImageMenuOut(501, "HLS|2");
     });
-
     QGridLayout *colorLayout = new QGridLayout();
     colorLayout->setAlignment(Qt::AlignTop);
     colorLayout->setMargin(30);
-
     colorLayout->addWidget(label_RGB, 0, 0, 1, 1);
     colorLayout->addWidget(button_R, 1, 1, 1, 1);
     colorLayout->addWidget(button_G, 1, 2, 1, 1);
     colorLayout->addWidget(button_B, 1, 3, 1, 1);
-
     colorLayout->addWidget(null, 5, 0, 1, 1);
     colorLayout->addWidget(label_HSV, 6, 0, 1, 1);
     colorLayout->addWidget(button1_H, 7, 1, 1, 1);
     colorLayout->addWidget(button1_S, 7, 2, 1, 1);
     colorLayout->addWidget(button1_V, 7, 3, 1, 1);
-
     colorLayout->addWidget(null, 10, 0, 1, 1);
     colorLayout->addWidget(label_YUV, 11, 0, 1, 1);
     colorLayout->addWidget(button2_Y, 12, 1, 1, 1);
     colorLayout->addWidget(button2_U, 12, 2, 1, 1);
     colorLayout->addWidget(button2_V, 12, 3, 1, 1);
-
     colorLayout->addWidget(null, 15, 0, 1, 1);
     colorLayout->addWidget(label_HLS, 16, 0, 1, 1);
     colorLayout->addWidget(button3_H, 17, 1, 1, 1);
     colorLayout->addWidget(button3_L, 17, 2, 1, 1);
     colorLayout->addWidget(button3_S, 17, 3, 1, 1);
-
     dock_Color->setFixedWidth(420);
     dock_Color->setLayout(colorLayout);
     QScrollArea *scrollArea = new QScrollArea();
@@ -842,16 +758,13 @@ void FormImageHandle::WinTest() {// 测试窗口
     this, [ = ] {
         emit SingalImageMenuOut(603);
     });
-
     QGridLayout *testLayout = new QGridLayout();
     testLayout->setAlignment(Qt::AlignTop);
     testLayout->setMargin(30);
-
     testLayout->addWidget(label_RGB, 0, 0);
     testLayout->addWidget(button_R, 1, 1);
     testLayout->addWidget(button_G, 2, 1);
     testLayout->addWidget(button_B, 3, 1);
-
     dock_Test->setFixedWidth(420);
     dock_Test->setLayout(testLayout);
     QScrollArea *scrollArea = new QScrollArea();

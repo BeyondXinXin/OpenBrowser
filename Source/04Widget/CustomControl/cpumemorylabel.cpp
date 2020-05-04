@@ -20,10 +20,8 @@ CpuMemoryLabel::CpuMemoryLabel(QWidget *parent) : QLabel(parent) {
     memory_use_ = 0;
     timer_cpu_ = new QTimer(this);
     connect(timer_cpu_, SIGNAL(timeout()), this, SLOT(SlotGetCPU()));
-
     timer_memory_ = new QTimer(this);
     connect(timer_memory_, SIGNAL(timeout()), this, SLOT(SlotGetMemory()));
-
     process_ = new QProcess(this);
     connect(process_, SIGNAL(readyRead()), this, SLOT(SlotReadData()));
 }
@@ -49,42 +47,31 @@ void CpuMemoryLabel::SlotGetCPU() {
     static FILETIME preidleTime;
     static FILETIME prekernelTime;
     static FILETIME preuserTime;
-
     FILETIME idleTime;
     FILETIME kernelTime;
     FILETIME userTime;
-
     GetSystemTimes(&idleTime, &kernelTime, &userTime);
-
     quint64 a, b;
     int idle, kernel, user;
-
     a = (preidleTime.dwHighDateTime << 31) | preidleTime.dwLowDateTime;
     b = (idleTime.dwHighDateTime << 31) | idleTime.dwLowDateTime;
     idle = b - a;
-
     a = (prekernelTime.dwHighDateTime << 31) | prekernelTime.dwLowDateTime;
     b = (kernelTime.dwHighDateTime << 31) | kernelTime.dwLowDateTime;
     kernel = b - a;
-
     a = (preuserTime.dwHighDateTime << 31) | preuserTime.dwLowDateTime;
     b = (userTime.dwHighDateTime << 31) | userTime.dwLowDateTime;
     user = b - a;
-
-    cpuPercent = (kernel + user - idle) * 100 / (kernel + user);
-
+    cpu_percent_ = (kernel + user - idle) * 100 / (kernel + user);
     preidleTime = idleTime;
     prekernelTime = kernelTime;
     preuserTime = userTime ;
-
-    setData();
+    SlotSetData();
 #else
-
     if (process_->state() == QProcess::NotRunning) {
         total_new_ = idle_new_ = 0;
         process_->start("cat /proc/stat");
     }
-
 #endif
 }
 
@@ -93,33 +80,27 @@ void CpuMemoryLabel::SlotGetMemory() {
     MEMORYSTATUSEX statex;
     statex.dwLength = sizeof(statex);
     GlobalMemoryStatusEx(&statex);
-    memoryPercent = statex.dwMemoryLoad;
-    memoryAll = statex.ullTotalPhys / MB;
-    memoryFree = statex.ullAvailPhys / MB;
-    memoryUse = memoryAll - memoryFree;
-
-    setData();
+    memory_percent_ = statex.dwMemoryLoad;
+    memory_all_ = statex.ullTotalPhys / MB;
+    memory_free_ = statex.ullAvailPhys / MB;
+    memory_use_ = memory_all_ - memory_free_;
+    SlotSetData();
 #else
-
     if (process_->state() == QProcess::NotRunning) {
         process_->start("cat /proc/meminfo");
     }
-
 #endif
 }
 
 void CpuMemoryLabel::SlotReadData() {
     while (!process_->atEnd()) {
         QString s = QLatin1String(process_->readLine());
-
         if (s.startsWith("cpu")) {
             QStringList list = s.split(" ");
             idle_new_ = list.at(5).toInt();
-
             foreach (QString value, list) {
                 total_new_ += value.toInt();
             }
-
             int total = total_new_ - total_old_;
             int idle = idle_new_ - idle_old_;
             cpu_percent_ = 100 * (total - idle) / total;
@@ -147,7 +128,6 @@ void CpuMemoryLabel::SlotReadData() {
             break;
         }
     }
-
     SlotSetData();
 }
 

@@ -1,3 +1,4 @@
+﻿#pragma execution_character_set("utf-8")
 // 01 Frame includes
 #include "quitrayicon.h"
 

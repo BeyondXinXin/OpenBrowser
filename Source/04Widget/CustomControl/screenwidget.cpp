@@ -1,10 +1,10 @@
+﻿#pragma execution_character_set("utf-8")
 // 01 Frame includes
 #include "screenwidget.h"
 
 Screen::Screen(QSize size) {
     maxWidth = size.width();
     maxHeight = size.height();
-
     startPos = QPoint(-1, -1);
     endPos = startPos;
     leftUpPos = startPos;
@@ -60,7 +60,6 @@ bool Screen::isInArea(QPoint pos) {
             > leftUpPos.y() && pos.y() < rightDownPos.y()) {
         return true;
     }
-
     return false;
 }
 
@@ -69,27 +68,22 @@ void Screen::move(QPoint p) {
     int ly = leftUpPos.y() + p.y();
     int rx = rightDownPos.x() + p.x();
     int ry = rightDownPos.y() + p.y();
-
     if (lx < 0) {
         lx = 0;
         rx -= p.x();
     }
-
     if (ly < 0) {
         ly = 0;
         ry -= p.y();
     }
-
     if (rx > maxWidth)  {
         rx = maxWidth;
         lx -= p.x();
     }
-
     if (ry > maxHeight) {
         ry = maxHeight;
         ly -= p.y();
     }
-
     leftUpPos = QPoint(lx, ly);
     rightDownPos = QPoint(rx, ry);
     startPos = leftUpPos;
@@ -99,7 +93,6 @@ void Screen::move(QPoint p) {
 void Screen::cmpPoint(QPoint &leftTop, QPoint &rightDown) {
     QPoint l = leftTop;
     QPoint r = rightDown;
-
     if (l.x() <= r.x()) {
         if (l.y() <= r.y()) {
             ;
@@ -132,7 +125,6 @@ ScreenWidget *ScreenWidget::Instance() {
             instance = new ScreenWidget;
         }
     }
-
     return instance;
 }
 
@@ -151,7 +143,6 @@ void ScreenWidget::initForm() {
     menu->addAction("截图另存为", this, SLOT(saveScreenOther()));
     menu->addAction("全屏截图", this, SLOT(saveFullScreen()));
     menu->addAction("退出截图", this, SLOT(exitScreen()));
-
     //取得屏幕大小
     screen = new Screen(QApplication::desktop()->size());
     //保存全屏图像
@@ -163,28 +154,21 @@ void ScreenWidget::paintEvent(QPaintEvent *) {
     int y = screen->getLeftUp().y();
     int w = screen->getRightDown().x() - x;
     int h = screen->getRightDown().y() - y;
-
     QPainter painter(this);
-
     QPen pen;
     pen.setColor(Qt::green);
     pen.setWidth(2);
     pen.setStyle(Qt::DotLine);
     painter.setPen(pen);
-
     QFont font;
     font.setFamily("Microsoft YaHei");
     font.setPixelSize(13);
     painter.setFont(font);
-
     painter.drawPixmap(0, 0, *bgScreen);
-
     if (w != 0 && h != 0) {
         painter.drawPixmap(x, y, fullScreen->copy(x, y, w, h));
     }
-
     painter.drawRect(x, y, w, h);
-
     pen.setColor(Qt::yellow);
     painter.setPen(pen);
     painter.drawText(x + 2, y - 8,
@@ -196,19 +180,15 @@ void ScreenWidget::showEvent(QShowEvent *) {
     QPoint point(-1, -1);
     screen->setStart(point);
     screen->setEnd(point);
-
     QScreen *pscreen = QApplication::primaryScreen();
     *fullScreen = pscreen->grabWindow(QApplication::desktop()->winId(),
                                       0, 0, screen->width(), screen->height());
-
-
     //设置透明度实现模糊背景
     QPixmap pix(screen->width(), screen->height());
     pix.fill((QColor(160, 160, 160, 200)));
     bgScreen = new QPixmap(*fullScreen);
     QPainter p(bgScreen);
     p.drawPixmap(0, 0, pix);
-
 }
 
 void ScreenWidget::saveScreenOther() {
@@ -224,7 +204,6 @@ void ScreenWidget::saveScreenOther() {
         // fullScreen->save(fileName);
         close();
     }
-
 }
 
 void ScreenWidget::saveScreen() {
@@ -260,7 +239,6 @@ void ScreenWidget::mouseMoveEvent(QMouseEvent *e) {
         screen->move(p);
         movPos = e->pos();
     }
-
     update();
 }
 
@@ -277,7 +255,6 @@ void ScreenWidget::mousePressEvent(QMouseEvent *e) {
             this->setCursor(Qt::SizeAllCursor);
         }
     }
-
     update();
 }
 

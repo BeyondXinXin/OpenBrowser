@@ -1,3 +1,4 @@
+﻿#pragma execution_character_set("utf-8")
 // 01 Frame includes
 #include "formshow.h"
 #include "ui_formshow.h"
@@ -15,7 +16,6 @@ FormShow::~FormShow() {
 }
 
 void FormShow::Initialization() {
-
     connect(ui->frmshowpushButton_8, &QPushButton::clicked,
             this, &FormShow::SlotPushButtonClicked);
     connect(ui->frmshowpushButton_9, &QPushButton::clicked,
@@ -26,8 +26,6 @@ void FormShow::Initialization() {
             this, &FormShow::SlotPushButtonClicked);
     connect(ui->frmshowpushButton_12, &QPushButton::clicked,
             this, &FormShow::SlotPushButtonClicked);
-
-
     for (int i = 0; i < video_count_; i++) {
         QLabel *lab = new QLabel;
         lab->setProperty("formshow", "lab");

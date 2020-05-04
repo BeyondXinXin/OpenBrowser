@@ -1,4 +1,4 @@
-#ifndef CUSTOMVTKRENDERER_H
+﻿#ifndef CUSTOMVTKRENDERER_H
 #define CUSTOMVTKRENDERER_H
 
 /*
@@ -9,10 +9,11 @@
 #include "stable.h"
 
 // VTK includes
-#include <vtkPolyData.h>
+#include <vtkRenderer.h>
 #include <vtkSmartPointer.h>
 #include <QVTKOpenGLWidget.h>
 #include <vtkEventQtSlotConnect.h>
+#include <vtkRenderWindowInteractor.h>
 
 class CustomVtkRenderer : public QObject {
     Q_OBJECT

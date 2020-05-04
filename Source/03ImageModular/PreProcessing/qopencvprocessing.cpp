@@ -1,3 +1,4 @@
+﻿#pragma execution_character_set("utf-8")
 // 01 Frame includes
 #include "qopencvprocessing.h"
 #include "quihelper.h"
@@ -17,7 +18,6 @@ QOpencvProcessing *QOpencvProcessing::Instance() {
     return self.data();
 }
 QOpencvProcessing::QOpencvProcessing() {
-
 }
 
 QOpencvProcessing::~QOpencvProcessing() {
@@ -108,7 +108,6 @@ QImage QOpencvProcessing::splitBGR(QImage src, int color) {		// 提取RGB分量
         merge(Rchannels, m[0]);
         merge(Gchannels, m[1]);
         merge(Bchannels, m[2]);
-
         dstImg = m[static_cast<unsigned long>(color)];		// 分别对应B、G、R
         QImage dst = cvMat2QImage(dstImg);
         return dst;
@@ -223,7 +222,6 @@ void QOpencvProcessing::Rotate(QImage &src, int angle) {
     ;
     rot.at<double>(0, 2) += bbox.width / 2.0 - static_cast<double>(center.x);
     rot.at<double>(1, 2) += bbox.height / 2.0 - static_cast<double>(center.y);
-
     cv::warpAffine(matSrc, matDst, rot, bbox.size());
     src = cvMat2QImage(matDst);
     return ;
@@ -255,39 +253,31 @@ void QOpencvProcessing::Lean(QImage &src, int x, int y) {
     Mat matSrc, matTmp, matDst;
     matSrc = QImage2cvMat(src);
     matTmp = Mat::zeros(matSrc.rows, matSrc.cols, matSrc.type());
-
     Mat map_x, map_y;
     Point2f src_point[3], tmp_point[3], x_point[3], y_point[3];
     double angleX = x / 180.0 * CV_PI ;
     double angleY = y / 180.0 * CV_PI;
-
     src_point[0] = Point2f(0, 0);
     src_point[1] = Point2f(matSrc.cols, 0);
     src_point[2] = Point2f(0, matSrc.rows);
-
     x_point[0] = Point2f(static_cast<float>(matSrc.rows) *
                          static_cast<float>(tan(angleX)), 0);
     x_point[1] = Point2f(static_cast<int>(matSrc.cols + matSrc.rows * tan(angleX)), 0);
     x_point[2] = Point2f(0, matSrc.rows);
-
     map_x = getAffineTransform(src_point, x_point);
     warpAffine(matSrc, matTmp, map_x,
                Size(static_cast<int>(matSrc.cols + matSrc.rows * tan(angleX)),
                     matSrc.rows));
-
     tmp_point[0] = Point2f(0, 0);
     tmp_point[1] = Point2f(matTmp.cols, 0);
     tmp_point[2] = Point2f(0, matTmp.rows);
-
     y_point[0] = Point2f(0, 0);
     y_point[1] = Point2f(matTmp.cols, static_cast<float>(matTmp.cols * tan(angleY)));
     y_point[2] = Point2f(0, matTmp.rows);
-
     map_y = getAffineTransform(tmp_point, y_point);
     warpAffine(matTmp, matDst, map_y,
                Size(matTmp.cols, static_cast<int>
                     (matTmp.rows + matTmp.cols * tan(angleY))));
-
     src = cvMat2QImage(matDst);
     return ;
 }
@@ -323,14 +313,12 @@ QImage QOpencvProcessing::HoughLine(
     // 线检测
     Mat srcImg, dstImg, cdstPImg;
     srcImg = QImage2cvMat(src);
-
     cv::Canny(srcImg, dstImg, 50, 200, 3);             // Canny算子边缘检测
     if (srcImg.channels() != 1) {
         cvtColor(dstImg, cdstPImg, COLOR_GRAY2BGR);    // 转换灰度图像
     } else {
         cdstPImg = srcImg;
     }
-
     vector<Vec4i> linesP;
     HoughLinesP(dstImg, linesP, 1, CV_PI / 180, threshold, minLineLength, maxLineGap);
     // 50,50,10
@@ -340,7 +328,6 @@ QImage QOpencvProcessing::HoughLine(
              Point(l[2], l[3]), Scalar(0, 0, 255), 1, LINE_AA);
     }
     return cvMat2QImage(cdstPImg);
-
 }
 
 QImage QOpencvProcessing::HoughCircle(QImage src, int minRadius, int maxRadius) {
@@ -354,13 +341,11 @@ QImage QOpencvProcessing::HoughCircle(QImage src, int minRadius, int maxRadius) 
         gray = srcImg;
     }
     medianBlur(gray, gray, 5);              // 中值滤波，滤除噪声，避免错误检测
-
     vector<Vec3f> circles;
     HoughCircles(gray, circles, HOUGH_GRADIENT, 1,
                  gray.rows / 16, 100, 30, minRadius, maxRadius);
     // Hough圆检测,100, 30, 1, 30
     dstImg = srcImg.clone();
-
     for (size_t i = 0; i < circles.size(); i++) {
         Vec3i c = circles[i];
         Point center = Point(c[0], c[1]);
@@ -369,7 +354,6 @@ QImage QOpencvProcessing::HoughCircle(QImage src, int minRadius, int maxRadius) 
         int radius = c[2];
         circle(dstImg, center, radius, Scalar(255, 0, 255), 3, LINE_AA);
     }
-
     QImage dst = cvMat2QImage(dstImg);
     return dst;
 }
@@ -378,24 +362,18 @@ QImage QOpencvProcessing::Sobel(QImage src, int kernel_length) {
     // sobel
     Mat srcImg, dstImg, src_gray;
     srcImg = QImage2cvMat(src);
-
     GaussianBlur(srcImg, srcImg, Size(3, 3), 0, 0, BORDER_DEFAULT);     // 高斯模糊
     if (srcImg.channels() != 1) {
         cvtColor(srcImg, src_gray, COLOR_BGR2GRAY);    // 转换灰度图像
     } else {
         src_gray = srcImg;
     }
-
     Mat grad_x, grad_y, abs_grad_x, abs_grad_y;
-
     cv::Sobel(src_gray, grad_x, CV_16S, 1, 0, kernel_length, 1, 0, BORDER_DEFAULT);
     cv::Sobel(src_gray, grad_y, CV_16S, 0, 1, kernel_length, 1, 0, BORDER_DEFAULT);
-
     convertScaleAbs(grad_x, abs_grad_x);            // 缩放，计算绝对值，并将结果转换为8位
     convertScaleAbs(grad_y, abs_grad_y);
-
     addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, dstImg);
-
     QImage dst = cvMat2QImage(dstImg);
     return dst;
 }
@@ -404,18 +382,14 @@ QImage QOpencvProcessing::Laplacian(QImage src, int kernel_length) {
     // laplacian
     Mat srcImg, dstImg, src_gray;
     srcImg = QImage2cvMat(src);
-
     GaussianBlur(srcImg, srcImg, Size(3, 3), 0, 0, BORDER_DEFAULT);       // 高斯模糊
-
     if (srcImg.channels() != 1) {
         cvtColor(srcImg, src_gray, COLOR_BGR2GRAY);    // 转换灰度图像
     } else {
         src_gray = srcImg;
     }
-
     Mat abs_dst;                                                    // 拉普拉斯二阶导数
     cv::Laplacian(src_gray, dstImg, CV_16S, kernel_length, 1, 0, BORDER_DEFAULT);
-
     convertScaleAbs(dstImg, dstImg);                                  // 绝对值8位
     QImage dst = cvMat2QImage(dstImg);
     return dst;
@@ -425,7 +399,6 @@ QImage QOpencvProcessing::Canny(QImage src, int kernel_length, int lowThreshold)
     // canny
     Mat srcImg, dstImg, src_gray, detected_edges;
     srcImg = QImage2cvMat(src);
-
     dstImg.create(srcImg.size(), srcImg.type());
     if (srcImg.channels() != 1) {
         cvtColor(srcImg, src_gray, COLOR_BGR2GRAY);    // 转换灰度图像
@@ -438,7 +411,6 @@ QImage QOpencvProcessing::Canny(QImage src, int kernel_length, int lowThreshold)
               lowThreshold * 3, kernel_length);
     dstImg = Scalar::all(0);
     srcImg.copyTo(dstImg, detected_edges);
-
     QImage dst = cvMat2QImage(dstImg);
     return dst;
 }
@@ -532,10 +504,8 @@ QImage QOpencvProcessing::Gamma(QImage src, int gamma) {
     if (gamma < 0) {
         return src;
     }
-
     Mat srcImg, dstImg;
     srcImg = QImage2cvMat(src);
-
     Mat lookUpTable(1, 256, CV_8U);
     // 查找表
     uchar *p = lookUpTable.ptr();
@@ -543,10 +513,8 @@ QImage QOpencvProcessing::Gamma(QImage src, int gamma) {
         p[i] = saturate_cast<uchar>(pow(i / 255.0, gamma / 100.0) * 255.0);
         // pow()是幂次运算
     }
-
     LUT(srcImg, lookUpTable, dstImg);
     // LUT
-
     QImage dst = cvMat2QImage(dstImg);
     return dst;
 }
@@ -555,7 +523,6 @@ QImage QOpencvProcessing::Log(QImage src, int c) {
     // 对数变换
     Mat srcImg, dstImg;
     srcImg = QImage2cvMat(src);
-
     Mat lookUpTable(1, 256, CV_8U);
     // 查找表
     uchar *p = lookUpTable.ptr();
@@ -563,10 +530,8 @@ QImage QOpencvProcessing::Log(QImage src, int c) {
         p[i] = saturate_cast<uchar>((c / 100.0) * log(1 + i / 255.0) * 255.0);
         // pow()是幂次运算
     }
-
     LUT(srcImg, lookUpTable, dstImg);
     // LUT
-
     QImage dst = cvMat2QImage(dstImg);
     return dst;
 }
@@ -575,7 +540,6 @@ QImage QOpencvProcessing::Histeq(QImage src) {
     // 直方图均衡化
     Mat srcImg, dstImg;
     srcImg = QImage2cvMat(src);
-
     if (srcImg.channels() != 1) {
         cvtColor(srcImg, srcImg, CV_BGR2GRAY);
     } else {
@@ -583,7 +547,6 @@ QImage QOpencvProcessing::Histeq(QImage src) {
     }
     equalizeHist(srcImg, dstImg);
     // 直方图均衡化
-
     QImage dst = cvMat2QImage(dstImg);
     return dst;
 }
@@ -595,7 +558,6 @@ QImage QOpencvProcessing::Erode(QImage src, int elem, int kernel, int times) {
     Mat srcImg, dstImg;
     srcImg = QImage2cvMat(src);
     int erosion_type = 0;
-
     if (elem == 0) {
         erosion_type = MORPH_RECT;
     } else if (elem == 1) {
@@ -603,7 +565,6 @@ QImage QOpencvProcessing::Erode(QImage src, int elem, int kernel, int times) {
     } else if (elem == 2) {
         erosion_type = MORPH_ELLIPSE;
     }
-
     Mat element = getStructuringElement(
                       erosion_type, Size(2 * kernel + 3, 2 * kernel + 3),
                       Point(kernel + 1, kernel + 1));
@@ -660,14 +621,12 @@ QImage QOpencvProcessing::Grad(QImage src, int elem, int kernel) {
     srcImg = QImage2cvMat(src);
     Mat element = getStructuringElement(elem, Size(2 * kernel + 3, 2 * kernel + 3),
                                         Point(kernel + 1, kernel + 1));
-
     if (srcImg.channels() != 1) {
         cvtColor(srcImg, grayImg, CV_BGR2GRAY);
     } else {
         grayImg = srcImg.clone();
     }
     morphologyEx(grayImg, dstImg, MORPH_GRADIENT, element);
-
     QImage dst = cvMat2QImage(dstImg);
     return dst;
 }
@@ -683,7 +642,6 @@ QImage QOpencvProcessing::Tophat(QImage src, int elem, int kernel) {
     } else {
         grayImg = srcImg.clone();
     }
-
     morphologyEx(grayImg, dstImg, MORPH_TOPHAT, element);
     QImage dst = cvMat2QImage(dstImg);
     return dst;

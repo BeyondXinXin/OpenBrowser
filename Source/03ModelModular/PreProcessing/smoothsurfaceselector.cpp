@@ -24,7 +24,7 @@
 #include <vtkWindowedSincPolyDataFilter.h>
 #include <vtkSphereHandleRepresentation.h>
 #include <vtkOrientedGlyphContourRepresentation.h>
-
+#include <vtkRenderWindowInteractor.h>
 
 
 SmoothSurfaceSelector::SmoothSurfaceSelector(QObject *parent) :
@@ -45,7 +45,6 @@ void SmoothSurfaceSelector::Execute() {
         this->renderer_->Execute();
         this->own_renderer_ = true;
     }
-
     if (this->seed_widget_ == nullptr) {
         this->seed_widget_ = vtkSmartPointer<vtkSeedWidget>::New();
         vtkNew<vtkSphereHandleRepresentation> handle_rep;
@@ -57,7 +56,6 @@ void SmoothSurfaceSelector::Execute() {
             this->renderer_->GetRenderWindowInteractor());
         this->seed_widget_->SetRepresentation(widget_rep);
     }
-
     if (this->contour_widget_ == nullptr) {
         this->contour_widget_ = vtkSmartPointer<vtkContourWidget>::New();
         vtkNew<vtkOrientedGlyphContourRepresentation> contour_rep;
@@ -67,7 +65,6 @@ void SmoothSurfaceSelector::Execute() {
         this->contour_widget_->SetInteractor(
             this->renderer_->GetRenderWindowInteractor());
     }
-
     qint32 num_seeds =
         this->seed_widget_->GetSeedRepresentation()->GetNumberOfSeeds();
     for (qint32 i = 0; i < num_seeds; ++i) {
@@ -75,10 +72,8 @@ void SmoothSurfaceSelector::Execute() {
         this->seed_widget_->DeleteSeed(
             this->seed_widget_->GetSeedRepresentation()->GetNumberOfSeeds());
     }
-
     this->contour_widget_->Off();
     this->seed_widget_->On();
-
     if (first_connect_) {
         connect(this->renderer_, &CustomVtkRenderer::SignalKeyPressed,
                 this, &SmoothSurfaceSelector::SlotKeyPressed);
@@ -91,7 +86,6 @@ void SmoothSurfaceSelector::Execute() {
                                              void *, void *)));
         first_connect_ = false;
     }
-
     if (this->own_renderer_) {
         this->renderer_->Deallocate();
     }
@@ -129,56 +123,44 @@ void SmoothSurfaceSelector::ClipCallback() {
     qDebug();
     this->seed_widget_->Off();
     this->contour_widget_->Off();
-
     vtkNew<vtkImplicitPolyDataDistance> implicit_poly_data_distance;
     implicit_poly_data_distance->SetInput(this->curved_surface_);
-
     vtkNew<vtkClipDataSet> clipper;
     clipper->SetInputData(this->surface_);
     clipper->SetClipFunction(implicit_poly_data_distance);
     clipper->SetValue(0);
     clipper->GenerateClippedOutputOn();
     clipper->Update();
-
     vtkNew<vtkDataSetSurfaceFilter> surface_in;
     surface_in->SetInputConnection(clipper->GetOutputPort(0));
     surface_in->Update();
-
     vtkNew<vtkDataSetSurfaceFilter> surface_out;
     surface_out->SetInputConnection(clipper->GetOutputPort(1));
     surface_out->Update();
-
     this->surface_ = surface_in->GetOutput();
 }
 
 void SmoothSurfaceSelector::SmoothCallback() {
-
     this->seed_widget_->Off();
     this->contour_widget_->Off();
-
     vtkNew<vtkImplicitPolyDataDistance> implicit_poly_data_distance;
     implicit_poly_data_distance->SetInput(this->curved_surface_);
-
     vtkNew<vtkExtractPolyDataGeometry> extract_poly_data_geometry;
     extract_poly_data_geometry->SetInputData(this->surface_);
     extract_poly_data_geometry->ExtractInsideOff();
     extract_poly_data_geometry->SetImplicitFunction(implicit_poly_data_distance);
     extract_poly_data_geometry->Update();
-
     vtkNew<vtkDataSetSurfaceFilter> surface_in;
     surface_in->SetInputData(extract_poly_data_geometry->GetOutput());
     surface_in->Update();
-
     extract_poly_data_geometry->SetInputData(this->surface_);
     extract_poly_data_geometry->ExtractInsideOn();
     extract_poly_data_geometry->ExtractBoundaryCellsOn();
     extract_poly_data_geometry->SetImplicitFunction(implicit_poly_data_distance);
     extract_poly_data_geometry->Update();
-
     vtkNew<vtkDataSetSurfaceFilter> surface_out;
     surface_out->SetInputData(extract_poly_data_geometry->GetOutput());
     surface_out->Update();
-
     vtkNew<vtkWindowedSincPolyDataFilter> smooth_filter;
     smooth_filter->SetInputData(surface_in->GetOutput());
     smooth_filter->SetNumberOfIterations(10);
@@ -187,41 +169,32 @@ void SmoothSurfaceSelector::SmoothCallback() {
     smooth_filter->FeatureEdgeSmoothingOff();
     smooth_filter->SetNormalizeCoordinates(1);
     smooth_filter->Update();
-
     vtkNew<vtkTriangleFilter> tri1;
     tri1->SetInputData(smooth_filter->GetOutput());
-
     vtkNew<vtkCleanPolyData> clean_poly_data;
     clean_poly_data->SetInputData(tri1->GetOutput());
     clean_poly_data->Update();
-
     vtkNew<vtkSmoothPolyDataFilter> smoothfilter;
     smoothfilter->SetInputData(surface_out->GetOutput());
     smoothfilter->SetNumberOfIterations(3000);
     smoothfilter->BoundarySmoothingOff();
     smoothfilter->Update();
-
     vtkNew<vtkTriangleFilter> tri2;
     tri2->SetInputData(smoothfilter->GetOutput());
     tri2->Update();
-
     vtkNew<vtkCleanPolyData> clean_poly_data_out;
     clean_poly_data_out->SetInputData(tri2->GetOutput());
     clean_poly_data_out->Update();
-
     vtkNew<vtkAppendFilter> append_filter;
     append_filter->AddInputData(smooth_filter->GetOutput());
     append_filter->AddInputData(clean_poly_data_out->GetOutput());
     append_filter->Update();
-
     vtkNew<vtkGeometryFilter> geometry_filter;
     geometry_filter->SetInputData(append_filter->GetOutput());
     geometry_filter->Update();
-
     vtkNew<vtkCleanPolyData> clean_filter;
     clean_filter->SetInputConnection(geometry_filter->GetOutputPort());
     clean_filter->Update();
-
     this->surface_ = clean_filter->GetOutput();
 }
 
@@ -229,20 +202,16 @@ void SmoothSurfaceSelector::UpdateSeedContour(const QList<QList<double>> &pos_li
     double direction[3];
     this->renderer_->GetRenderer()->GetActiveCamera()
     ->GetDirectionOfProjection(direction);
-
     vtkNew<vtkPoints> points;
     for (qint32 i = 0; i < pos_list.size(); ++i) {
         points->InsertNextPoint(pos_list[i][0], pos_list[i][1], pos_list[i][2]);
     }
-
     vtkNew<vtkParametricSpline> spline;
     spline->SetPoints(points);
     spline->SetClosed(true);
-
     vtkNew<vtkParametricFunctionSource> function_source;
     function_source->SetParametricFunction(spline);
     function_source->Update();
-
     vtkNew<vtkLinearExtrusionFilter> extrude;
     extrude->SetInputData(function_source->GetOutput());
     extrude->SetExtrusionTypeToNormalExtrusion();
@@ -251,32 +220,25 @@ void SmoothSurfaceSelector::UpdateSeedContour(const QList<QList<double>> &pos_li
                        direction[2] * 1000);
     extrude->CappingOn();
     extrude->Update();
-
     this->curved_surface_ = extrude->GetOutput();
-
     vtkNew<vtkPoints> contour_points;
     for (qint32 i = 0; i < pos_list.size(); ++i) {
         contour_points->InsertNextPoint(pos_list[i][0] + direction[0] * 20,
                                         pos_list[i][1] + direction[1] * 20,
                                         pos_list[i][2] + direction[2] * 20);
     }
-
     vtkIdType *vertex_indices = new vtkIdType[
      static_cast<quint64>(pos_list.size() + 1)];
     for (qint32 i = 0; i < pos_list.size(); ++i) {
         vertex_indices[i] = static_cast<vtkIdType>(i);
     }
     vertex_indices[pos_list.size()] = 0;
-
     vtkNew<vtkCellArray> contour_lines;
     contour_lines->InsertNextCell(pos_list.size() + 1, vertex_indices);
-
     delete[] vertex_indices;
-
     vtkNew<vtkPolyData> contour_poly_data;
     contour_poly_data->SetPoints(contour_points);
     contour_poly_data->SetLines(contour_lines);
-
     contour_widget_->On();
     contour_widget_->Initialize(contour_poly_data);
 }

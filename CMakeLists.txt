@@ -76,6 +76,10 @@ option(USE_SYSTEM_ITK "" ON)
 if(WIN32)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${PROJECT_SOURCE_DIR}/bin/win32/Debug)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/bin/win32/Release)
+    set(VTK_DIR  "D:/lib/VTK-8.2.0/bulid")
+    set(ITK_DIR  "D:/lib/InsightToolkit-4.13.2/bulid")
+    set(OpenCV_DIR  "D:/lib/opencv-3.4.9/bulid")
+    set(CGAL_DIR  "D:/lib/CGAL/bulid")
 elseif(UNIX)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${PROJECT_SOURCE_DIR}/bin/unix/Debug)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/bin/unix/Release)
@@ -366,7 +370,6 @@ target_link_libraries(# opencv lib文件
     "opencv_core"
     "opencv_highgui"
     "opencv_imgcodecs"
-    "opencv_imgproc"
-    "dl")
+    "opencv_imgproc")
 # ----------------------------------------------------
 

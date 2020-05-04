@@ -1,4 +1,4 @@
-#ifndef QUITRAYICON_H
+﻿#ifndef QUITRAYICON_H
 #define QUITRAYICON_H
 
 /*
@@ -27,7 +27,7 @@ class QUITrayIcon : public QObject {
     void TrayIconExit();
   private slots:
     void SlotIconIsActived(QSystemTrayIcon::ActivationReason reason);
-    void SlotCloseAll() __attribute__((noreturn));  // 退出所有
+    void SlotCloseAll();  // 退出所有
   private:
     static QScopedPointer<QUITrayIcon> self_;
     QWidget *main_widget_;            //对应所属主窗体

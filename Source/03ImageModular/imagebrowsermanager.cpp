@@ -1,4 +1,4 @@
-// 01 Frame includes
+﻿// 01 Frame includes
 #include "imagebrowsermanager.h"
 #include "quihelper.h"
 
@@ -14,11 +14,9 @@ ImageBrowserManager::ImageBrowserManager(QOpencvWidget &widget,
 }
 
 ImageBrowserManager::~ImageBrowserManager() {
-
 }
 
 void ImageBrowserManager::Initial() {
-
 }
 
 void ImageBrowserManager::UnDo() {// 撤销
@@ -52,7 +50,6 @@ void ImageBrowserManager::UpDataImage(const QImage tmp) {
 void ImageBrowserManager::OpenStlFile(const QString &file_path) {
     QString tmp = file_path;
     QImage *img = new QImage();
-
     if (tmp.isEmpty()) {
         tmp = QUIHelper::GetFileName(
                   "*.bmp *.jpg *.pbm *.pgm *.png *.ppm *.xbm *.xpm ");
@@ -335,7 +332,6 @@ void ImageBrowserManager::SlotImgProcess(const int &operation, const QString &te
                 emit SignalPromptInformationOut(("黑帽操作"));
                 break;
             }
-
         case 501: {// 颜色模型
                 QImage img = QOpencvProcessing::Instance()->splitColor(
                                  widget_.GetSurface(),

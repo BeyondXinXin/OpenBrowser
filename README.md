@@ -8,5 +8,5 @@
 
 ## 预览版本
 [openBrowser V0-beat3.0  Linux发布测试](https://gitee.com/yaoxin001/openBrowser/releases)  
-[openBrowser V0-beat4.0  windos 发布测试](https://gitee.com/yaoxin001/openBrowser/releases)  
+[openBrowser V0-beat4.0  windows 发布测试](https://gitee.com/yaoxin001/openBrowser/releases)  
     
